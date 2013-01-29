@@ -1,0 +1,7 @@
+<CellMorphology id="AllCml_2">
+    <Point id="Seg0_soma_0_root" x="0.0" y="0.0" z="0.0" r="5.0" label="~all~~soma_group~"/>
+    <Point parent="Seg0_soma_0_root" id="Seg0_soma_0" x="0.0" y="15.0" z="0.0" r="5.0" label="~all~~soma_group~"/>
+    <Point parent="Seg0_soma_0" id="Segment_1_minor" x="0.0" y="15.0" z="0.0" r="1.0" minor="true" label="~all~~dendrite_group~"/>
+    <Point parent="Segment_1_minor" id="Segment_1" x="0.0" y="30.0" z="0.0" r="2.0" label="~all~~dendrite_group~"/>
+    
+</CellMorphology>

@@ -1,0 +1,30 @@
+
+
+<p>
+Uniform unbranched cable with Hodgkin-Huxley sodium and potassium channels showing 
+a prpoagating action potential. The task specification and reference results come 
+from Upi Bhalla's 1992 Rallpack distribution, part of which is included below. 
+The rest in the file <a href="README.upi">README.upi</a>.
+</p>
+
+<p>
+The model produces three graphs showing the reference data computed by Neuron (green) and Genesis (orange)
+and calculated curves in other colors according to the timestep used:
+magenta : 1ms, cyan : 20us, blue : 1us. The only difference between the graphs are 
+the axis ranges: they all show the same data. The reference data was computed with 
+1us timesteps.
+</p>
+
+<p>
+	If the system performs correctly, the blue line (1us timestep) and 
+	reference green and orange should be almost coincident at the beginning and 
+	differ by less than 0.2ms after 250ms.
+</p>
+ 
+ <p>
+ 	The magenta and cyan lines show how increasing the timestep makes very little change 
+ 	to the spike shape, but changes the period slightly such that by the end of the 
+ 	calculation the longer timestep calculation has spikes a few milliseconds behind. This 
+ 	is a normal feature of the implicit euler method arising from the use of forward differencing
+ 	for the time derivative.
+ </p>

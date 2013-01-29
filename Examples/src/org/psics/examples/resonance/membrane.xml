@@ -1,0 +1,89 @@
+<CellProperties id="membrane" membraneCapacitance="0.75uF_per_cm2"
+    cytoplasmResistivity="200.0ohm_cm">
+
+  	<PassiveProperties region="*_node*" cytoplasmResistivity="50.0ohm_cm"/>
+	<PassiveProperties region="*inode*" membraneCapacitance="0.04uF_per_cm2"/>
+	<PassiveProperties region="*dend*" membraneCapacitance="1.5uF_per_cm2"/>
+
+	<CellRegion match="*soma*">
+		<ChannelPopulation id="Nax-Mig" channel="Nax-Mig" color="0xff4040" density="20"/>
+		<ChannelPopulation id="Kdr-Mig" channel="Kdr-Mig" color="0x33ccff" density="20"/>
+		<ChannelPopulation id="Kaprox-Mig" channel="Kaprox-Mig" color="0x33ccff" density="24"/>
+		<ChannelPopulation id="Ih-Spru" channel="Ih-Spru" color="0x33ccff" density="1.5969"/>
+	</CellRegion>
+
+
+	<CellRegion match="*dend*">
+		<ChannelPopulation id="Nax-Mig" channel="Nax-Mig" color="0xff4040" density="20"/>
+		<ChannelPopulation id="Kdr-Mig" channel="Kdr-Mig" color="0x33ccff" density="20"/>
+		<ChannelPopulation id="Kaprox-Mig" channel="Kaprox-Mig" color="0x33ccff" density="24">
+			<RegionMask action="exclude" where="region=*dendA5*"/>
+		</ChannelPopulation>
+		<ChannelPopulation id="Ih-Spru" channel="Ih-Spru" color="0x33ccff" density="1.5969 + ((2.1582-1.5969)/(1+exp((p - 98.753)/50.07)))"/>
+		<ChannelPopulation id="leak-na" channel="leak-na" color="0xffff00" density="0.02"/>
+		<ChannelPopulation id="leak-k" channel="leak-k" color="0xff33cc" density="0.02"/>
+	</CellRegion>
+
+	<SynapsePopulation id="synpop" synapse="syn1" density="0.1per_um2" seed="1010">
+		<RegionMask action="include" where="region=*dend*"/>
+		<RegionMask action="exclude" where="p .lt. 30"/>
+		<NormalWeights min="0.9" max="1.1" sd="0.01"/>
+		<!--<UniformWeights min="0.1" max="3"/>
+		<LogUniformWeights min="0.1" max="3"/>
+		<LogNormalWeights min="0.1" max="3" sd="0.5"/>-->
+	</SynapsePopulation>
+
+	<CellRegion match="*dendA5*">
+		<ChannelPopulation id="Kaprox-Mig" channel="Kaprox-Mig" color="0x33ccff" density="24 * (1 + p/100) per_um2">
+			<RegionMask action="exclude" where="p .gt. 100"/>
+        	</ChannelPopulation>
+
+		<ChannelPopulation id="Kadist-Mig1" channel="Kadist-Mig" color="0x33ccff" density="24 * (1 + p/100) per_um2">
+			<RegionMask action="exclude" where="p .lt. 100"/>
+			<RegionMask action="exclude" where="p .gt. 500"/>
+        	</ChannelPopulation>
+
+		<ChannelPopulation id="Kadist-Mig2" channel="Kadist-Mig" color="0x33ccff" density="24 * 6 per_um2">
+			<RegionMask action="exclude" where="p .lt. 500"/>
+        	</ChannelPopulation>
+
+	</CellRegion>
+
+	<CellRegion match="*hill*">
+		<ChannelPopulation id="Nax-Mig" channel="Nax-Mig" color="0xff4040" density="20"/>
+		<ChannelPopulation id="Kdr-Mig" channel="Kdr-Mig" color="0x33ccff" density="20"/>
+		<ChannelPopulation id="Kaprox-Mig" channel="Kaprox-Mig" color="0x33ccff" density="24"/>
+	</CellRegion>
+
+	<CellRegion match="*iseg*">
+		<ChannelPopulation id="Nax-Mig" channel="Nax-Mig" color="0xff4040" density="20"/>
+		<ChannelPopulation id="Kdr-Mig" channel="Kdr-Mig" color="0x33ccff" density="20"/>
+		<ChannelPopulation id="Kaprox-Mig" channel="Kaprox-Mig" color="0x33ccff" density="24"/>
+	</CellRegion>
+
+	<CellRegion match="*inode*">
+		<ChannelPopulation id="Nax-Mig" channel="Nax-Mig" color="0xff4040" density="20"/>
+		<ChannelPopulation id="Kdr-Mig" channel="Kdr-Mig" color="0x33ccff" density="20"/>
+		<ChannelPopulation id="Kaprox-Mig" channel="Kaprox-Mig" color="0x33ccff" density="5"/>
+	</CellRegion>
+
+	<CellRegion match="*_node*">
+		<ChannelPopulation id="Nax-Mig" channel="Nax-Mig" color="0xff4040" density="1500"/>
+		<ChannelPopulation id="Kdr-Mig" channel="Kdr-Mig" color="0x33ccff" density="20"/>
+		<ChannelPopulation id="Kaprox-Mig" channel="Kaprox-Mig" color="0x33ccff" density="5"/>
+	</CellRegion>
+
+	<ChannelPopulation id="leak-na" channel="leak-na" color="0xffff00" density="0.02per_um2">
+		<RegionMask action="exclude" where="region=*node*"/>
+	</ChannelPopulation>
+
+	<ChannelPopulation id="leak-k" channel="leak-k" color="0xff33cc" density="0.02per_um2">
+		<RegionMask action="exclude" where="region=*node*"/>
+	</ChannelPopulation>
+
+	<DensityAdjustment maintain="-70mV" vary="leak-na, leak-k"/>
+
+
+
+
+</CellProperties>

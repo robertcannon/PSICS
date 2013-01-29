@@ -1,0 +1,33 @@
+
+<Access id="recording" recordClamps="true">
+
+	<CellLocation id="pA" path="10" rankBy="radius" sequenceFraction="1."/>
+
+	
+
+ 
+	<CellLocation id="pB" path="50" rankBy="radius" sequenceFraction="1."/>
+	<CellLocation id="pC" path="120" rankBy="radius" sequenceIndex="0"/>
+
+	<CellLocation id="pD" path="160" rankBy="radius" sequenceFraction="0.5"/>
+
+	<VoltageClamp location="pA" hold="-75mV"/>
+
+	<CurrentClamp location="pB" lineColor="red" hold="0.0nA">
+	     <TimeSeries id="stim1" file="stim1.txt" timeUnit="1ms" valueUnit="0.01nA"
+	     	scaleFactor="1.0"/>
+	</CurrentClamp>
+
+
+
+	<CurrentClamp location="pC" lineColor="red" hold="0.0nA">
+	     <TimeSeries id="stim2" file="stim1.txt" column="2" timeUnit="1ms" valueUnit="0.01nA"
+	     	scaleFactor="100.0"/>
+	</CurrentClamp>
+    <VoltageRecorder location="pD" lineColor="blue"/>
+  
+
+
+
+
+</Access>

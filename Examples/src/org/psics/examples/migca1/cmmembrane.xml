@@ -1,0 +1,12 @@
+<CellProperties id="cmmembrane"
+      cytoplasmResistivity="150ohm_cm"
+      membraneCapacitance="2uF_per_cm2">
+
+	<ChannelPopulation channel="stoch-leak" density="0.03per_um2"/>
+
+	<ChannelPopulation channel="Na3-function-soma" density="10per_um2"/>
+    <ChannelPopulation channel="Kdrca1" density="20per_um2"/>
+
+
+
+</CellProperties>

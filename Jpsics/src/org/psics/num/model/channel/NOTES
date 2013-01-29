@@ -1,0 +1,107 @@
+
+ Old code for evaluating the gating charge
+
+ void evalCharge() {
+      int nstate = astate.length;
+      int ntrans = atrans.length;
+
+      double[][] m = new double[ntrans + 1][nstate];
+      double[] rhs = new double[ntrans + 1];
+      for (int i = 0; i < ntrans; i++) {
+         m[i][atrans[i].stateA.blockIndex] = 1.;
+         m[i][atrans[i].stateB.blockIndex] = -1.;
+         rhs[i] = atrans[i].getZ();
+      }
+
+      // add an equation to break the degeneracy saying the average is zero;
+      for (int j = 0; j < nstate; j++)
+         m[ntrans][j] = 1.;
+
+      double[][] mt = SMatrix.transpose(m);
+      double[][] mtm = SMatrix.MMmultiply(mt, m);
+      double[] mtr = SMatrix.MVmultiply(mt, rhs);
+
+      gatingCharge = SMatrix.LUSolve(mtm, mtr);
+   }
+   
+   
+   
+   public double[] getOHMICConductance(SolutionExec intSol,
+				       SolutionExec extSol) {
+      double a = 0.04;  // temperature term here... put ito F etc ***;      
+      
+      double cmin = 1.e-6;
+      double ct = 0.;
+      double eeff = 0.;
+      for (int i = 0; i < perm.length; i++) {
+	 SpecieExec sp = spex[i];
+	 double ci = intSol.getConcentrationOf(sp);
+	 double co = extSol.getConcentrationOf(sp);
+	 if (ci < cmin) ci = cmin;
+	 if (co < cmin) co = cmin;
+	 
+	 double erl = Math.log(co/ci) / (a * sp.getCharge());
+	 double pconc = perm[i] * (ci + co);
+	 
+	 eeff += pconc * erl;
+	 ct += pconc;
+      }
+      if (ct > 0.) eeff /= ct;
+      double[] ge = {baseConductance, eeff};
+      return ge;
+   }
+
+
+
+
+   public double[] getGHKConductance(SolutionExec intSol, SolutionExec extSol,
+				     double v) {
+      double a = 0.04;  // temperature term here... put ito F etc ***;      
+
+      double geff = 0.;
+      double eeff = 0.;
+      
+      double gcum = 0.;
+      for (int i = 0; i < perm.length; i++) {
+	 double deltav = 0.01;
+	 SpecieExec sp = spex[i];
+	 
+	 double ci = intSol.getConcentrationOf(sp);
+	 double ce = extSol.getConcentrationOf(sp);
+	 double z = sp.getCharge();
+	 
+	 
+	 double w = v + deltav;
+	 if (Math.abs (v) < 1.e-7) v = v + 2.e-7;
+	 if (Math.abs (w) < 1.e-7) w = w + 2.e-7;
+	 
+	 // normalise to the conductance one would get for a ;
+	 // 10:100mM int to ext conc ratio at 0V;
+	 double gth = Math.abs((0.01 - 0.1) / Math.log(0.1 / 0.01));
+	 
+	 double emzav = Math.exp(-z * a * v);
+	 double emzaw = Math.exp(-z * a * w);
+	 
+	 double cv = v * (ci - ce * emzav) / (1. - emzav);
+	 double cw = w * (ci - ce * emzaw) / (1. - emzaw);
+	 
+	 double dcdv = (cw - cv) / deltav;
+	 
+	 if (Math.abs (dcdv) > 1.e-5) {  // ***
+	    double eloc = v - cv / dcdv;
+	    double gloc = (perm[i] * Math.abs((cv / (v - eloc)) / gth)); 
+	    
+	    geff += gloc;
+	    eeff += gloc * eloc;
+	    gcum += gloc;
+	 }
+      }
+      if (gcum > 0.) eeff /= gcum;
+      double[] ge = {geff * baseConductance, eeff};
+      return ge;
+   }
+      
+}
+   
+   
+   

@@ -1,0 +1,106 @@
+<KSChannel id="nax" permeantIon="na" gSingle="9.99999993922529pS">
+<KSComplex instances="3">
+<ClosedState id="m0"/>
+<OpenState id="m"/>
+<TauInfCodedTransition from="m0" to="m" tauvar="mtau" infvar="minf"><![CDATA[
+    
+    double rate = 0;
+    double scale = 0;
+    double midpoint = 0;
+    
+    double temp_adj_m = Math.pow(2, (temperature - 24)/10);
+                                    
+    
+    
+    double alpha = 0;
+    rate = 2.88;
+        
+    scale = 7.2;
+    midpoint = -30;
+    
+    if ( 1e-6 > (Math.abs((v - midpoint)/ scale))) {
+        alpha = rate * (1 + (v - midpoint)/scale/2);
+    } else {
+        alpha = rate * ((v - midpoint) / scale) /(1 - (Math.exp(-1 * (v - midpoint)/scale)));
+    }
+
+        
+    double beta = 0;
+    rate = 0.8928;
+        
+    scale = -7.2;
+    midpoint = -30;
+    
+    if ( 1e-6 > (Math.abs((v - midpoint)/ scale))) {
+        beta = rate * (1 + (v - midpoint)/scale/2);
+    } else {
+        beta = rate * ((v - midpoint) / scale) /(1 - (Math.exp(-1 * (v - midpoint)/scale)));
+    }
+
+        
+    
+
+    if (1/( (alpha + beta) * temp_adj_m ) < 0.02 ) {
+        mtau =  (0.02 * temp_adj_m) ;
+    } else {
+        mtau =  1/(alpha + beta) ;
+    }
+        mtau = mtau/temp_adj_m;
+            
+    minf = alpha/(alpha + beta);
+                    
+    ]]></TauInfCodedTransition>
+</KSComplex>
+<KSComplex instances="1">
+<ClosedState id="h0"/>
+<OpenState id="h"/>
+<TauInfCodedTransition from="h0" to="h" tauvar="htau" infvar="hinf"><![CDATA[
+    
+    double rate = 0;
+    double scale = 0;
+    double midpoint = 0;
+    
+    double temp_adj_h = Math.pow(2, (temperature - 24)/10);
+                                    
+    
+    
+    double alpha = 0;
+    rate = 0.045;
+        
+    scale = 1.5;
+    midpoint = -45;
+    
+    if ( 1e-6 > (Math.abs((v - midpoint)/ scale))) {
+        alpha = rate * (1 + (v - midpoint)/scale/2);
+    } else {
+        alpha = rate * ((v - midpoint) / scale) /(1 - (Math.exp(-1 * (v - midpoint)/scale)));
+    }
+
+        
+    double beta = 0;
+    rate = 0.015;
+        
+    scale = -1.5;
+    midpoint = -45;
+    
+    if ( 1e-6 > (Math.abs((v - midpoint)/ scale))) {
+        beta = rate * (1 + (v - midpoint)/scale/2);
+    } else {
+        beta = rate * ((v - midpoint) / scale) /(1 - (Math.exp(-1 * (v - midpoint)/scale)));
+    }
+
+        
+    
+
+    if (1/( (alpha + beta) * temp_adj_h ) < 0.5 ) {
+        htau =  (0.5 * temp_adj_h) ;
+    } else {
+        htau =  1/(alpha + beta) ;
+    }
+        htau = htau/temp_adj_h;
+            
+    hinf = 1/(1 + (Math.exp ((v-(-50))/4 )) );
+        
+    ]]></TauInfCodedTransition>
+</KSComplex>
+</KSChannel>

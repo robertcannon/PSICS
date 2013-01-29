@@ -1,0 +1,4 @@
+
+<KSChannel id="ns-leak" gSingle="30pS" permeantIon="NSCAT">
+	<OpenState id="o1"/>
+</KSChannel>

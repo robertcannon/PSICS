@@ -1,0 +1,87 @@
+<page label="About" title="PSICS Overview" prev="../download" next="architecture">
+
+
+	 <h1>Design and development</h1>
+
+	 <par>
+		PSICS is open source, covered by the GNU GPL license.  It is developed by
+		<a href="http://www.textensor.com/">Textensor Ltd</a> under contract to
+		<a href="http://www.cnr.ed.ac.uk/links/MNolan.htm">Dr Matt Nolan</a> at
+	 	<a href="http://www.cnr.ed.ac.uk/">The Centre for Neuroscience Research</a> at the
+	 	University of Edinburgh, UK with grant funding from the
+	 	<a href="http://www.bbsrc.ac.uk/">BBSRC</a>. The partnership between experienced
+	 	scientific software developers working within a commercial environment,
+	 	and researches with immediate modeling needs is an efficient and cost effective way
+	 	to develop and maintain the increasingly sophisticated tools needed for research.
+	</par>
+
+
+	<par>
+		The <a href="architecture.html">system architecture</a> merges certain aspects of
+		modern simulator trends (declarative models, object oriented internal representations) with
+		more traditional approaches to high performance scientific computing such as up-front
+		memory management and the use of languages developed specifically for array based mathematical
+		calculations.
+	 </par>
+
+	<par>
+		The <a href="log.html">develpment log</a> is periodically updated and
+		summarizes major changes and releases.
+	</par>
+
+
+	<par>
+		PSICS has been extensively tested and validated. The <a href="rallpack.html">RallPack</a> tests
+		are included in the standared distribution. Validation of the stochastic calculatoins is
+		presented in the accompanying publication (in preparation).
+	</par>
+
+
+	<par>
+		The best way to get familiar with PSICS is to look through the
+		<a href="../guide/index.html">user guide</a> in conjunction with some of the
+		<a href="../examples.html">examples</a>. The
+		<a href="../formats/index.html">input files reference</a> presents the details of
+		specifying models. PSICS itself is a command line program, but the standalone tool
+		ICING provides a graphical interface for visualizing and labelling cells and to
+		help set up channel populations.
+	</par>
+
+
+	<par>
+		There is a brief presentation covering the main features: <a href="psics.odp">Open Office</a> | <a href="psics.pdf">PDF</a>.
+	</par>
+	
+	<par>
+		One direction for future development is to include support for user-defined types. To this end there is a 
+		proof of concept XML format and interpreter for 
+		<a href="http://www.psics.org/lems/">"Low Entropy Model Specification"</a>.
+	</par>
+	
+
+	<h3>Implementation</h3>
+
+	<par>
+		The bulk of PSICS is written in Java. The core calculations are available in both Java and Fortran 95. The
+		Fortran version is compiled to a platform dependent native library or to a standalone executable that
+		is called from Java. The connection
+		between the two is via a single-file plain text specification of the discretized model.
+		Once such a model specification has been created the core calculation can be run independently of
+		the Java virtual machine. This is intended for use on multi-processor machines where different instances
+		of the same calculation can be run on separate processors with minimal overheads.
+	</par>
+
+
+	<h2>Links</h2>
+		<ul>
+			<li><a href="architecture.html">System architecture</a>: how PSICS compares with other software
+				for modeling neurons</li>
+			<li><a href="validation.html">Validation tests</a>: models, results and comparison data to
+				test the code.
+			</li>
+			<li><a href="log.html">Development log</a>: Recent changes and major milestones in the development
+			process</li>
+		</ul>
+
+
+</page>

@@ -1,0 +1,42 @@
+
+
+<AutonomousPanel name="3D Viewer" controllerClass="View3DController">
+	<BorderPanel id="3dPanel" borderWidth="12" yspace="6" prefWidth="440" prefHeight="440">
+			<North>
+				<BorderPanel xspace="4">
+					<West>
+				 	<SimpleSlider min="0" max="100" label="Lights" action="setLights"
+				 		tip="lighting intensity" prefWidth="120" prefHeight="30"/>
+					</West>
+					<Center>
+				<LeftFlowPanel xspace="1">
+
+					<Label text="detail:" tip="low detail gives quicker drawing; high detail for screenshots"/>
+					<RadioButtons label="detail" options="l, m, h" labels="low, medium, high"
+						autoSelect="1" action="setResolution" layout="horizontal"/>
+				</LeftFlowPanel>
+				</Center>
+				<East>
+					<CenterFlowPanel>
+						<Checkbox label="smooth" initial="false" action="setAA"/>
+						<Button label="sync" action="syncOrientation"/>
+					</CenterFlowPanel>
+				</East>
+				</BorderPanel>
+			</North>
+
+			<Center>
+				<HTMLPanel id="hmsg" backgroundColor="#ffffff">
+					<content>
+					H2: Java 3D required
+					-p- If the 3D viewer starts OK, then it will replace
+					this message. If not you may have to install or reinstall Java 3D. It is available
+					free from https://java3d.dev.java.net/binary-builds.html. -p- There are installation
+					instructions for Linux, Mac OSX and Windows in the README file on that page.
+					</content>
+				</HTMLPanel>
+			</Center>
+
+	</BorderPanel>
+
+</AutonomousPanel>

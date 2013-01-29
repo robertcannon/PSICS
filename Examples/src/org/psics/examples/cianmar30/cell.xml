@@ -1,0 +1,4 @@
+<CellMorphology id="cell">
+	<Point id="p0" x="0" y="0" z="0" r="1" label="soma"/>
+	<Point id="p1" x="100" y="0" z="0" r="1" parent="p0"/>
+</CellMorphology>

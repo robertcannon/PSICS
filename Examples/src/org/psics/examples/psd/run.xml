@@ -1,0 +1,68 @@
+<PSICSRun timeStep="0.002ms" runTime="15000ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="1000">
+	<StructureDiscretization baseElementSize="3um"/>
+
+<RunSet vary="napop:density" values="[2, 4, 8, 16]per_um2"
+                filepattern="out-$">
+	</RunSet>
+
+
+
+<About>
+
+ </About>
+
+
+
+	<ViewConfig morphology="false">
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+
+		<LineSet file="out-2.txt" color="red" maxshow="6"/>
+		<LineSet file="out-4.txt" color="orange" maxshow="6"/>
+		<LineSet file="out-8.txt" color="blue" maxshow="6"/>
+		<LineSet file="out-16.txt" color="green" maxshow="6"/>
+
+
+		 <View id="whole" xmin="0." xmax="25." ymin="-160." ymax="20."/>
+		</LineGraph>
+
+
+		<LineGraph>
+			<XAxis label="frequency/Hz"/>
+			<YAxis label="Spectral Density"/>
+				<PowerSpectrum file="out-2.txt" color="red"/>
+			 	<PowerSpectrum file="out-4.txt" color="orange"/>
+			 	<PowerSpectrum file="out-8.txt" color="blue"/>
+	        	<PowerSpectrum file="out-16.txt" color="green"/>
+
+	            <View id="mva" xmin="-20" xmax="400" ymin = "0." ymax="60"/>
+	            <View id="mvb" xmin="-20" xmax="2000" ymin = "0." ymax="60"/>
+
+		</LineGraph>
+
+		<LineGraph>
+			<XAxis label="Log10 frequency/Hz"/>
+			<YAxis label="Log10 Spectral Density"/>
+				<PowerSpectrum loglog="true" file="out-2.txt" color="red"/>
+			 	<PowerSpectrum loglog="true" file="out-4.txt" color="orange"/>
+			 	<PowerSpectrum loglog="true" file="out-8.txt" color="blue"/>
+	        	<PowerSpectrum loglog="true" file="out-16.txt" color="green"/>
+
+				 <View id="mvc" xmin="1" xmax="4" ymin = "-3" ymax="2"/>
+		</LineGraph>
+
+
+
+
+
+
+	</ViewConfig>
+
+
+</PSICSRun>

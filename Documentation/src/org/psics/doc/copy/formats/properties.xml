@@ -1,0 +1,196 @@
+<page label="Channel Distribution" prev="channels" next="stimrec">
+
+	<h2>Electrical Properties and the Channel Distribution</h2>
+
+
+	<par>
+		The two attributes of the properties object, <x>membraneCapacitance</x> and <x>cytoplasmResistivity</x>,
+		set the passive electrical properties of the cell. The rest of the <x>CellProperties</x> object is concerned
+		with the distribution of ion channel in the membrane.
+
+	</par>
+
+	<h2>Channel Distribution</h2>
+	<par>
+		There are two ways of specifying channel densities: by referring to labelled regions or points on the
+		cell, and with expressions involving morphological parameters such as the radius and path distance. The
+		two cases are not exclusive: a single population specification can use elements of both.
+	</par>
+	<par>
+		Every ChannelPopulation block must have the channel type set as the <x>channel</x> attribute. The other
+		attributes can be used in a variety of combinations as described below. In addition to these attributes, a
+		ChannelPopulation can also include one or more RegionMask blocks. Each RegionMask defines a boolean function
+		(a mask) across the structure saying whether a given point is in or out. The masks are combined to define
+		the region of the cell within which the density specfication applies.
+	</par>
+
+	<h3>Expression based distributions</h3>
+	<par>
+		The simplest density specification is simply to set the <x>density</x> attribute to a number giving
+		the number of channels per square micron. More complex expressions can be built up out of
+		basic morphological quantitites: the path distance from the soma <m>p</m>, the radius <m>r</m>,
+		direct distance from the soma <m>d</m> and branch order <m>b</m>. Standard mathematical functions can be
+		included so, for example <br/>
+		<m>5 * exp(-1 * p / 100)</m> <br/>
+		would give a density that falls of by a factor <m>e</m> every 100um from the soma. And <br/>
+		<m>5 * pow(sin(0.1 * p), 2)</m><br/>
+		would give a density varying between 0 and 5 periodically with p.
+	</par>
+
+
+	<h3>Density modulation</h3>
+	<par>
+		Two attributes can modify the density spedified by the expression. If set, the <x>maxDensity</x> provides
+		an upper limit to number of channels per square micron. This can be set even if you do not expect the
+		density to go above the given value and serves as a safety net in case of problems in cases where you are
+		not sure whether the expression will generate reasonable values everywhere. The <x>totalNumber</x> attribute
+		also protects against dodgy expressions by rescaling the generated density by whatever factor is needed
+		to give that total population size. This is useful, for example, if you really do want an exponentially
+		increasing density away from the origin, but do not know what multiplier to use in order to get reasonable
+		number densities at the terminals.
+	</par>
+
+
+	<h3>Channel allocation</h3>
+
+	<par>
+		There are two allocation modes: regular and Poisson. The regular mode ensures that the density locally is
+		as close as possible to the value generated from the expression (with modulation if applicable). The channels
+		still have discrete position, so what this means is that, for a density <m>d</m> and local circumference <m>l</m>
+		then there is one channel placed every <m>1/(d l)</m> microns along the structure.  For the pisson distribution,
+		the density is interpreted probabilistically so that the probability of finding a channel in a small section
+		of length <m>delta_x</m> is <m>delta_x d l</m>.
+	</par>
+
+
+	<h3>Relative distributions</h3>
+	<par>
+		Frequently, the realtive densities of different channel types are more important than their absolute values, so
+		for example, doubling the densities of both the sodium and potassium channels on a HH model has far less effect
+		than doubling either one separately. It is also often useful to define a set of relative densities for different
+		channel types that work well together and then scale them up or down together across the structure.
+		This can, of course, be done by using the same expression for each, but in order to reduce duplication, it is
+		also possible to base the density of one population on the density of another. This is done with
+		<x>relativeTo</x> attribute to set the base population and the <x>densityFactor</x> attribute for the
+		scaling.
+	</par>
+
+
+	<h3>Masking</h3>
+	<par>
+		The density expression give a real-valued quantity across the cell. If you want the channel population
+		to apply only to a particuler reagion, then this could be done by designing an expression that goes to
+		zero outside the region of interest. In general, however, this can be more conveniently achieved by
+		keeping the epxression simple and adding one or more RegionMask blocks to define the region.
+	</par>
+	<par>
+		Each mask has an action and a region specifiction. The action can be one of <x>include</x>, <x>exclude</x>
+		and <x>restrict to</x>. The region specification, by the <x>where</x> attribute, is a boolean expression
+		using the same quantities (p, r, d, b) as for the density expressions as well as the special symbol "region"
+		and any point ids or labels defined in the morphology.
+	</par>
+
+	<par>
+		Masks are combined in order, modifying the set of the points where channels should be attached.
+		If the action of the first mask is <x>restrict to</x> or exclude, then the starting point is all points on the
+		cell. If the first action is <x>include</x> then it starts with no points included. As their names suggest,
+		the <x>restrict to</x> action takes intersection of the corrent points and those defined by the mask;
+		<x>include</x> takes the union, and <x>exclude</x> takes the intersection with the complement of the mask.
+		Taking the union with the complemente of the mask is not supported as a single operation as it doesn't
+		generally make much sense to do that and the effect can alsmost certainly be achieved in a more understandable
+		manner by a different combination of masks.
+	</par>
+
+	<par>
+		The special region sysmbol is used to define masks based on labelled points on the structure. It can be used
+		in the expressions <m>region=label</m>, <m>region &lt; label</m> and <m>region &gt; label</m>. Giving matches
+		to points at, proximal to, or distal to the specified label respectively. The label may contain the
+		wildcard "*" which stands for one or more characters. Thus, for example, if points on the axon have been
+		labelled "axon_1", "axon_2" etc, the whole axon could be specified with <m>region=axon*</m> for the <x>where</x>
+		attribute, ie, with a region mask like<br/>
+		<x>&lt;RegionMask action="include" where="region=axon*"/&gt;</x><br/>.
+		Note however that there may be better alternatives (see the discussion of the partOf attribute for
+		<a href="morphology.html">cell morphology</a>). For an axon you could also attach a start_of_axon
+		label at the base of the axon and use<br/>
+		<x>&lt;RegionMask action="include" where="region > start_of_axon"/&gt;</x><br/> which would save having to
+		set labels for every point on the axon.
+	</par>
+
+
+
+	<h3>Achieving a resting potential - the DensityAdjustment element</h3>
+	<par>
+		One common problem with setting channel distributions is that the resulting cell
+		has a resting potential that varies across the structure and may go well outside
+		the intended range in some places.  On common trick to overcome this is to set
+		up the cell model at the desired resting potential, calculate the currents everywhere and
+		then change the reversal potential of the leak so it counteracts the other currents
+		at rest. In a good case, this might only need modest changes in the reversal potential
+		but in others it can require shifts of 100s of millivolts.
+	</par>
+	<par>
+		This trick is not possible with PSICS because it does not allow the reversal potential
+		of a channel to vary with position on the cell. However, PSICS does support a more
+		physiologically plausible means to achieve a rest via an optional <x>DensityAdjustment</x>
+		element that sets the target potential and specifies how channel densities should be
+		adjusted to achieve it.
+	</par>
+	<par>
+		The principle behind the density adjustment is that cells can achieve stable resting
+		potentials by locally changing their channel densities. In general, any of the
+		channel densities could be changed, but PSICS supports only the two simplest options
+		of varying either just one channel density, or two together. Varying just one density
+		of, say, a potassium channel, involves adding new channels where the membrane is
+		depolarized from rest, and removing them (providing there are some to remove) if it
+		is to hyperpolaried. In either case, this will change the local input resistance.
+	</par>
+	<par>
+		Varying two densities together enables the input resistance to be kept constant by
+		switching channels of one type for the other type in proportion to their relative
+		conductances. A typical DensityAdjustment element looks like:
+		<x>&lt;DensityAdjustment maintain="-65mV" vary="Leak-K, Leak-Na"/&gt;</x><br/>
+		where in this case there are separate leaks for sodium and potassium being varied.
+	 	Leak conductances of this nature are convenient choices since they are generally
+	 	present all over the cell, but other channels may be used too.
+	</par>
+	<par>
+		Because of the discrete positioning of channels, it is generally not possible to
+		get a precise current balance at every point on the cell. For example, it may
+		be necessary to remove more channels than are actually present on a given compartment.
+		PSICS handles this by spreading the effect to neighboring compartments to achieve
+		as close as possible to a local balance. This also applies to fractional numbers of
+		channels, as in choosing which compartment to put the new channel on when several
+		compartments only require a fraction of a channel each (which happens, for example in the
+		Rallpack tests with discrete leak channels because the leak current densities are
+		extremely low - about one channel per 100um2). The exact procedure is to first
+		compute the desired floating point change in the number of channels per compartment
+		and then to begin applying this in integer quantities working from the terminals inwards.
+		Fractional remainders and negative values are propagated inwards towards the soma,
+		adding up the contributions from different branches where they meet. If there is a
+		channel debt or when it gets to the soma, then this is flagged as an error indicating
+		that the desired balance could not be achieved with the given channels.
+	</par>
+
+
+	<h3>Reusing distributions</h3>
+	<par>
+		As well as the <x>relativeTo</x> option on channel populations, there are two other ways to reduce
+		redundancy in the specification.  First, a group of populations can be included within
+		a CellRegion block with
+		the match attribute set as in<br/>
+		<x>&lt;CellRegion match="*axon*"&gt;</x><br/>
+		&#160;&#160; - channel population definitions to be applied to the axon - <br/>
+		<x>&lt;/CellRegion&gt;</x><br/>
+
+		Second, the distribution specification can be moved out of the channel population itself into a
+		<x>DistributionRule</x> block. The same rule can then be referred to from several populations by its
+		id using the <x>distribution</x> attribute on the channel population.  <b>N.B. this is currently lagging
+		behind the channel population specification and doesn't yet support most of those features</b>.
+	</par>
+
+
+
+
+	<TypeSetRef title="Channel Distribution" ref="ChannelDistributionComponents"/>
+
+</page>

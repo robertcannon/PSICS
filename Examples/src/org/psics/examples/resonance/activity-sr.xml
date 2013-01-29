@@ -1,0 +1,23 @@
+<Activity id="activity-sr">
+
+
+	<AfferentEvents population="synpop">	
+        <!--	
+		<PoissonGenerator frequency="4Hz" seed="102"/>
+		<UniformGenerator frequency="20Hz"/>
+		<GammaGenerator theta="5ms" k="4"/>
+	-->
+		<EventSequence file="spiketimes.txt"/>
+	</AfferentEvents>
+	
+	
+	
+	<!--
+	<AfferentEvents population="synpop2">
+		<PoissonGenerator frequency="2Hz" seed="101"/>
+		<!-- 
+		<UniformGenerator frequency="20Hz"/>
+		<GammaGenerator theta="5ms" k="4"/>
+   		
+	</AfferentEvents>
+	-->

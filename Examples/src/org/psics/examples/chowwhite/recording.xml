@@ -1,0 +1,6 @@
+
+<Access id="recording">
+
+    <VoltageRecorder at="p0" lineColor="blue"/>
+
+</Access>

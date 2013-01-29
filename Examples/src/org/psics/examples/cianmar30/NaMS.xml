@@ -1,0 +1,17 @@
+<KSChannel id="NaMS" permeantIon="Na" gSingle="20pS">
+
+	<KSComplex id="m" instances="3">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpLinearTransition from="c" to="o" rate="1.638per_ms" midpoint ="-25mV" scale="9mV" q10="2.3" baseTemperature="23Celsius"/>
+		<ExpLinearTransition from="o" to = "c" rate="1.116per_ms" midpoint="-25mV" scale="9mV" q10="2.3" baseTemperature="23Celsius"/>
+	</KSComplex>
+
+	<KSComplex id="h">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpLinearTransition from="c" to="o" rate="0.12per_ms" midpoint="-40mV" scale="5mV" q10="2.3" baseTemperature="23Celsius"/>
+		<ExpLinearTransition from="o" to="c" rate="0.0455per_ms" midpoint="-65mV" scale="5mV" q10="2.3" baseTemperature="23Celsius"/>
+	</KSComplex>
+
+</KSChannel>

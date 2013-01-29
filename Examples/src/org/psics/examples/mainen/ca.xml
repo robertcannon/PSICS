@@ -1,0 +1,41 @@
+<KSChannel id="ca" permeantIon="Na" gSingle="20pS">
+
+	<About>
+		Converted from ca.mod (Zack Mainen, 1994) HVA Calcium current
+	</About>
+
+	<KSComplex id="m" instances="2">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+
+	   <TauInfCodedTransition from="c" to="o" tauvar="mtau" infvar="minf"
+        	baseTemperature="23Celsius" q10="2.3">
+<![CDATA[
+		double a = 0.055 * (-27. - v) / (Math.exp(-27 - v)/3.8) - 1);
+		double b = 0.94 * Math.exp((-75. - v) / 17.);
+		mtau = 1 / (a + b);
+		minf = a * mtau;
+	]]>
+	</TauInfCodedTransition>
+
+	</KSComplex>
+
+
+	<KSComplex id="h">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+
+   <TauInfCodedTransition from="c" to="o" tauvar="htau" infvar="hinf"
+        	baseTemperature="23Celsius" q10="2.3">
+<![CDATA[
+		double a = 0.000457 * Math.exp((-13. - v) / 50.);
+		double b = 0.0065 / (Math.exp((-v - 15.) / 28.) + 1);
+		htau = 1 / (a + b);
+		hinf = a * htau;
+	]]>
+	</TauInfCodedTransition>
+
+
+	</KSComplex>
+
+</KSChannel>

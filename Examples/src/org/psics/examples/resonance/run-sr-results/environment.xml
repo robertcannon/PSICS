@@ -1,0 +1,6 @@
+<CellEnvironment id="environment" temperature="34Celsius">
+	<Ion id="K" name="Potassium" reversalPotential="-90mV"/>
+	<Ion id="Na" name="Sodium" reversalPotential="55mV"/>
+	<Ion id="H" name="MixedCation" reversalPotential="-25mV"/>
+	<Ion id="AMPAion" name="MixedAMPA" reversalPotential="0mV"/>
+</CellEnvironment>

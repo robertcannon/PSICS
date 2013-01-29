@@ -1,0 +1,29 @@
+<KSChannel id="Ih-Spru" permeantIon="H" gSingle="1pS">
+
+	<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+	<TauInfCodedTransition from="c" to="o" tauvar="ntau" infvar="ninf">
+ 		<Constant name="q10" value="4.5"/>
+ 		<Constant name="zeta" value="7"/>
+ 		<Constant name="vhalf" value="-81" info="mV"/>
+ 		<Constant name="a0" value="0.00057"/>
+ 		<Constant name="gas" value="8.315"/>
+ 		<Constant name="far" value="9.648e4"/>
+		<Constant name="a" value="0.4"/>
+		<Constant name="nmin" value="2"/>
+
+
+ 		<![CDATA[
+			double qt=Math.pow(q10, ((temperature-33)/10));
+			double alphan = qt*a0*Math.exp(1.e-3*zeta*(-a)*(v-vhalf)*far/(gas*(273.16+temperature)));
+			double betan = qt*a0*Math.exp(1.e-3*zeta*(1-a)*(v-vhalf)*far/(gas*(273.16+temperature)));
+			ninf = alphan/(alphan + betan);
+			ntau = 1 /(alphan+betan);
+			if (ntau < nmin) ntau = nmin;
+ 		]]>
+ 	</TauInfCodedTransition>
+ </KSComplex>
+
+
+ </KSChannel>

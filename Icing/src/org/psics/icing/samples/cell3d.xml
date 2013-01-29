@@ -1,0 +1,26 @@
+
+<CellMorphology id="cell3d">
+	<Point id="p0" x="0" y="0" z="0" r="0.5"/>
+	<Point parent="p0" id="p1" x="100" y="0" z = "0" r="0.5"/>
+
+	<Branch id="b1" parent="p1" x="30" y="5" z="0" r="0.3" minor="true"/>
+	<Branch id="b2" parent="p1" x="20" y="4" z="0" r="0.3"/>
+	<Branch id="b3" parent="p1" x="50" y="6" z="0" r="0.3" minor="true"/>
+	<Branch parent="p1" length="5" offset="10" r="0.3"/>
+
+
+
+	<Point parent="p1" id="p2" x="150" y="-30" z = "0" r="0.5"/>
+	<Branch parent="p2" length="5" offset="6" r="0.2"/>
+	<Branch parent="p2" length="5" offset="8" r="0.3"/>
+	<Branch parent="p2" length="5" offset="10" r="0.4"/>
+	<Branch parent="p2" id="b1" length="5" offset="12" r="0.2"/>
+
+	<Point parent="b1" beyond="2" r="0.5"/>
+
+	<Point parent="p1" id="p3" x="150" y="30" z = "30" r="0.5"/>
+	<Point parent="p3" id="p4" x="200" y="30" z = "60" r="0.5"/>
+
+	<Point parent="p3" beyond="20" r="3"/>
+
+</CellMorphology>

@@ -1,0 +1,104 @@
+<CellProperties id="membrane" membraneCapacitance="1.0uF_per_cm2"
+    cytoplasmResistivity="150.0ohm_cm">
+   <ChannelPopulation id="leak-Na_0" channel="leak-Na" color="0xff4040"
+       density="0.0128" allocation="Regular" seed="401862"/>
+   <ChannelPopulation id="leak-K_0" channel="leak-K" color="0xff4040"
+       density="0.0128" allocation="Regular" seed="577822"/>
+   <ChannelPopulation id="Nax-coded_0" channel="Nax-coded" color="0xff4040"
+       density="21.33" allocation="Regular" seed="707954">
+      <RegionMask action="restrict to" where="region=*axon*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kdr-coded_0" channel="Kdr-coded" color="0xff4040"
+       density="3.33" allocation="Regular" seed="587334">
+      <RegionMask action="restrict to" where="region=*axon*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kaprox-coded_0" channel="Kaprox-coded" color="0xff4040"
+       density="3.2" allocation="Regular" seed="15514">
+      <RegionMask action="restrict to" where="region=*axon*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Na3-coded-soma_0" channel="Na3-coded-soma"
+       color="0xff4040" density="10.67" allocation="Regular" seed="773799">
+      <RegionMask action="restrict to" where="region=*soma*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kdr-coded_1" channel="Kdr-coded" color="0xff6666"
+       density="3.33" allocation="Regular" seed="905375">
+      <RegionMask action="restrict to" where="region=*soma*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kaprox-coded_1" channel="Kaprox-coded" color="0xff4040"
+       density="16" allocation="Regular" seed="458456">
+      <RegionMask action="restrict to" where="region=*soma*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="leak-Na_1" channel="leak-Na" color="0xff4040"
+       density="0.0128" allocation="Regular" seed="156016">
+      <RegionMask action="restrict to" where="region=*basal*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="leak-K_1" channel="leak-K" color="0xff4040"
+       density="0.0128" allocation="Regular" seed="347173">
+      <RegionMask action="restrict to" where="region=*basal*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Na3-coded-basal_0" channel="Na3-coded-basal"
+       color="0xffff33" density="10.67" allocation="Regular" seed="768827">
+      <RegionMask action="restrict to" where="region=*basal*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kdr-coded_2" channel="Kdr-coded" color="0xff4040"
+       density="3.33" allocation="Regular" seed="994634">
+      <RegionMask action="restrict to" where="region=*basal*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kaprox-coded_2" channel="Kaprox-coded" color="0xff4040"
+       density="16" allocation="Regular" seed="965989">
+      <RegionMask action="restrict to" where="region=*basal*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="leak-Na_2" channel="leak-Na" color="0xff4040"
+       density="0.0128" allocation="Regular" seed="738049">
+      <RegionMask action="restrict to" where="region=*apical*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="leak-K_2" channel="leak-K" color="0xff4040"
+       density="0.0128" allocation="Regular" seed="643080">
+      <RegionMask action="restrict to" where="region=*apical*"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Na3-coded-apical_0" channel="Na3-coded-apical"
+       color="0xff4040" density="10.67" allocation="Regular" seed="454698">
+      <RegionMask action="restrict to" where="region=*apical*"/>
+      <RegionMask action="exclude" where="d < 0.5"/>
+      <RegionMask action="exclude" where="p > 500"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kdr-coded_3" channel="Kdr-coded" color="0xff4040"
+       density="3.33" allocation="Regular" seed="109872">
+      <RegionMask action="restrict to" where="region=*apical*"/>
+      <RegionMask action="exclude" where="d < 0.5"/>
+      <RegionMask action="exclude" where="p > 500"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kaprox-coded_3" channel="Kaprox-coded" color="0x0099ff"
+       density="16 * (1 + p/100)" allocation="Regular" seed="811955">
+      <RegionMask action="restrict to" where="region=*apical*"/>
+      <RegionMask action="exclude" where="p > 100"/>
+   </ChannelPopulation>
+
+   <ChannelPopulation id="Kadist-coded_0" channel="Kadist-coded" color="0xff4040"
+       density="16 * (1 + p / 100)" allocation="Regular" seed="451875">
+      <RegionMask action="restrict to" where="region=*apical*"/>
+      <RegionMask action="exclude" where="p < 100"/>
+      <RegionMask action="exclude" where="p > 500"/>
+   </ChannelPopulation>
+
+   <PassiveProperties region="*apical*" membraneCapacitance="2.0uF_per_cm2"/>
+   <PassiveProperties region="*basal*" membraneCapacitance="2.0uF_per_cm2"/>
+   <PassiveProperties region="*axon*" cytoplasmResistivity="50.0ohm_cm"/>
+   <DensityAdjustment maintain="-65.0mV" vary="leak-Na, leak-K"/>
+</CellProperties>
+

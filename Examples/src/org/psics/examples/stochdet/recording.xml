@@ -1,0 +1,11 @@
+
+<Access id="recording">
+
+
+	<ConductanceClamp at="p0" lineColor="red" hold="0.0nS" potential="-50mV">
+	     <TimeSeries id="stim" file="stim1.txt" column="1" timeUnit="1ms" valueUnit="10pS"
+	     	scaleFactor="1.0"/>
+	</ConductanceClamp>
+
+
+</Access>

@@ -1,0 +1,42 @@
+
+<page label="ICING" title="ICING - interactive channel insertion gui" prev="../formats/standards" next="screenshots">
+
+<h1>ICING - Interactive Channel INsertion Gui</h1>
+
+	<par>
+		Once the channel models and the morphology are available, the bulk of the work in
+		specifying a complex neuron model is to relate the two together by specifying how the channels are
+		distributed over the structure. This is the puropse of ICING. It allows the creation and editing of
+		<a href="../formats/properties.html">cell properties files</a>, and the positioning of labels on
+		the structure corresponding to references from such files.
+	</par>
+	  <table align="center" cellspacing="12">
+	 	<tr>
+	 		<td><a href="screenshots.html"><img src="vsml-shot3.png"/></a></td>
+	 		<td><a href="screenshots.html"><img src="vsml-shot9.png"/></a></td>
+	 		<td><a href="screenshots.html"><img src="vsml-shot1.png"/></a></td>
+	 	</tr>
+	 </table>
+
+	<h2>Download and installation</h2>
+	<par>
+		ICING is written in Java and runs on Window, MacOSX and Linux. It includes optional
+		3D visualization features that require some further work to get Java3D installed and to set the
+		available memory. It can be downloaded from the main <a href="../download.html">download area</a>
+		which also includes links and installation instructions for Java3D.
+	</par>
+
+
+	<h2>Using ICING</h2>
+
+ 	<ul>
+ 		<li><a href="screenshots.html">Screeshots</a>: showing the main features of the user interface</li>
+ 		<li><a href="basics.html">Getting started</a>: model visualization and editing</li>
+ 		<li><a href="reference.html">Specifying channel distributions</a>: details of controls and how they
+ 			affect the model being edited
+ 		</li>
+ 	</ul>
+
+
+
+</page>

@@ -1,0 +1,37 @@
+<PSICSRun timeStep="0.01ms" runTime="25ms" startPotential="-65mV" 
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="0">
+	<MorphologySource format="swc" file="NM1b.swc"/>
+
+	<StructureDiscretization baseElementSize="12um"/>
+
+	<RunSet vary="stim1:scaleFactor" values="[100, 200, 300]"
+		filepattern="out-$" merge="true"/>
+
+<!-- nb this doesn't work - can't parse string arrays for values
+	<RunSet vary="stim1:file" values="[stim1.txt, stim2.txt]"
+		filepattern="out-$" merge="true"/>
+ -->
+
+	<info>Current clamp stimulation profile read from a file, varying the stimulation scale factor</info>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<LineSet file="out-100.txt" color="red"/>
+		<LineSet file="out-200.txt" color="orange"/>
+		<LineSet file="out-300.txt" color="green"/>
+
+
+		 <View id="whole" xmin="-10." xmax="50." ymin="-100." ymax="80."/>
+		  <View id="enlarged" xmin="-10." xmax="50." ymin="-70." ymax="-50."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+</PSICSRun>

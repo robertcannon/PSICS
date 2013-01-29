@@ -1,0 +1,12 @@
+
+<Access id="recording-pass">
+
+	<CurrentClamp at="4" hold="0nA">
+		<CurrentPulse start="4ms" duration="1.2ms" to="2nA"/>
+		<CurrentPulse start="44ms" duration="1.2ms" to="2nA"/>
+		<CurrentPulse start="84ms" duration="1.2ms" to="2nA"/>
+	</CurrentClamp>
+
+	<VoltageRecorder at="Seg0_apical[12]"/>
+
+</Access>

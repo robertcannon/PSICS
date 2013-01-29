@@ -1,0 +1,10 @@
+
+<Access id="recording" recordClamps="false">
+
+	<CurrentClamp label="start" at="p0" lineColor="red" hold="0.1nA" record="true">
+
+	</CurrentClamp>
+
+    <VoltageRecorder label="end" at="p1" lineColor="blue"/>
+
+</Access>

@@ -1,0 +1,65 @@
+
+<page title="PSICS Downloads" label="Download" prev="index" next="about/index">
+
+	<h1>Download</h1>
+
+	<par>
+		 The current development version is <downloadlink/>.
+	</par>
+
+	<par>
+		 The channel user interface is <icingdownloadlink/> (see below for 3D visualization).
+	</par>
+
+	<par>
+		These are executable jar (Java ARchive) files containing everything that is needed to run the
+		programs on a system that has a suitable version of Java installed.
+		Mac OSX comes with Java included so nothing more should be required for PSICS itself.
+		 For Windows and Linux you need to "get java" first from
+		<a href="http://www.java.com/getjava/">www.java.com/getjava</a> if it is not already
+		installed. For further details, see
+		the <a href="guide/start.html">User guide</a>.
+	</par>
+
+	<par>
+		The same jar files apply for Linux(x86), MacOSX and Windows XP/Vista. The PSICS jar file
+		contains compiled executables for the computational core on each of these platforms.
+	</par>
+
+
+	<h2>3D images in ICING</h2>
+
+	<par>
+		ICING supports two ways of visualizing cells: a basic projection view that
+		uses only standard java features, and a 3D view using Java 3D version 1.5
+		which will need to be installed separately.
+	</par>
+
+	<par>
+		Java 3D is available from
+		<a href="https://java3d.dev.java.net/binary-builds.html">java3d.dev.java.net</a>
+		with installation instructions in the README file at the top of that page.
+	</par>
+
+	<par>
+		For Mac OSX, better instructions are available from
+		<a href="http://blogs.sun.com/mart/entry/installing_java3d_1_5_on">Martin Morissette</a> at Sun.
+		Note that Macs come with Java3D included but only version 1.3. This supports
+		some, but not all, of the features icing needs, so it is still necesary to install the latest
+		version even if it appears to work at first.
+	</par>
+
+	<h3>Running Icing</h3>
+	<par>
+		Although you <i>can</i> start Icing by double-clicking on the jar file, this is not much
+		use for the 3D visualization. By default, it starts with restricted access to memory
+		(64MB for Mac OSX) which is too little for any but the simplest cells. Instead, it should
+		be started from the command line with something like<br/>
+
+		<tt>java -Xmx512M -jar icing-0.7.0.jar</tt>
+	</par>
+	<par>
+		The "-Xmx" part tells the java virtual machine how much memory it is
+		allowed to use (in this case 512MB).
+	</par>
+</page>

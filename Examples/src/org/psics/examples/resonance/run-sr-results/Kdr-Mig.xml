@@ -1,0 +1,29 @@
+<KSChannel id="Kdr-Mig" permeantIon="K" gSingle="20pS">
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+	<TauInfCodedTransition from="c" to="o" tauvar="ntau" infvar="ninf">
+ 		<Constant name="q10" value="1"/>
+ 		<Constant name="zetan" value="-3"/>
+ 		<Constant name="vhalfn" value="13" info="mV"/>
+ 		<Constant name="a0n" value="0.02"/>
+ 		<Constant name="gmn" value="0.7"/>
+ 		<Constant name="nmin" value="2"/>
+
+ 		<![CDATA[
+ 		  double qt=Math.pow(q10, ((temperature-24)/10));
+          double a = Math.exp(1.e-3*zetan*(v-vhalfn)*9.648e4/(8.315*(273.16+temperature)));
+          ninf = 1/(1 + a);
+          double betn = Math.exp(1.e-3*zetan*gmn*(v-vhalfn)*9.648e4/(8.315*(273.16+temperature)));
+          ntau = betn /(qt*a0n*(1+a));
+          if (ntau < nmin) ntau = nmin;
+
+ 		]]>
+ 	</TauInfCodedTransition>
+ </KSComplex>
+
+
+
+
+ </KSChannel>

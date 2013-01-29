@@ -1,0 +1,10 @@
+<CellEnvironment id="environment" temperature="35.0Celsius">
+    <Ion id="k" name="k_ion" reversalPotential="-90mV"/>
+    <Ion id="k" name="k_ion" reversalPotential="-90mV"/>
+    <Ion id="non_specific" name="non_specific_ion" reversalPotential="-58mV"/>
+    <Ion id="na" name="na_ion" reversalPotential="50mV"/>
+    <Ion id="k" name="k_ion" reversalPotential="-90mV"/>
+    <Ion id="hd" name="hd_ion" reversalPotential="-30mV"/>
+    <Ion id="na" name="na_ion" reversalPotential="50mV"/>
+    
+</CellEnvironment>

@@ -1,0 +1,12 @@
+if test "x${NRNHOME}" = "x" ; then
+	NRNHOME="/usr"
+fi
+if test "x${NRNBIN}" = "x" ; then
+	NRNBIN="/usr/bin/"
+fi
+if test "" = "yes" ; then
+	NRNIV="${NRNBIN}nrniv.app/Contents/MacOS/nrniv"
+else
+	NRNIV="${NRNBIN}nrniv"
+fi
+"${NRNIV}" -dll "/home/rcc/PSICS/eclipse/Examples/src/org/psics/examples/migca1/nrn/i386/.libs/libnrnmech.so" "$@"

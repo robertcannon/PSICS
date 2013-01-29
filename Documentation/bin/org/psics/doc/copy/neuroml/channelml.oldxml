@@ -1,0 +1,292 @@
+
+<page label="ChannelML">
+
+	<h1>Importing ChannelML channel models for use in PSICS</h1>
+
+	<par>
+		ChannelML provides data structures for representing chanel models based on
+		Hodgkin-Huxley style kinetics and as kinetic schemes. It has rather different
+		objectives from those of PSICS, in that it aims to provide a declarative
+		format for a large number of legacy models, whereas PSICS aims to provide a
+		simple, minimal format for future models based on biophysiucal principles of
+		channel gating. Nevertheless, because of the extensions to PSICS necessitated
+		by the need for validation against existing models, a fair number of ChannelML
+		models can be read by PSICS.
+	</par>
+
+	<par>
+		The final section of this page presents comparisons of a number of ChannelML models
+		and thier nearest PSICS equivalent, but first we examine the specification
+		and highlight aspects that make it difficult to use with PSICS.
+	</par>
+
+	<h2>Channel representation</h2>
+	<par>
+		A number of the <a href="index.html">general concerns</a> about NeuroML have been
+		illustrated with examples from ChannelML, including the use of
+		unnecessarily deep nesting and the splitting of related concepts between separate
+		blocks. These make for rather deep and verbose specifications as can be seen
+		by comparing the ChannelML (blue background) and PSICS (beige background) exmples
+		below. The following paragraphs summarise the main concerns.
+	</par>
+	<par>
+		Separating the <x>hh_gate</x> elements from the <x>gate</x> elements
+			inside a <x>current_voltage_relation</x> element seems unnecessary. Rather
+			than making a refernce between the two, the contents of the
+			<x>hh_gate</x> element could just be inserted where the <x>gate</x> element is.
+		</par>
+
+		<par>The use of <x>name</x> as an attribute of <x>state</x> inside the
+			<x>current_voltage_relation</x> which must be matched
+			from the <x>state</x> attribute of an <x>hh_gate</x>
+			element is making a reference to a deeply nested object from a
+			object much higher in the tree. This is rather counter-intuitive. It
+			would be more normal to have the deeply nested state object refer to the
+			gate. Or better still, put the <x>gate</x> definition
+			where the <x>state</x> is and scrap the reference entirely.
+		</par>
+
+			<par>
+				The nesting of
+				<x>conductance</x> within
+				<x>ohmic</x> within <x>current_voltage_relation</x> as in
+<xcode><current_voltage_relation>
+            <ohmic ion="ca">
+                <conductance default_gmax="9.084216">
+                    <rate_adjustments>
+                        <q10_settings q10_factor="3" experimental_temp="17.350264793" />
+                        <offset value="0.010" />
+                    </rate_adjustments>
+                    <gate power="2">
+                        <state name="m" fraction="1" />
+                    </gate>
+                    <gate power="1">
+                        <state name="h" fraction="1" />
+                    </gate>
+                </conductance>
+            </ohmic>
+        </current_voltage_relation>
+</xcode>
+
+			looks as though
+				it could better be expressed as
+<xcode><current_voltage_relation ion="Ca" law="ohmic" default_gmax="9.08">
+...
+</current_voltage_relation>
+</xcode>
+</par>
+<par>
+	Since <x>q10_settings</x> can only be to do with the rate adjustment, they do
+	not need to be nested inside a list of <x>rate_adjustments</x>.
+</par>
+
+ <par>
+ 	It is not clear what the <x>state</x> elements inside <x>gate</x> elements are doing.
+ 	Presumably this is the state variable for the gate (a number between 0 and 1)
+ 	but it is rather confusing in a PSICS context
+ 	(and for ChannelML kinetic schemes) where "state" is used to refer
+ 	to the possible states of a channel.
+ </par>
+
+
+
+<par>
+	For the gates themselves, since a gate only contains transitions, the <x>transition</x>
+	block is not necessary: the transitions could just be elements of the gate.
+</par>
+
+	<par>
+		The terms "alpha" and "beta" are conventionally used for the forward and reverse
+		rates but are not really nouns like the other element tags. Something like
+		<x>forwardTransition</x> and <x>reverseTransition</x>  might be better as labels
+		 for what these blocks are.
+	</par>
+	<par>
+		The <x>parameterized_hh</x> element with one of a few special type parameters could
+		usefully be replaced by a few type-specfic elements.
+	</par>
+
+	<par>
+		Taking these issues into account, instead of expressiong a gate as:
+<xcode><hh_gate state="m">
+            <transition>
+                <voltage_gate>
+                    <alpha>
+                        <parameterised_hh type="sigmoid" expr="A/(1 + exp(-k*(d-v)))">
+                            <parameter name="A" value="1600" />
+                            <parameter name="k" value="-72" />
+                            <parameter name="d" value="0.005" />
+                        </parameterised_hh>
+                    </alpha>
+                    <beta>
+                        <parameterised_hh type="linoid" expr="A*(k*(v-d))/(1 - exp(-(k*(v-d))))">
+                            <parameter name="A" value="100" />
+                            <parameter name="k" value="-200" />
+                            <parameter name="d" value="-0.0089" />
+                        </parameterised_hh>
+                    </beta>
+                </voltage_gate>
+            </transition>
+        </hh_gate>
+</xcode>
+
+	it could be expressed as:
+<xcode><HH_Gate name="m" power="2">
+      <SigmoidTransition A="1600.0" k="-72" d="0.0050" direction="forward"/>
+      <ExpLinearTransition A="100.0" k="-200" d="-0.0050" direction="reverse"/>
+</HH_Gate>
+</xcode>
+	</par>
+
+
+	<par>
+		Even though this is an HH gate, the PSICS representation uses a  kinetic scheme
+		 with two possible states and
+		takes a further step of including the Q10 data and the units with the transition.
+		Treating a HH gate as a kinetic schem incurs a slight cost in that the
+		two states (closed and open) must be explicitly listed, but the resulting
+		xml is still relatively compact.
+The equivalent for the above gate (plus the q10_settings information) is then:
+<xcode><KSComplex id="m" instances="2">
+      <ClosedState id="mc" />
+      <OpenState gRel="1.0" id="mo" />
+      <SigmoidTransition rate="1600.0per_ms" scale="0.01388mV" midpoint="0.0050mV" from="mc" to="mo" baseTemperature="17.350264793Celsius" q10="3.0" />
+      <ExpLinearTransition rate="100.0per_ms" midpoint="-0.0089mV" scale="-0.0050mV" from="mo" to="mc" baseTemperature="17.350264793Celsius" q10="3.0" />
+</KSComplex>
+</xcode>
+	</par>
+
+
+<par>
+	The <x>generic_eqution_hh</x> is a bit contradictory since it looks like a generic
+	expression, not an equation, and doesn't seem to have anything specifically 'hh' about it.
+	The examples below also show cases where rather a lot of code has been squeezed into
+	a single expression using the hard-to-parse (for humans) "?" conditional operator
+	and lots of brackets. The need for generic expressions also exists in PSICS for some
+	legacy modes used in validation. The adopted solution was to allow
+	the definition of functions containing arbitrary code to compute the rates.  This
+	has even more potential for abuse than allowing a generic expression, but does
+	allow any rate to be implemented in a readable, if not a portable, way.
+</par>
+
+
+
+<h3>Kinetic scheme channels in ChannelML</h3>
+
+<par>
+	Apart from the same concerns about unnecessary nesting and magic type attributes
+	expressed above, the ChannelML structure for kinetic schems (<x>ks_gate</x> blocks)
+	is broadly similar to that used by PSICS.  There are just a few concerns about structure
+	and naming.
+</par>
+<par>
+	The nesting of a single <x>state</x> block with a <x>name</x> inside the
+	<x>current_voltage_relation</x> as in
+<xcode><current_voltage_relation>
+            <ohmic ion="k">
+                <conductance default_gmax="36">  <!-- phys units: mS/cm2-->
+                    <gate power="4">
+                        <state name="n4" fraction="1" />
+                    </gate>
+                </conductance>
+            </ohmic>
+</current_voltage_relation>
+</xcode>
+Conflicts with the use of named states inside the <x>ks_gate</x> block. And how can
+the power 4 be applied to only one state?
+</par>
+
+<par>
+For <x>transition</x> elements, the <x>src</x> attribute is an abbreviation but
+the <x>target</x> attribute (a word the same length as "source") is not. The
+terms "source" and "target" would be better, or possibly "from" and "to" as in
+normal usage where a transition is said to be "from state a to state b".
+</par>
+
+<par>
+ If ther are transitions with sources and targets, then the use of <x>alpha</x> and
+ <x>beta</x> blocks has some redundancy: a block like
+ <xcode><transition src="a" tgt="b">
+ 	<alpha>
+ 		forward rate data
+ 	</alpha>
+ 	<beta>
+ 		rverse rate data
+ 	</beta>
+</transition>
+ </xcode>
+Is the same as
+ <xcode><transition src="b" tgt="a">
+ 	<alpha>
+ 		reverse rate data
+ 	</alpha>
+ 	<beta>
+ 		forward rate data
+ 	</beta>
+</transition>
+ </xcode>
+ </par>
+
+ <par>
+ 	This means that the <x>alpha</x> and <x>beta</x> blocks can be scrapped yielding
+ 	<xcode><transition src="a" tgt="b">
+	forward rate data
+</transition>
+ <transition src="b" tgt="a">
+	reverse rate data
+</transition>
+ 	</xcode>
+ </par>
+
+
+
+	<h2>ChannelML import examples</h2>
+
+	 <par>
+	 	The rest of this section contains examples of ChannelML files and, where possible,
+	 	 the xml serialization of the PSICS model resulting from importing the file. The ChannelML examples
+	 	 are taken from <a href="http://www.morphml.org:8080/NeuroMLValidator/Samples.jsp">morphml.org</a>,
+	 	 selecting only those models that correspond to voltage-gated channels.
+	 </par>
+
+
+	<xmlembed src="CaHVA_Chan.xml"/>
+	<psixmlembed src="CaHVA_Chan.psix"/>
+
+	<xmlembed src="GateDepQ10.xml"/>
+	<psixmlembed src="GateDepQ10.psix"/>
+
+	<xmlembed src="KA_Chan.xml"/>
+	<psixmlembed src="KA_Chan.psix"/>
+
+	<xmlembed src="KChannelKS.xml"/>
+	<psixmlembed src="KChannelKS.psix"/>
+
+	<xmlembed src="KChannel.xml"/>
+	<psixmlembed src="KChannel.psix"/>
+
+	<xmlembed src="Kdr.xml"/>
+	<psixmlembed src="Kdr.psix"/>
+	<par>
+		Note that this is an incorrect conversion of the original ChannelML. PSICS is unable to process
+		the <x>gamma</x>, <x>zeta</x> and <x>tau</x> blocks in the <x>voltage_gate</x> element.
+	</par>
+
+
+	<xmlembed src="LeakConductance.xml"/>
+	<psixmlembed src="LeakConductance.psix"/>
+
+	<xmlembed src="NaChannel.xml"/>
+	<psixmlembed src="NaChannel.psix"/>
+
+	<xmlembed src="NaF_Chan.xml"/>
+	<psixmlembed src="NaF_Chan.psix"/>
+	<par>
+		Note that this is an incorrect conversion of the original ChannelML. PSICS is unable to process
+		the <x>tau</x> blocks in conjunction with <x>alpha</x> and <x>beta</x> blocks for
+		specifying the forward and reverse rates in the the <x>voltage_gate</x> element. This could, however
+		be implemented by a coded transition, or by using the saturation rates in the normal
+		transition parameterization.
+	</par>
+
+</page>

@@ -1,0 +1,8 @@
+
+<KSChannel id="k1" gSingle="30pS" permeantIon="K">
+	<ClosedState id="c1"/>
+	<OpenState id="o1"/>
+	
+	<VHalfTransition from="c1" to="o1" vHalf = "0mV" z="1.5e" gamma="0.75" tau="3.2ms" tauMin="0.3ms"/>
+
+</KSChannel>

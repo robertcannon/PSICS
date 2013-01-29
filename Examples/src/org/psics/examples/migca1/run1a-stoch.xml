@@ -1,0 +1,40 @@
+<PSICSRun   lib="." timeStep="0.1ms" runTime="120ms" startPotential="-65mV"
+	morphology="morph"
+	environment="environment"
+	properties="membrane"
+	access="recording-a"
+	stochThreshold="50000">
+	<StructureDiscretization baseElementSize="10um"/>
+
+	<info>Migliore et al CA1 pyramidal cell</info>
+
+<About>
+		Model corresponding to figure 1a with a steady current injection at the soma
+		and recording from two points on the apical dendrite, 200um and 400um from the soma.
+		It shows some backpropagation to 200um but very little at 400um.
+	</About>
+
+	<About>
+		This is not an exact reimplementation of the Migliore et al model but rather a nearby
+		equivalent in PSICS using only the standard channel transition equation.
+	    Slow inactivation of the sodium channel
+	    has not been modelled as an independent gate that only partially closes
+		(closing to 20% in the soma and to 50% in the dendrites) since the kinetics of this process do
+		not appear to affect the model. Instead, the inactivated dendritic channels are simply left
+		out of the model by providing two populations: one population, at 50% of maximum,
+		that covers all active compartments and another, overlapping population, just for the soma.
+	</About>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+	    <LineSet file="psics-out-f.txt" color="green"/>
+
+		<View id="whole" xmin="-10." xmax="120." ymin="-80." ymax="20."/>
+
+		<View id="first" xmin="15" xmax="30." ymin="-80." ymax="20."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

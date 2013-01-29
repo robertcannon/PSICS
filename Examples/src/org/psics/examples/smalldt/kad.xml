@@ -1,0 +1,57 @@
+<KSChannel id="kad" permeantIon="k" gSingle="9.99999993922529pS">
+<KSComplex instances="1">
+<ClosedState id="n0"/>
+<OpenState id="n"/>
+<TauInfCodedTransition from="n0" to="n" tauvar="ntau" infvar="ninf"><![CDATA[
+    
+    double rate = 0;
+    double scale = 0;
+    double midpoint = 0;
+    
+    double temp_adj_n = Math.pow(5, (temperature - 24)/10);
+                                    
+    
+    
+    double alpha = 0;
+                            alpha = (Math.exp ( (1e-3 * (-1.8 + (-1)/(1 + (Math.exp ((v-(-40))/5)))) * (v - (-1)) * 9.648e4) / (8.315*(273.16 + (temperature) )) ));
+        
+    double beta = 0;
+                            beta = (Math.exp ( (1e-3 * (-1.8 + (-1)/(1 + (Math.exp ((v-(-40))/5)))) * 0.39 * (v - (-1)) * 9.648e4) / (8.315*(273.16 + (temperature) )) ));
+        
+    
+
+    if (beta/(0.1 * (1 + alpha) * temp_adj_n) < 0.2 ) {
+        ntau =  (0.2 * temp_adj_n) ;
+    } else {
+        ntau =  beta/(0.1 * (1 + alpha)) ;
+    }
+        ntau = ntau/temp_adj_n;
+            
+    ninf = 1/(1 + alpha);
+        
+    ]]></TauInfCodedTransition>
+</KSComplex>
+<KSComplex instances="1">
+<ClosedState id="l0"/>
+<OpenState id="l"/>
+<TauInfCodedTransition from="l0" to="l" tauvar="ltau" infvar="linf"><![CDATA[
+    
+    
+    double temp_adj_l = 1;
+                                    
+    
+    
+    
+
+    if (0.26*(v + 50) < 2 ) {
+        ltau =  2 ;
+    } else {
+        ltau =  0.26*(v + 50);
+    }
+        ltau = ltau/temp_adj_l;
+            
+    linf = 1/(1 + (Math.exp ( (1e-3 * (3) * (v - (-56)) * 9.648e4) / (8.315*(273.16 + (temperature) )) )));
+        
+    ]]></TauInfCodedTransition>
+</KSComplex>
+</KSChannel>

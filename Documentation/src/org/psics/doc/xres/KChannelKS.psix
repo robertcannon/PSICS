@@ -1,0 +1,27 @@
+<KSChannel id="KChannel" permeantIon="K">
+   <KSComplex instances="1">
+      <ClosedState id="n0"/>
+      <ClosedState id="n1"/>
+      <ClosedState id="n2"/>
+      <ClosedState id="n3"/>
+      <OpenState gRel="1.0" id="n4"/>
+      <ExpLinearTransition rate="0.4per_ms" midpoint="-55.0mV" scale="10.0mV"
+          from="n0" to="n1"/>
+      <ExpTransition rate="0.125per_ms" scale="-80.0mV" midpoint="-65.0mV"
+          from="n1" to="n0"/>
+      <ExpLinearTransition rate="0.3per_ms" midpoint="-55.0mV" scale="10.0mV"
+          from="n1" to="n2"/>
+      <ExpTransition rate="0.25per_ms" scale="-80.0mV" midpoint="-65.0mV"
+          from="n2" to="n1"/>
+      <ExpLinearTransition rate="0.2per_ms" midpoint="-55.0mV" scale="10.0mV"
+          from="n2" to="n3"/>
+      <ExpTransition rate="0.375per_ms" scale="-80.0mV" midpoint="-65.0mV"
+          from="n3" to="n2"/>
+      <ExpLinearTransition rate="0.1per_ms" midpoint="-55.0mV" scale="10.0mV"
+          from="n3" to="n4"/>
+      <ExpTransition rate="0.5per_ms" scale="-80.0mV" midpoint="-65.0mV" from="n4"
+          to="n3"/>
+   </KSComplex>
+
+</KSChannel>
+

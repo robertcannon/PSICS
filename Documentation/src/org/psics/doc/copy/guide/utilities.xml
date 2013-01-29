@@ -1,0 +1,71 @@
+<page label="Utilities" prev="fortran" next="biblio">
+
+	<h1>Utilities</h1>
+
+	<par>
+		A wide variety of external tools are available that can be used to define the inputs
+		and process the output of PSICS. This section lists tools that can be useful in this context
+		but is by no means an exhaustive list.
+	</par>
+
+
+	<h2>Model specifications - creating XML files</h2>
+
+	<h3>Emacs + XML Lite</h3>
+		<par>
+			Emacs provides a number of ways for editing XML files, of which
+			<a href="http://wttools.sourceforge.net/emacs-stuff/emacsandxml.html">xml-lite mode</a> is
+			a good choice for the small files needed by PSICS. It handles tag matching and indentation without
+			the complexity of requireing a schema or DTD.
+		</par>
+
+
+	<h3>Smultron (Mac OSX)</h3>
+		<par>
+		Availabel free from <a href="http://smultron.sourceforge.net/">smultron.sourceforge.net</a>,
+		"Smultron is a free text editor for Mac OS X Leopard 10.5 which is both easy to
+		use and powerful. It is designed to not confuse newcomers nor disappoint advanced users.".
+	</par>
+
+	<h3>Eclipse</h3>
+		<par>
+			There are numerous XML editing plugins for <a href="http://www.eclipse.org/">Eclipse</a>, an interactive
+			development environment designed for software developers but that can be used writing many other types of
+			content, including PSICS models. The default XML editor provides syntax checking and formatting.
+		</par>
+
+
+	<h2>Simple visualization</h2>
+
+		<par>
+			The two programs dview.jar and ccviz.jar are linked from the downloads page and
+			provide a quick way to view the outputs of PSICS. They can be useful for checking
+			the results before using more sophisticated tools.
+		</par>
+
+	<h3>DView</h3>
+	<par>
+		Model specification files can include optional "ViewConfig" blocks that are used by PSICS to generate
+		plots for the default summary pages. These can also be loaded in a stand-alone viewer,
+		<a href="../dview.jar">DView</a>, which is part of <a href="http://www.catacomb.org/">Catacomb</a>. The viewer
+		supports panning and zooming to examine details of the results. Like PSICS it is an executable jar file.
+		It be run with <br/>
+		<cmd> java -jar dview.jar viewfile.xml</cmd>
+	</par>
+
+
+	<h3>CCViz</h3>
+	<par>
+			Another stand-alone Catacomb component, <a href="../ccviz.jar">CCViz</a> can read and display the
+			discretized cell structure that is generated whenever a PSICS model is run.
+	</par>
+
+
+	<h2>Analysis and visualization</h2>
+	<par>
+		TBD - info about reading output in IGOR Pro, Matlab, Yorick etc.
+	</par>
+
+
+
+</page>

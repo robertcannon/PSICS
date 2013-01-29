@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<GoogleCustomizations version="1.0">
+  <CustomSearchEngine volunteers="false"
+        keywords="neuron model; ion channel; stochastic simulation">
+    <Title>PSICS</Title>
+    <Description>"PSICS website, documentation and reference manual"</Description>
+    <Context>
+      <BackgroundLabels>
+        <Label name="_cse_psics" mode="FILTER"/>
+      </BackgroundLabels>
+    </Context>
+  </CustomSearchEngine>
+
+  <Annotations>
+    <Annotation about="http://www.psics.org/*">
+      <Label name="_cse_psics"/>
+    </Annotation>
+  </Annotations>
+
+</GoogleCustomizations>

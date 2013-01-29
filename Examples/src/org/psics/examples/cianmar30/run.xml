@@ -1,0 +1,27 @@
+<PSICSRun   timeStep="0.01ms" runTime="50ms" startPotential="-65mV"
+    morphology="ri04NEURON"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="1000000"
+	repeats="1">
+
+<!-- 	<MorphologySource format="swc" file="ri04.swc"/>  -->
+
+	<!--<ModelFolder path='../cells'/>-->
+	<StructureDiscretization baseElementSize="10um"/>
+	<info>Channel noise in dendrites</info>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="50" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<LineSet file="psics-out.txt" color="white"/>
+
+		 <View id="whole" xmin="-10." xmax="60." ymin="-100." ymax="80."/>
+		<View id="zoom1ms"   xmin="30." xmax="31" ymin="-80." ymax="-60."/>
+		</LineGraph>
+	</ViewConfig>
+
+</PSICSRun>

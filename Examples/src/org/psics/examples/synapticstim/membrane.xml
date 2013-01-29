@@ -1,0 +1,29 @@
+<CellProperties id="membrane"
+      cytoplasmResistivity="1000ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+
+     <ChannelPopulation id="population_1"
+       channel="leak"
+       density="20per_um2"/>
+
+	<SynapsePopulation id="sypop1" synapse="syn1" density="0.1per_um2" seed="1010"> 
+		<LogUniformWeights min="0.1" max="3"/>
+	</SynapsePopulation>
+	
+	
+	<SynapsePopulation id="sypop2" synapse="syn1" density="0.01per_um2"> 
+		<!-- 
+		<NormalWeights min="0.1" max="3" sd="0.5"/>
+		<UniformWeights min="0.1" max="3"/>
+		<LogUniformWeights min="0.1" max="3"/>
+		 -->
+		<LogNormalWeights min="0.1" max="3" sd="0.5"/>
+	</SynapsePopulation>
+	
+	
+	
+	<SingleSynapse id="sy3" synapse="syn2" at="p0"/>
+    <SingleSynapse id="sy4" synapse="syn2" at="p1"/>
+    <SingleSynapse id="sy5" synapse="syn1" at="p2"/>
+
+</CellProperties>

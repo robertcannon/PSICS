@@ -1,0 +1,103 @@
+
+
+table.units {
+	background-color : #e4e4e4;
+	border : 1px solid  #d0d0d0;
+}
+
+table.units th {
+    background-color : #d8d8d8;
+    padding : 6px;
+    font-style : italic;
+	font-weight : normal;
+	font-size : 9pt;
+}
+
+table.units td {
+	padding : 4px 8px 2px 16px;
+}
+
+table.units tr.odd {
+	background-color : #e8e8e8;
+}
+
+table.units tr.even {
+	background-color : #f0f0f0;
+}
+
+a.nol {
+	text-decoration : none;
+}
+
+
+
+div.typedoc {
+	margin-bottom : 20px;
+	padding : 12px;
+	background-color : #fbf4db;
+	border : 1px solid #f0e0c0;
+}
+
+div.typedoc h3 {
+	margin-top : 0px;
+	padding-top : 4px;
+	padding-bottom : 8px;
+	margin-bottom : 4px;
+}
+
+
+div.typetables {
+	padding-left : 20px;
+
+}
+
+div.typetables p {
+	margin : 0px;
+	padding : 2px;
+	font-style : italic;
+	padding-top : 10px;
+}
+
+td.tag {
+	padding-left : 20px;
+	font-style : italic;
+}
+
+table.att {
+	background-color : #e8dbc0;
+}
+
+table.att td {
+	vertical-align : top;
+	padding : 4px;
+
+}
+
+
+table.att tr td {
+	background-color : #f0e2c6;
+}
+
+
+table.att th {
+	font-style : italic;
+	font-weight : normal;
+	font-size : 8pt;
+}
+
+
+div.elements {
+	padding : 8px;
+}
+
+
+div.modelexample {
+	font-size : 9pt;
+	font-family : Courier, monospace;
+	background-color : #ffffff;
+	color : #000000;
+	border : 1px solid #f0e0c0;
+	margin : 8px;
+	margin-left : 24px;
+	padding : 4px;
+}

@@ -1,0 +1,20 @@
+
+<Access id="recording" saveInterval="0.1ms">
+
+<!-- 
+    <CurrentClamp at="p0" lineColor="red" hold="0.1nA">
+
+    </CurrentClamp>
+ -->
+
+
+	<VoltageRecorder id="vr1" distance="500um" towards="p1"/>
+
+	<VoltageRecorder at="p0"/>
+	
+    <SmartRecorder at="p0" record="current" channel="HH_Na"/>
+    <SmartRecorder at="p0" record="current" channel="HH_K"/>
+ 
+
+
+</Access>

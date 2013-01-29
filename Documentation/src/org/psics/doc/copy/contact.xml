@@ -1,0 +1,23 @@
+<page label="Contact" prev="faq">
+
+
+	<h1>Contact</h1>
+
+ 	<par>
+		For scientific applications and distribution policy, please contact Matt Nolan:
+    	<img src="matt-email.png"/>
+    </par>
+
+    <par>
+ 		For implementation details, file formats and other technical issues, please contact
+ 		Robert Cannon: <img src="rcc-email.png"/>
+    </par>
+
+
+	<h2>Form for questions and suggestions</h2>
+	<par>
+		The <a href="http://www.psics.org/forum">forum</a> is the best way to get the
+		latest information and to contact the developers or other users.
+	</par>
+
+</page>

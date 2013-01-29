@@ -1,0 +1,34 @@
+<PSICSRun timeStep="0.05ms" runTime="2000ms" startPotential="-65mV"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="10000">
+	<MorphologySource format="swc" file="NM1.swc"/>
+
+	<StructureDiscretization baseElementSize="15um"/>
+
+
+	<RunSet vary="clamp:hold" values="[200, 300, 400, 450, 550, 650]pA"  filepattern="out-$"/>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<LineSet file="out-200.txt" color="red"/>
+		<LineSet file="out-300.txt" color="green"/>
+		<LineSet file="out-400.txt" color="blue"/>
+		<LineSet file="out-450.txt" color="orange"/>
+		<LineSet file="out-550.txt" color="white"/>
+		<LineSet file="out-650.txt" color="pink"/>
+
+		 <View id="whole" xmin="-10." xmax="450." ymin="-85." ymax="30."/>
+		  <View id="wholethreshold" xmin="-10." xmax="450." ymin="-65." ymax="-55."/>
+		  <View id="enlarged" xmin="200." xmax="250." ymin="-65." ymax="-50."/>
+		<View id="650" xmin="0." xmax="2000." ymin="-70." ymax="-50."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+</PSICSRun>

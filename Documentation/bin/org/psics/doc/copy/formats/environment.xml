@@ -1,0 +1,17 @@
+<page label="Environment" prev="morphology" next="channels">
+
+	<h1>Cell Environment</h1>
+
+
+	<p>
+		The <x>CellEnvironment</x> object sets the external temperature of the cell and defines the ions that
+		are to be included in the simulation. Each ion has an id that is used by other components that need to refer
+		 to it. This block should contain all the ions that are referenced from other model components. At present,
+		 a reversal potential is directly associated with each ion. Future versions may implement the more
+		 realistic alternative of specifying internal and external solutions from which the reversal potential can
+		 be derived.
+	</p>
+
+	<TypeSetRef title="Cell Environment" ref="EnvironmentComponents"/>
+
+</page>

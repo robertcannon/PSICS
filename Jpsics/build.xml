@@ -1,0 +1,415 @@
+<?xml version="1.0"?>
+<project name="compilation and jars" default="backupjar" basedir=".">
+	<description>
+		utilities for compiling PSICS
+    </description>
+
+	<property name="project.dir" location="${user.home}/PSICS"/>
+	<property name="tmp.dir"  location="${project.dir}/tmp"/>
+	<property name="backup.dir" location="${tmp.dir}/eclipse-backups"/>
+	<property name="jarexport.dir" location="${project.dir}/builtjars"/>
+	<property name="eclipse.dir" location="${project.dir}/eclipse" />
+ 	<property name="fortran.dir" location="${eclipse.dir}/Fpsics"/>
+ 	<property name="psics.dir" location="${eclipse.dir}/PSICS"/>
+	<property name="lib.dir" location="lib" />
+ 
+	<property name="winip" value="192.168.0.11"/>
+	<property name="macip" value="x.x.x.x"/>
+	<property name="macminiip" value="192.168.0.7"/>
+	<!--
+		TODO - use macip, put user and pass here too instead of hardcoded below?
+	 -->
+
+	<property file="${eclipse.dir}/PSICS/VERSION"/>
+
+	<path id="libclasspath">
+		<fileset dir="${jarexport.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+
+	 <path id="javahcp">
+	        <pathelement location="../Native/bin"/>
+	 </path>
+
+   <target name="c headers">
+	  <javah destdir="../CPSICS/wrap" class="org.psics.pnative.FileFPSICS">
+	  	<classpath refid="javahcp"/>
+	  </javah>
+  </target>
+
+
+	<target name="sourcezip">
+		<zip destfile="${jarexport.dir}/psics-fortran-src.zip">
+		    <zipfileset dir="${fortran.dir}" prefix="src"
+    			includes="main.f90, matrix.f90, mersenne.f90,
+		    	output.f90, model.f90, stimrec.f90, passprop.f90,
+		    	memchan.f90, cell.f90, fpsics.f90"/>
+		</zip>
+	</target>
+	
+	<target name="versionize">
+         <replaceregexp>
+                <regexp pattern="versionname=.*"/>
+               <substitution expression='versionname="${version.name}"'/>
+               <fileset dir="${fortran.dir}/">
+                      <include name="main.f90"/>
+               </fileset>
+           </replaceregexp>
+            <replaceregexp>
+                <regexp pattern="versiondate=.*"/>
+               <substitution expression='versiondate="${version.date}"'/>
+               <fileset dir="${fortran.dir}/">
+                      <include name="main.f90"/>
+               </fileset>
+           </replaceregexp>
+    </target>
+    
+    
+	<target name="execcompile">
+		<delete dir="${tmp.dir}/asc"/>
+		<mkdir  dir="${tmp.dir}/asc"/>
+		<copy todir="${tmp.dir}/asc">
+			<fileset dir="${fortran.dir}/" includes="*.f90"/>
+		</copy>
+		<exec executable="${cplr}" dir="${tmp.dir}/asc">
+			<!--
+			<arg value="-g"/>
+			<arg value="-fbounds-check"/>
+		    -->
+		    <arg value="-O3"/>
+			<arg value="-o"/>
+			<arg value="${exe}"/>
+			<arg value="matrix.f90"/>
+			<arg value="mersenne.f90"/>
+			<arg value="output.f90"/>
+			<arg value="model.f90"/>
+			<arg value="stimrec.f90"/>
+			<arg value="passprop.f90"/>
+			<arg value="memchan.f90"/>
+            <arg value="activity.f90"/>
+			<arg value="cell.f90"/>
+			<arg value="fpsics.f90"/>
+			<arg value="main.f90"/>
+			<arg value="${cplrarg}"/>
+		</exec>
+	</target>
+
+
+	<target name="executable_linux_absoft" depends="versionize">
+		<antcall target="execcompile">
+			<param name="cplr" value="/opt/absoft10.0/bin/af95"/>
+			<param name="exe" value="fpsics"/>
+			<param name="cplrarg" value="-lU77"/>
+		</antcall>
+		<copy file="${tmp.dir}/asc/fpsics" tofile="${fortran.dir}/exe/linux/fpsicsabsoft"/>
+		<copy file="${tmp.dir}/asc/fpsics" tofile="/home/rcc/fpsics/fpsics"/>
+		<chmod file="/home/rcc/fpsics/fpsics" perm="ugo+rx"/>
+	</target>
+
+
+	<target name="executable_linux_gfortran" depends="versionize">
+		<antcall target="execcompile">
+			<param name="cplr" value="/usr/bin/gfortran"/>
+			<param name="exe" value="fpsics"/>
+			<param name="cplrarg" value="-Wall"/>
+		</antcall>
+		<copy file="${tmp.dir}/asc/fpsics" tofile="${fortran.dir}/exe/linux/fpsics"/>
+		<copy file="${tmp.dir}/asc/fpsics" tofile="/home/rcc/fpsics/fpsics"/>
+		<chmod file="/home/rcc/fpsics/fpsics" perm="ugo+rx"/>
+	</target>
+
+
+	<target name="executable_windows" depends="versionize" >
+		<echo message="using windows ip ${winip}"/>
+		<scp todir="robert:laptop@${winip}:">
+			<fileset dir="${fortran.dir}"
+    			includes="main.f90, matrix.f90, mersenne.f90,
+		    	output.f90, model.f90, stimrec.f90, passprop.f90,
+		    	memchan.f90, cell.f90, fpsics.f90, activity.f90"/>
+		</scp>
+		<sshexec host="${winip}" username="robert" password="laptop"
+		command="touch tmp.mod; touch tmp.o; rm *.mod *.o; /usr/local/gfortran/bin/gfortran.exe -O3 mersenne.f90 matrix.f90 memchan.f90 activity.f90 stimrec.f90 passprop.f90 model.f90 cell.f90 output.f90 fpsics.f90 main.f90"/>
+		<scp todir="${fortran.dir}/exe/tmp" file="robert:laptop@${winip}:a.exe"/>
+		<copy file="${fortran.dir}/exe/tmp/a.exe" tofile="${fortran.dir}/exe/windows/fpsics-cw.exe"/>
+
+
+		<sshexec host="${winip}" username="robert" password="laptop"
+		command="rm *.mod *.o; /cygdrive/c/Program\ Files/gfortran/bin/gfortran -O3 mersenne.f90 matrix.f90 memchan.f90 activity.f90 stimrec.f90 passprop.f90 model.f90 cell.f90 output.f90 fpsics.f90 main.f90"/>
+		<scp todir="${fortran.dir}/exe/tmp" file="robert:laptop@${winip}:a.exe"/>
+		<copy file="${fortran.dir}/exe/tmp/a.exe" tofile="${fortran.dir}/exe/windows/fpsics.exe"/>
+
+	</target>
+
+
+
+	<target name="executable_mac" depends="versionize">
+		<scp todir="user:password@x.x.x.x:">
+			<fileset dir="${fortran.dir}"
+    			includes="main.f90, matrix.f90, mersenne.f90, activity.f90,
+		    	output.f90, model.f90, stimrec.f90, passprop.f90,
+		    	memchan.f90, cell.f90, fpsics.f90"/>
+		</scp>
+
+
+		<sshexec host="129.215.83.173" username="user" password="pass"
+		command="af95 -lU77 -O3 mersenne.f90 matrix.f90 memchan.f90 stimrec.f90 activity.f90 passprop.f90 model.f90 cell.f90 output.f90 fpsics.f90 main.f90"/>
+		
+		<!--  command could also be /usr/local/bin/gfortran -->
+
+		<scp todir="${fortran.dir}/exe/tmp" file="user:pass@x.x.x.x:a.out"/>
+		<copy file="${fortran.dir}/exe/tmp/a.out" tofile="${fortran.dir}/exe/mac/fpsics"/>
+	</target>
+
+
+	<target name="executable_mac_local" depends="versionize">
+		<scp todir="user:pass@${macminiip}:">
+			<fileset dir="${fortran.dir}"
+    			includes="main.f90, matrix.f90, mersenne.f90, activity.f90, 
+		    	output.f90, model.f90, stimrec.f90, passprop.f90,
+		    	memchan.f90, cell.f90, fpsics.f90"/>
+		</scp>
+
+<!--  there is a -static flag, but it is not supported on darwin -->
+		<sshexec host="${macminiip}" username="user" password="pass"
+		command="/usr/local/bin/gfortran -O3 -all_load mersenne.f90 matrix.f90 memchan.f90 activity.f90 stimrec.f90 passprop.f90 model.f90 cell.f90 output.f90 fpsics.f90 main.f90"/>
+
+
+		<scp todir="${fortran.dir}/exe/tmp" file="user:pass@${macminiip}:a.out"/>
+		<copy file="${fortran.dir}/exe/tmp/a.out" tofile="${fortran.dir}/exe/mac/fpsics"/>
+	</target>
+
+
+
+	<target name="psicsjar" depends="docjar">
+		<delete>
+			<fileset dir="${jarexport.dir}" includes="psics*.jar"/>
+		</delete>
+
+		<jar jarfile="${jarexport.dir}/${version.name}.jar">
+        	<fileset dir="${eclipse.dir}/PSICS/bin"/>
+			<fileset dir="${eclipse.dir}" includes="VERSION"/>
+			
+			<zipfileset dir="${psics.dir}" includes="VERSION"/>
+
+			<zipfileset prefix="org/psics/exe" dir="${fortran.dir}/exe" includes="l*/*, m*/*, w*/*"/>
+			<zipfileset prefix="org/psics/exe" dir="${jarexport.dir}" includes="mkdoc.jar"/>
+ 	        <zipfileset src="${eclipse.dir}/PSICS/lib/jep-2.4.0.jar"/>
+ 	        <zipfileset src="${eclipse.dir}/PSICS/lib/janino.jar"/>
+
+ 
+       		 <manifest>
+		          <attribute name="Created-By" value="Robert Cannon"/>
+		          <attribute name="Main-Class" value="org.psics.PSICS"/>
+		    </manifest>
+       </jar>
+	</target>
+
+
+	<target name="psicssrcjar">
+		<delete>
+			<fileset dir="${jarexport.dir}" includes="psics*-src.jar"/>
+		</delete>
+
+		<jar jarfile="${jarexport.dir}/${version.name}-src.jar">
+        	<fileset dir="${eclipse.dir}/Be/src"/>
+        	<fileset dir="${eclipse.dir}/Codgen/src"/>
+       		<fileset dir="${eclipse.dir}/Distrib/src"/>
+       		<fileset dir="${eclipse.dir}/Env/src"/>
+       		<fileset dir="${eclipse.dir}/Fort/src"/>
+       		<fileset dir="${eclipse.dir}/Geom/src"/>
+       		<fileset dir="${eclipse.dir}/LibRead/src"/>
+       		<fileset dir="${eclipse.dir}/Model/src"/>
+       		<fileset dir="${eclipse.dir}/Morph/src"/>
+       		<fileset dir="${eclipse.dir}/Native/src"/>
+       		<fileset dir="${eclipse.dir}/Num/src"/>
+       		<fileset dir="${eclipse.dir}/Out/src"/>
+       		<fileset dir="${eclipse.dir}/PSICS/src"/>
+       		<fileset dir="${eclipse.dir}/PSICSRun/src"/>
+       		<fileset dir="${eclipse.dir}/Quantity/src"/>
+       		<fileset dir="${eclipse.dir}/Util/src"/>
+ 			<fileset dir="${eclipse.dir}/XMLio/src"/>
+			<fileset dir="${eclipse.dir}/About" includes="VERSION"/>
+		<!--  <fileset dir="${eclipse.dir}/FPSICS/Debug" includes="libFPSICS.so"/> -->
+			<fileset dir="${eclipse.dir}/About" includes="build-utilities.xml"/>
+ 	        <fileset dir="${eclipse.dir}/CatacombBe/src"/>
+		    <fileset dir="${eclipse.dir}/CCViz/src"/>
+	        <fileset dir="${eclipse.dir}/CatacombAbout/src"/>
+	        <fileset dir="${eclipse.dir}/Datalish/src"/>
+	        <fileset dir="${eclipse.dir}/Druid/src"/>
+	        <fileset dir="${eclipse.dir}/Graph/src"/>
+            <fileset dir="${eclipse.dir}/Icon/src"/>
+	        <fileset dir="${eclipse.dir}/Interlish/src"/>
+	        <fileset dir="${eclipse.dir}/Movie/src"/>
+	        <fileset dir="${eclipse.dir}/CatacombNumeric/src"/>
+	        <fileset dir="${eclipse.dir}/CatacombReport/src"/>
+	        <fileset dir="${ecd}/Serial/src"/>
+	        <fileset dir="${eclipse.dir}/CatacombUtil/src"/>
+
+ 	         <zipfileset src="${eclipse.dir}/About/lib/jep-2.4.0.jar"/>
+ 	          <zipfileset src="${eclipse.dir}/About/lib/janino.jar"/>
+
+ 		<!--  	<fileset dir="${eclipse.dir}/Examples/src" includes="**/*.xml"/> -->
+			<fileset dir="${eclipse.dir}/Examples/bin" includes="**/rallpack*"/>
+
+			<fileset dir="${eclipse.dir}/FPSICS" includes="*.f90"/>
+
+       		 <manifest>
+		          <attribute name="Created-By" value="Robert Cannon"/>
+		          <attribute name="Main-Class" value="org.psics.PSICS"/>
+		    </manifest>
+       </jar>
+	</target>
+
+
+
+
+
+
+<target name="docjar">
+		<jar jarfile="${jarexport.dir}/mkdoc.jar">
+        	<fileset dir="${eclipse.dir}/PSICS/bin"/>
+            <fileset dir="${eclipse.dir}" includes="VERSION"/>
+
+       		 <manifest>
+		          <attribute name="Created-By" value="Robert Cannon"/>
+		          <attribute name="Main-Class" value="org.psics.run.Reporter"/>
+		    </manifest>
+       </jar>
+	</target>
+
+
+
+
+    <target name="srcjar">
+	    <mkdir dir="${tmp.dir}"/>
+    	<delete dir="${tmp.dir}/jar-wk"/>
+    	<mkdir dir="${tmp.dir}/jar-wk"/>
+    	<mkdir dir="${tmp.dir}/jar-wk/${version.name}"/>
+
+    	<copy todir="${tmp.dir}/jar-wk/${version.name}">
+    		<fileset dir="${eclipse.dir}/Be/src"/>
+
+           </copy>
+
+            <replaceregexp flags="s">
+                <regexp pattern="^"/>
+               <substitution expression="// Copyright 2004-2006  ${line.separator}"/>
+	           <fileset dir="${tmp.dir}/jar-wk">
+                      <include name="**/*.java"/>
+               </fileset>
+           </replaceregexp>
+
+		  <jar jarfile="${jarexport.dir}/${version.srcname}.jar" basedir="${tmp.dir}/jar-wk"/>
+	</target>
+
+
+
+
+	<target name="ccviz">
+		<echo message="making ccviz version = ${ccviz.version}"/>
+
+   <jar jarfile="${jarexport.dir}/ccviz-${ccviz.version}.jar">
+	        	<fileset dir="${eclipse.dir}/CatacombBe/bin"/>
+				<fileset dir="${eclipse.dir}/CCViz/bin"/>
+	<fileset dir="${eclipse.dir}/CatacombAbout/bin"/>
+	<fileset dir="${eclipse.dir}/Datalish/bin"/>
+	<fileset dir="${eclipse.dir}/Druid/bin"/>
+	<fileset dir="${eclipse.dir}/Graph/bin"/>
+    <fileset dir="${eclipse.dir}/Icon/bin"/>
+	<fileset dir="${eclipse.dir}/Interlish/bin"/>
+	<fileset dir="${eclipse.dir}/Movie/bin"/>
+	<fileset dir="${eclipse.dir}/CatacombNumeric/bin"/>
+	<fileset dir="${eclipse.dir}/CatacombReport/bin"/>
+	<fileset dir="${eclipse.dir}/Serial/bin"/>
+	<fileset dir="${eclipse.dir}/CatacombUtil/bin"/>
+	         		 <manifest>
+			                <attribute name="Created-By" value="Robert Cannon"/>
+			                <attribute name="Main-Class" value="org.catacomb.dataview.CCViz"/>
+			        </manifest>
+	       </jar>
+	<copy todir="../../stochdiff-www/resources">
+				<fileset dir="${jarexport.dir}" includes="ccviz*.jar"/>
+			</copy>
+		</target>
+
+
+
+
+
+	<target name="backupjar">
+		<mkdir dir="/home/rcc/tmp"/>
+		<delete dir="${backup.dir}"/>
+		<mkdir dir="${backup.dir}"/>
+
+		<tstamp>
+			<format property="datestamp" pattern="dd-MM-yyyy" />
+		</tstamp>
+		<tstamp>
+			<format property="timestamp" pattern="HH-mm-ss" />
+		</tstamp>
+
+		<echo message="Backup datestamp: ${datestamp}   timestamp: ${timestamp}" />
+
+		<jar jarfile="${backup.dir}/psics-backup-on-${datestamp}-at-${timestamp}.jar"
+	     basedir="${eclipse.dir}"
+	     includes="**/*.java **/*.xml **/*.xsl **/*.png **/*.gif **/*.f90 **/NOTES **/TODO"/>
+	</target>
+
+
+	<target name="backup" depends="backupjar">
+		<ftp server="cantanout.com"
+             remotedir="backup"
+             userid="u34804056enorg"
+             password="fr456gb2"
+             action="send"
+             passive="yes"
+             depends="yes"
+             binary="yes"
+             verbose="yes">
+			<fileset dir="${backup.dir}">
+				<include name="**/*.jar"/>
+			</fileset>
+		</ftp>
+	</target>
+
+
+	 <path id="doccp">
+	        <pathelement location="${doc.dir}/bin"/>
+	 		<pathelement location="${projects.dir}/Be/bin"/>
+	        <pathelement location="${projects.dir}/Env/bin"/>
+	        <pathelement location="${projects.dir}/Util/bin"/>
+	        <pathelement location="${projects.dir}/XMLio/bin"/>
+	        <pathelement location="${projects.dir}/Quantity/bin"/>
+	 		<pathelement location="${projects.dir}/Model/bin"/>
+	 		<pathelement location="${projects.dir}/Examples/bin"/>
+	 		<pathelement location="${projects.dir}/Geom/bin"/>
+	 		<pathelement location="${projects.dir}/LibRead/bin"/>
+	 		<pathelement location="${projects.dir}/Morph/bin"/>
+	 		<pathelement location="${projects.dir}/Native/bin"/>
+	 		<pathelement location="${projects.dir}/Num/bin"/>
+	 		<pathelement location="${projects.dir}/Out/bin"/>
+	 		<pathelement location="${projects.dir}/Psics/bin"/>
+	 		<pathelement location="${projects.dir}/Report/bin"/>
+     </path>
+
+
+
+	<target name="runexamples">
+		 <java fork="true" classname="org.psics.SelfTest">
+            <arg value="-all"/>
+            <classpath refid="doccp"/>
+		</java>
+	</target>
+
+
+	<target name="executables" depends="executable_linux_gfortran, executable_mac, executable_windows"> 
+	</target>
+
+	<target name="fulljar" depends="executables, psicsjar">
+
+	</target>
+
+
+</project>

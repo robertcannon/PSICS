@@ -1,0 +1,120 @@
+<page label="Getting started" title="Installation and Getting Stated" next="process" prev="index">
+
+	<h1>Getting started</h1>
+
+	<par>
+		PSICS runs on Linux, MacOSX and Windows. It requires the Java Runtime Environment (JRE), version 1.5 or
+		later.
+	</par>
+
+
+	<summary>
+	  	<b>For those familiar with java/unix</b>: PSICS is distributed
+	  	as an executable jar file and the model to run should be supplied as an argument.
+	  	The output goes to a new folder with an index file summarizing the results.
+	  	With "-st" and no model file it runs an internal test case.
+	</summary>
+
+
+
+	<h2>Installation</h2>
+
+	<par>
+		If necessary, install the Java Runtime Environment. This is available free
+		from <a href="http://www.java.com/">www.java.com</a>.
+		To check the installed JRE it can be run with the <cmd>-version</cmd> argument from a unix shell or
+		command prompt:<br/>
+		<cmd>java -version</cmd><br/>
+		This should produce something like:
+	</par>
+			<out><pre>java version "1.5.0_10"
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_10-b03)
+Java HotSpot(TM) Client VM (build 1.5.0_10-b03, mixed mode, sharing)</pre></out>
+	<par>
+		Versions beginning "1.5" and "1.6" are fine: PSICS will not work with 1.4 or earlier. If you have multiple
+		versions of the JRE installed it may be necessary to specify the full path to the java executable. Under unix
+		the path being used can be found by typing "which java". Depending where it is installed, the path to other
+		JRE's could be something like  <cmd>/usr/local/jdk1.6.0/bin/java</cmd>
+	</par>
+
+	<par>
+		PSICS itself comes as a single executable jar file with a name like "psics-0.3.0.jar" where the numbers
+		indicate the version. Once you have downloaded
+		the file, no further installation is required, although it
+		can be convenient to move it to a memorable folder such as "psics" or "jars".
+	</par>
+
+
+	<h2>Running PSICS</h2>
+
+	<par>
+		Assuming the jar file is in the current directory, the command <br/><cmd>java -jar psics-xxxx.jar</cmd><br/>
+		(where "xxx" is replaced by the actual version) should run PSICS.
+		No command line arguments have been specified so it will print out the usage message and exit.
+	</par>
+
+	<par>
+		The command:<br/>
+		<cmd>java -jar psics-xxx.jar -st</cmd><br/>
+		should run one of the built-in models. It will create a folder for the results under the current working
+		directory called <tt>wcspikes</tt> and will will add a file called <tt>index.html</tt> summarizing the results of the
+		calculation.  It will also save the model specification that was used in the <tt>wcspikes</tt>
+		folder.
+	</par>
+
+	<par>
+		If there is a model specification in the current directory with a main file called <tt>run1.xml</tt> then the command<br/>
+		 <cmd>java -Xmx1g -jar psics-xxx.jar run1.xml</cmd><br/>
+		 will run that model. The results will go in a new folder called <tt>run1</tt>.
+	</par>
+	<par>
+		The flag "Xmx1g" is optional. By default, java restricts its memory usage to a number normally much 
+		lower than what is available on the machine. This can be a problem for large models and lead to an
+		out of memory error.  This form of the flag tells the Java virtual machine to use up to 1GB of memory. 
+		You can also use "m" for MB as in "Xmx512m". 
+	</par>
+
+
+	<par>
+		If the jar file is not in the current directory then the full path to the file will be required.
+		Unix users may find it convenient to set up an alias in the .bashrc file (or equivalent). For example, if
+		the 1.5 JRE is installed in /usr/local/jdk5/ and the psics jar file is  <tt>/usr/local/psics/psics-0.3.0.jar</tt>
+		then the line<br/>
+		<cmd>alias psics="/usr/local/jdk5/bin/java -jar /usr/local/psics/psics-0.3.0.jar"</cmd><br/>
+		added to the .bashrc file will enable PSICS to be run by simply typing<br/>
+		<cmd>psics</cmd>
+	</par>
+
+	<par>
+		On Macs, the default location for Java is under /System/Library so the line for the .bashrc file could be
+		something like:<br/>
+		<cmd>alias psics="/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Commands/java -jar /Users/xyz/PSICS/psics-0.7.0.jar"</cmd>
+	</par>
+
+
+
+	<h2>Command line options</h2>
+
+	<par>
+		A full list of options is available by running PSICS with the <cmd>-help</cmd> argument.
+	</par>
+	<par>
+		When running PSICS
+		on a file the control parameters are set within the file rather than being supplied on the
+		command line so no additional arguments are required.
+	</par>
+	<par>
+		Command line arguments provide access to some of the peripheral functionality such as running internal
+		tests or constructing text summaries of output data. In particular:<br/>
+			<table cellspacing="8" align="center" width="80%;">
+				<tr><td valign="top"><cmd>-st</cmd></td><td>tells PSICS to run the internal short test. This can be useful for checking an
+			installation: no other arguments are required. Other similar options are <cmd>-lt</cmd> for a longer
+			series of tests and <cmd>-v</cmd> for the rallpack validation models.</td></tr>
+			<tr><td valign="top"><cmd>-i</cmd></td><td>rebuilds an index page listing the models that have been run in the current directory. The
+			page can be viewed from a web browser and provides a convenient way to access a set of models and
+			their results.</td></tr>
+		</table>
+	</par>
+
+
+</page>

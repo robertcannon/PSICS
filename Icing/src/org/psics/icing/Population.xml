@@ -1,0 +1,226 @@
+<AutonomousPanel name="Population"
+                 controllerClass="PopulationController">
+
+   	<BorderPanel borderWidth="6" borderTitle="Population properties">
+   		<North>
+
+   		</North>
+		<West>
+			<BorderPanel>
+				<North>
+			       <GridPanel ncolumn="1" yspace="6" borderWidth="6" prefWidth="240" prefHeight="240">
+				       <BorderPanel>
+					      <Center>
+					       	<Label text="..." id="popidlabel"/>
+					      </Center>
+					      <East>
+							  <RightFlowPanel xspace="4">
+					      	     <ColorChoice label="" id="color"/>
+							     <Button label="Rename" action="renamePopulation"/>
+					      	  </RightFlowPanel>
+					      </East>
+				       </BorderPanel>
+
+		        	   <Choice label="Channel type" id="channel" options="Na, KDr, ABC" action="setChannel"/>
+
+						<BorderPanel>
+							<West>
+								<Label text="Channel density"
+								 	tip="a number, an expression, or relative to another population - click for details">
+								<info>
+					    		This should be a number or an expression involving (in /um/):
+					    		 path distance from the soma, *p*;  radius, *r*;  branch order,
+					    		 *b*; and physical distance from the soma, *d*. -p-
+					    		 Most common mathematical functions can be used such as exp(x), pow(x, n)
+					    		 log(x), but implicit multiplicatin is not supported, so it
+					    		 requires for example "6 * exp(-p)" not "6 exp(-p)".
+					     		-p-
+					    		Example expressions: -b-
+					    		6 -b-
+					    		6 * exp(-0.1 * p) -b-
+					    		6 * 100 / (100 + p) -b-
+					    		2 * pow(r, 1.5) -b-
+					    		10 * pow(sin(p / 20), 10) -p-
+					    		Expressions can also be used in the region constraints to select
+					    		particular parts of the structure.
+					    	</info>
+								</Label>
+							</West>
+							<Center>
+								<RightFlowPanel>
+									<Checkbox id="relCB" label="Relative" action="setRelativeDensity">
+										<AbleEffect target="densitytf" when="false"/>
+										<AbleEffect target="relpopTF" when="true"/>
+										<AbleEffect target="constraints" when="false"/>
+										<SuggestEffect target="updateB"/>
+									</Checkbox>
+								</RightFlowPanel>
+							</Center>
+						</BorderPanel>
+
+						<BorderPanel>
+							<Center>
+						<LabelledTextField label="" id="densitytf" width="6"
+							tip="a number or an expression - click for details"
+							focusAction="densityFocus" history="densityexpression">
+							<SuggestEffect target="updateB"/>
+					    </LabelledTextField>
+							</Center>
+							<East>
+								<Label text=" per um2"/>
+							</East>
+						</BorderPanel>
+
+ 						<BorderPanel>
+ 							<West>
+	 							<LeftFlowPanel>
+	 								<LabelledTextField label=" " id="relpopTF"  width="5" able="false"
+	 									tip="Express the density relative to another population"
+	 									focusAction="reldensityFocus">
+	 									<SuggestEffect target="updateB"/>
+	 									</LabelledTextField>
+									<Label paddingLeft="6" paddingRight="6" text="x"/>
+	 							</LeftFlowPanel>
+	 						</West>
+	 						<Center>
+	 							<Choice id="relpopCH">
+	 							<SuggestEffect target="updateB"/>
+	 							</Choice>
+ 							</Center>
+ 						</BorderPanel>
+
+
+					<BorderPanel xspace="6">
+						<Center>
+						 <Choice label="Distribution " id="allocCH" options="Regular, Poisson">
+						 	<AbleEffect target="reseedB" state="Poisson"/>
+						 	<SuggestEffect target="updateB"/>
+						 </Choice>
+
+						</Center>
+						<East>
+						<Button id="reseedB" label="Reseed" action="reseed">
+						<SuggestEffect target="updateB"/>
+						</Button>
+						</East>
+					</BorderPanel>
+
+
+				<BorderPanel>
+					<West>
+						<Checkbox label="Fix total" id="fixtotcb">
+							<AbleEffect target="numbertf" when="true"/>
+							<SuggestEffect target="updateB"/>
+						</Checkbox>
+					</West>
+					<Center>
+						<LabelledTextField label=" " width="6" id="numbertf" able="false">
+						<SuggestEffect target="updateB"/>
+						</LabelledTextField>
+					</Center>
+					<East>
+						<Label text=" channels"/>
+					</East>
+				</BorderPanel>
+
+				<BorderPanel>
+					<West>
+						<Checkbox label="Cap density" id="capdencb">
+							<AbleEffect target="maxtf" when="true"/>
+							<SuggestEffect target="updateB"/>
+						</Checkbox>
+					</West>
+					<Center>
+						<LabelledTextField label="" id="maxtf" able="false">
+						<SuggestEffect target="updateB"/>
+						</LabelledTextField>
+					</Center>
+					<East>
+						<Label text=" per um2"/>
+					</East>
+				</BorderPanel>
+
+
+				</GridPanel>
+
+				</North>
+			</BorderPanel>
+		</West>
+
+
+
+		<Center>
+			<BorderPanel borderWidth="2">
+				<North>
+					<CenterFlowPanel paddingBottom="12">
+						<Button id="updateB" label="Update channel positions" action="apply"/>
+					</CenterFlowPanel>
+				</North>
+				<Center>
+					<GridPanel borderTitle="Region constraints" borderWidth="4">
+					<BorderPanel borderWidth="6">
+						<North>
+							<Label text ="Conditions are applied in order defaulting to the whole cell."/>
+					</North>
+
+					<Center>
+						<List nrow="8" prefHeight="60" id="constraints" action="editConstraint"/>
+					</Center>
+					<East>
+						<BorderPanel>
+							<North>
+						 		<GridPanel ncolumn="1" yspace="4">
+						 			<Button label=" X " action="deleteConstraint"/>
+								</GridPanel>
+							</North>
+						</BorderPanel>
+					</East>
+
+
+		       		<South>
+						<BorderPanel paddingTop="12" paddingBottom="12">
+							<West>
+								<LeftFlowPanel paddingTop="10" xspace="5">
+							   <Choice autoSelect="0" id="modeChoice" prefWidth="100" prefHeight="24"
+										   	options="i, e, r"
+									   	labels="Include, Exclude, Restrict to"/>
+						       <Choice autoSelect="0" id="conditionChoice" prefWidth="130" prefHeight="24"
+					       				options="l, p, d, bp, w"
+					       				labels="points labelled, path proximal to, region distal to, branch proximal to, points where"
+					       				action="setCondition"/>
+									</LeftFlowPanel>
+							</West>
+							<Center>
+						       	<GridPanel nrow="2" xspace="5">
+									<LeftFlowPanel>
+								 		<Choice id="labelChoice" paddingRight="6" options="A, B, C"/>
+									</LeftFlowPanel>
+							  		<TextField id="conditionTF" width="5"/>
+								</GridPanel>
+							</Center>
+							<South>
+								<BorderPanel borderWidth="0">
+									<Center>
+										<Label id="infoL" text=""/>
+									</Center>
+									<East>
+										<RightFlowPanel paddingTop="8" xspace="4">
+											<Button label="Clear" action="clearConstraint"/>
+											<Button label="Apply" action="applyToConstraint"/>
+										</RightFlowPanel>
+									</East>
+								</BorderPanel>
+
+							</South>
+						</BorderPanel>
+					</South>
+				</BorderPanel>
+				</GridPanel>
+			</Center>
+			</BorderPanel>
+
+		</Center>
+
+	</BorderPanel>
+</AutonomousPanel>
+

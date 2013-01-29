@@ -1,0 +1,144 @@
+
+<AutonomousPanel id="morphedit" controllerClass="MorphologyController">
+
+ 	<BorderPanel borderWidth="6" borderTitle="Morphology">
+ 	<Center>
+	<LeftRightSplitPanel borderWidth="4">
+	<BorderPanel  borderWidth="2">
+		<North>
+			<GridPanel nrow="2" yspace="0" paddingTop="6">
+				<BorderPanel xspace="4" paddingTop="4">
+					<West>
+						<Choice id="styleChoice" label="Display style "
+						    options="Nodes, Segments, Skeleton, Filled, Filled opaque, None" action="setStyle"
+						    autoSelect="0" paddingLeft="8"/>
+					</West>
+					<Center>
+						<RightFlowPanel>
+						<Checkbox label="discretization" id="discCB" initial="false"
+						 	action="setShowDiscretization">
+						 </Checkbox>
+						 <Label id="discL" text=" at 20 um^(3/2) "/>
+						 <Button label="Change" action="changeDiscretization"/>
+						 <Choice id="swcStyle" label="sections"
+						    options="tapered, uniform, auto" action="setSWCStyle"
+						    autoSelect="0" paddingLeft="8"/>
+					</RightFlowPanel>
+				</Center>
+
+				</BorderPanel>
+
+				<CenterFlowPanel xspace="4">
+					<RadioButtons layout="horizontal" action="setMode" autoSelect="0"
+						 options="Pan, Zoom, Roll"/>
+						 <Label text="         "/>
+						 <Button label="R-" action="turnMinus"/>
+						 <Button label="R+" action="turnPlus"/>
+						<Button label="Reset" action="reframe"/>
+						<Button label="3D" action="show3D"/>
+						<Button label="sync" action="sync3DOrientation"/>
+						 <Checkbox paddingLeft="22" action="setAntialias" label="Smooth"/>
+				</CenterFlowPanel>
+	 		</GridPanel>
+		</North>
+
+
+		<Center>
+			<DrawingCanvas  border="etched" id="canvas" backgroundColor="#000000"
+				gridColor = "#303030"  axisColor="#505050" threeD="true"
+				axes="true" prefWidth="600" prefHeight="600"/>
+		</Center>
+	</BorderPanel>
+
+
+
+			<BorderPanel prefWidth="120">
+				<North>
+				    <GridPanel ncolumn="1" paddingTop="12">
+						<Label text="Point labels" paddingTop="12" paddingBottom="6"/>
+				    	<CenterFlowPanel>
+				    		<Button label="Show all" action="showLabelled"/>
+						 	<Button label="Hide" action="hideLabelled"/>
+				    		<Button label="New" action="newLabel"/>
+				    	</CenterFlowPanel>
+				    </GridPanel>
+				</North>
+				<Center>
+					<BorderPanel>
+						<Center>
+							<ScrollingList id="labels" prefWidth="120" prefHeight="650" action="labelSelected"/>
+						</Center>
+						<South>
+							<BorderPanel>
+								<Center>
+									<LabelledTextField label="label:" id="labelText"/>
+								</Center>
+								<East>
+									<Button label="Delete" action="deleteLabel"/>
+								</East>
+							</BorderPanel>
+						</South>
+					</BorderPanel>
+				</Center>
+
+
+				<South>
+					<BorderPanel>
+						<North>
+							<GridPanel ncolumn="1" paddingTop="12">
+									<Label text="Labelled structures"/>
+									<LeftFlowPanel>
+										<Checkbox id="showColors" label="show colors on cell"/>
+									</LeftFlowPanel>
+							</GridPanel>
+						</North>
+						<Center>
+
+							<ScrollingList id="partofs" prefWidth="120" prefHeight="80"
+							     renderer="color" action="partOfSelected"/>
+						</Center>
+
+
+						<South>
+							<GridPanel ncolumn="1">
+								<BorderPanel>
+									<Center>
+										<TextField label="Name:" id="partName"/>
+									</Center>
+									<East>
+										 <ColorChoice label="" id="partColor"/>
+									</East>
+
+								</BorderPanel>
+
+								<Label text="no active point" id="activePtLabel"
+									tip="ID and label of selected point, if any"/>
+								<Label text="-" id="activePtPosition"
+									tip="position of selected point, if any"/>
+
+								<Label text="not discretized" id="ncompLabel"/>
+								<Label text="no channels" id="nchLabel"/>
+							</GridPanel>
+						</South>
+					</BorderPanel>
+				</South>
+
+
+			</BorderPanel>
+
+	 </LeftRightSplitPanel>
+	 </Center>
+	 </BorderPanel>
+
+
+	<Dialog id="3dDialog" modal="false" title="3D view">
+		<GridPanel nrow="1">
+			<Insert source="View3D" id="View3D"/>
+		</GridPanel>
+	</Dialog>
+
+
+
+
+
+</AutonomousPanel>

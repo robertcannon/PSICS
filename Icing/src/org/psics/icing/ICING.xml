@@ -1,0 +1,171 @@
+<Application name="ICING-PSICS" controllerClass="IcingController"
+	     logging="true" stateExposure="false" versionNumber="0.1">
+
+    <splashScreen src="splash.png"/>
+
+
+    <doc>
+		This should be the font page for the help system source is in ICING.xml
+    </doc>
+
+
+
+    <Frame id="MainFrame" title="ICING-PSICS" backgroundColor="#e8e8e4"
+	   prefWidth="1100" prefHeight="900">
+	<Menu label="File" id="FileMenu">
+		<MenuItem label="open..." action="open"/>
+		<SubMenu id="RecentMenu" label="open recent" action="openRecent">
+		</SubMenu>
+		<MenuItem label="open builtin examples" action="openExample"/>
+	    <SubMenu label="New">
+		<MenuItem label="" action="newModel"/>
+		<MenuItem label="channel distribution..." action="newChannelDist"/>
+	    </SubMenu>
+	    <Separator/>
+	    <MenuItem label="save" action="saveActive"/>
+	    <MenuItem label="save all" action="saveAll"/>
+	    <MenuItem label="save as..." action="saveActiveAs"/>
+	    <MenuItem id="exportMI" label="export..." action="exportActiveAs"/>
+	    <Separator/>
+	    <MenuItem label="exit" action="requestExit"/>
+	</Menu>
+
+
+	<Menu label="Edit">
+	    <MenuItem label="copy" id="editCopy" action="copy"/>
+	    <MenuItem label="paste" id="editPaste" action="paste"/>
+	</Menu>
+
+
+	<Menu label="Tools">
+	    <MenuItem label="Help" action="showHelp"/>
+	    <MenuItem label="Snapshot" action="saveSnapshot"/>
+	    <MenuItem label="Messages" action="showMessages"/>
+	</Menu>
+
+	<Menu label="Preferences">
+		<MenuItem label="Morphology display" action="showColorDialog"/>
+		<CheckboxMenuItem id="autosaveCBMI" label="autosave" action="setAutoSave"/>
+	</Menu>
+
+
+
+			<LeftRightSplitPanel xspace="0">
+
+			 	<BorderPanel borderWidth="4">
+					<North>
+						<LeftFlowPanel paddingLeft="6" paddingTop="8" paddingBottom="6" >
+							<Label text="Model components"/>
+							<Label paddingLeft="6" id="folderLabel"/>
+						</LeftFlowPanel>
+					</North>
+					<Center>
+				 <TreePanel id="ModelsTree" flavor="models" action="treeItemSelected"
+                           borderWidth="6" border="sunken" backgroundColor="#f8f8f4"
+                           prefWidth="240">
+                    <info>
+                        Models...
+                    </info>
+
+                    <PopupMenu id="TreePopup">
+                        <SubMenu label="new">
+                        	<MenuItem label = "main model..." action="newMainModel"/>
+                        	<MenuItem label = "cell morphology..." action="newMainModel"/>
+                        	<MenuItem label = "channel distribution..." action="newMainModel"/>
+                       	</SubMenu>
+                        <Separator/>
+                        <MenuItem label="copy" action="copySelected" depends="leaf,branch" flavor="models"/>
+                        <MenuItem label="paste" action="pasteFromClipboard" depends="leaf,branch" flavor="models"
+/>
+                        <MenuItem label="delete" action="deleteSelected" depends="leaf,branch" flavor="models"/>
+                        <MenuItem label="rename" action="renameSelected" depends="leaf,branch" flavor="models"/>
+                        <Separator/>
+                    </PopupMenu>
+
+                </TreePanel>
+              	 </Center>
+
+
+              	 <South>
+              	 	 <VerticalBoxPanel borderWidth="6">
+
+              	 		<Label id="infoL" text="Ready"/>
+              	 		<ProgressReport id="statusPR" text=""/>
+
+              	 		<Insert id="Monitor" source="MonitorPanel"/>
+              	 	</VerticalBoxPanel>
+              	 </South>
+
+
+				</BorderPanel>
+
+
+
+
+			 <BorderPanel title="Structure and Properties">
+			 	<Center>
+				<Insert id="morphedit" source="Morphology"/>
+				</Center>
+ 				<South>
+			   <Insert id="memedit" source="Membrane"/>
+				</South>
+			</BorderPanel>
+
+
+	</LeftRightSplitPanel>
+
+    </Frame>
+
+
+
+    	<Dialog id="morphSaveChooser" modal="true">
+    		<BorderPanel borderWidth="12">
+    			<North>
+	    			<Label text="Format to save morphology data and labels"/>
+    			</North>
+    			<Center>
+    				<CenterFlowPanel>
+	    				<RadioButtons id="morphFormat" layout="vertical" options="xml, swc"
+	    					labels="PSICS XML, SWC" autoSelect="0"/>
+	    				</CenterFlowPanel>
+
+    			</Center>
+    			<South>
+    				<RightFlowPanel xspace="4">
+    					<Button label="Next" action="saveMorphAs">
+    						<CloseEffect target="morphSaveChooser"/>
+    					</Button>
+    					<Button label="Cancel">
+    						<CloseEffect target="morphSaveChooser"/>
+    					</Button>
+    				</RightFlowPanel>
+    			</South>
+    		</BorderPanel>
+    	</Dialog>
+
+
+	<Dialog id="messageDialog" modal="false" title="Messages">
+		<BorderPanel borderWidth="12" yspace="6">
+			<North><Label text="north label..."/></North>
+			<Center>
+				<ScrollingHTMLPanel id="messageHTML" prefWidth="500" prefHeight="600"
+				backgroundColor="#ffffff" border="etched"/>
+			</Center>
+
+			<South>
+				<RightFlowPanel xspace="6" borderWidth="4">
+					<Button label="Clear" action="clearMessages"/>
+					<Button label="Close">
+						<CloseEffect target="messageDialog"/>
+					</Button>
+				</RightFlowPanel>
+			</South>
+		</BorderPanel>
+	</Dialog>
+
+
+
+
+
+
+</Application>

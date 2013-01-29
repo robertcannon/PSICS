@@ -1,0 +1,172 @@
+<page label="MorphML">
+
+	<h1>MorphML morphologies and PSICS</h1>
+
+	<par>
+		One of the basic ingredients for most neuron models is the morphology of the
+		cell being studied. Historically there have been a variety of formats developed
+		by a range of interested parties including vendors of digitization platforms,
+		authors of simulation software and other users of morphology data.
+	</par>
+
+
+
+	<par>
+		The original data for a model morphology could come from one of two main sources:
+		it could be the result if digizing a real cell; or it could be a hand-made
+		artificial cell. The two cases have rather different constraints in terms of what
+		should be expressible. This leads to one of the main distinctions betweeen
+		the PSICS format and MorphML: for MorphML a simple stereotypical model
+		would typically have been created through a user interface and only later saved
+		as MorphML. For PSICS, the user would create it directly in XML.
+		Therefore the PSICS format aims to cover both and includes a number
+		of features (perpendicular branches, continuation points) designed to make it
+		easy to specify simple structures with minimum risk of errors. These
+		features are mostly not part of MorphML with the result that it could be used
+		as an input or output format, but not as a model storage format for PSICS.
+	</par>
+	<par>
+		In general, importing MorphML morphologies for use with PSICS is
+		relatively straightforward.  The issues that arise come mainly from the aspects of
+		the standard that provide for naming of sections of a neuronal arbirization.
+		To help illustrate the discussion a small sample of a MorphML file is included
+		below.
+	</par>
+
+
+<xcode>
+  <cell name="MossyCell">
+            <segments>
+                <segment id="0" name="soma" cable="0">
+                    <proximal x="0.0" y="0.0" z="0.0" diameter="20.0"/>
+                    <distal x="20.0" y="0.0" z="0.0" diameter="20.0"/>
+                </segment>
+                <segment id="1" name="mcdend1_0_seg" parent="0" cable="1">
+                    <proximal x="20.0" y="0.0" z="0.0" diameter="5.78000020980835"/>
+                    <distal x="66.05305" y="19.470924" z="0.0" diameter="5.78000020980835"/>
+                </segment>
+                <segment id="2" name="mcdend1_1_seg" parent="1" cable="2">
+                    <proximal x="66.05305" y="19.470924" z="0.0" diameter="4.0"/>
+                    <distal x="112.106094" y="38.94185" z="0.0" diameter="4.0"/>
+                </segment>
+                <segment id="3" name="mcdend1_2_seg" parent="2" cable="3">
+                    <proximal x="112.106094" y="38.94185" z="0.0" diameter="2.5"/>
+                    <distal x="158.15915" y="58.412773" z="0.0" diameter="2.5"/>
+                </segment>
+               </segments>
+              <cables>
+                <cable id="0" name="soma">
+                    <meta:group>all</meta:group>
+                    <meta:group>soma_group</meta:group>
+                </cable>
+                <cable id="1" name="mcdend1_0">
+                    <meta:group>all</meta:group>
+                    <meta:group>dendrite_group</meta:group>
+                    <meta:group>pdend</meta:group>
+                </cable>
+               </cables>
+              </cell>
+</xcode>
+
+
+<par>
+	The first observation is that this is a segment-based, rather than a point-based,
+	specificaiton, even though the original data (users clicking on successive points
+	in the structure in a digitization application) is essentially point based. In the
+	example above almost every coordinate is duplicated: it appears once as the distal
+	end of one segment, and again as the proximal end of he next segment. Presumably,
+	however, the proximal coordinates can be ommitted if they are no different from the
+	distal end of the parent segment, so this just reduces to a file-size isue.
+</par>
+
+<par>
+	More confusing, is the presence of <x>id</x>, <x>name</x>, <i>and</i> <x>cable</x>
+	attributes on each segment and the presence of a list of <x>cables</x> as well as
+	a list of <x>segments</x> (both of which are probably unnecessary nesting) where the
+	<x>id</x> and <x>name</x> on a cable (almost but not quite) match the
+	<x>name</x> and <x>cable</x> on a segment. Allowing a segment to say which cable
+	it is on is a form of labelling, but seems unneccessarily restricted. Assuming a cable
+	must be a linear collection of contiguous segments, then this restricts the allowed
+	groupings rather strongly. The natural alternative would be to allow
+	a <x>group</x> attribute on a segment so they could be put in arbitrary groups (such
+	as all basal dendrites in one group) even when that group is not a cable.
+</par>
+
+<par>
+	More fundamentally, however, the linking from segments to cables appears to go the
+	wrong way. Cables are a layer of description sitting above the basic data
+	(point positions), so it would appear more natural to have cable elements refer back
+	to the segments that they contain rather than segments referring to the cable that
+	they are in. This would also allow one segment to be in multiple groups.
+</par>
+
+<par>
+	Other examples also allow a <x>fractAlongParent</x> attribute on cables, which
+	seems to conflict with the fact that a cable is composed of segments and the
+	segments have absolute positions, so the cable is not at liberty to say where
+	the segments connect to their parents. In effect, <x>fractAlongParent</x> on a cable
+	is either redundant (stating something that can easily be deduced from the morphology)
+	or conflictual (stating something that conflicts withe the morphology), but it doesn't
+	appear to be needed in either case.
+</par>
+
+
+<par>
+	The PyramidalCell.xml example
+	from <a href="http://www.morphml.org:8080/NeuroMLValidator/">MorphML.org</a>
+ 	illustrates another potential confusion for the user, where there is a list of
+ 	segments, then a list of cables, then  (inside the list of cables) a
+ 	<x>cablegroup</x> element containing more cables! In fact, the inner cables of the group
+ 	are not so much cables, as references to cables in the parent list. This implements
+ 	the referencing from groups to segments mentioned above but the reuse
+ 	of the <x>cable</x> tag is somewhat problemantic.  Overall the references from segment to
+ 	cable and then cablegroup to cables seem somewhat contrived - why not just segments
+ 	and as teh basic entities and then groups of segments that refer back to the
+ 	original segments by ID?
+ </par>
+
+
+	<h2>Comparison with PSICS morphologies</h2>
+
+	<par>
+		The core PSICS morphology model has a collection of points each with a position,
+		a radius and a reference to the parent point (we were much exercised about
+		allowing points to have a radius but eventually sided with the "language use
+		in context" argument that the word point in this context simpley has a different
+		meaning from its mathematical usage).
+		By default the section between
+		points is assumed to taper smoothly, but a <x>minor</x> flag allows a
+		point to be identified as a minor branch to indicate that its radius where
+		it emerges from the parent process is the same as at the distal end. Any point
+		can have a label. Note that tis is not assigning a point to a group defined
+		elsewhere: the label text is free, and is used by other elements to refer
+		to the point. The use of user-added labels is preferable to refering to points
+		bu ID since the id's are required for the geometrical connectivity and should
+		not be changed.
+		 Despite the comments above, PSICS does support a <x>partOf</x> attribute to assign
+		points to groups although this is deprecated
+		and only included for convenience in importing models from other systems.
+	</par>
+
+	<par>
+		Perhaps the biggest difference between this structure and MorphML is that it
+		represents by default a smooth volume: points in the structure are spheres and
+		the whole cell is composed of spheres and the tapering cylinders between them.
+		This contrasts to segment based models where the gap when two segments join
+		at an angle is typically not part of the structure. The relevance in PSICS is that
+		the hemispherical tips of processes (including spine heads)
+		contribute a capacitance and can have channels on them. This interpretation is
+		preparatory to finer grained discretization of volumes in future versions.
+	</par>
+
+	<par>
+		The other main difference is in the provision of structures for easily making
+	 minimally redundant stereotypical
+		morpholipogies. These are presented in
+		the <a href="../formats/morphology.html">morphology
+		reference</a>.
+	</par>
+
+
+
+</page>

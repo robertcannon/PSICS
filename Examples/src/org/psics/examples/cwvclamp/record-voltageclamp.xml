@@ -1,0 +1,11 @@
+
+<Access id="record-voltageclamp" recordClamps="true">
+
+    <VoltageClamp at="p0" hold="-60mV" record="false"/>
+<!--
+	<SmartRecorder at="p0" record="current" channel="NaHH"/>
+	<SmartRecorder at="p0" record="current" channel="KHH"/>
+	<SmartRecorder at="p0" record="conductance" channel="NaHH"/>
+	-->
+	<SmartRecorder at="p0" record="conductance" channel="KHH"/>
+</Access>

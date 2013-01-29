@@ -1,0 +1,27 @@
+<PSICSRun  timeStep="0.03ms" runTime="250ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="10000"
+	repeats="10">
+	<StructureDiscretization baseElementSize="5um"/>
+
+	<info>Cable with HH sodium and potassium channels, different timesteps</info>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+			<XAxis min="0" max="250" label="time / ms"/>
+			<YAxis min="-80" max="60" label="potential / mV"/>
+			<LineSet file="psics-out.txt" color="blue"/>
+			<View id="start"   xmin="0." xmax="30." ymin="-100." ymax="80."/>
+		</LineGraph>
+
+		<Raster id="raster" width="900" height="600" file="psics-out.txt" vmin="-100" vmax="60"
+			threshold="0" colors="gray">
+		</Raster>
+
+	</ViewConfig>
+
+</PSICSRun>

@@ -1,0 +1,72 @@
+<page label="Tutorial">
+
+	<h1>Introductory Tutorial: Edinburgh Summer School 2012</h1>
+
+
+	<p>
+		The tutorial will introduce students to PSICS. No prior experience is required. You will need 
+		a simple text editor such as Notepad or Emacs to modify models. An XML-aware editor such as 
+		the one in <a href="http://www.eclipse.org">Eclipse</a> makes editing models easier but it not 
+		essential.
+	</p>
+
+		<ul>
+			<li>Motivation for developing PSICS and the importance of stochastic ion channel simulations,
+			Matt Nolan (15 mins)</li>
+			<li>Development and functionality of PSICS, Robert Cannon (15 mins)</li>
+			<li>Tutorial overview (5 mins)</li>
+		</ul>		
+
+	<h2>1: Getting started with PSICS</h2>
+	<p>
+	 	Installing PSICS and running a model.
+	 	Full details are in the <a href="guide/start.html">getting started section of the user guide</a>.
+	</p>
+	
+	
+	 <h2>2: Stochastic ion channel gating in the Hodgkin Huxley model</h2>
+
+	<p>
+		Starting with the <a href="http://www.psics.org/examples/rallpack3-stoch2/index.html">standard 
+		rallpack model</a>, first run it deterministically, then try varying the single channel conductance
+		while keeping the total maximum conductance density the same. 
+		How does changing the single channel properties affect the behaviour?
+	</p>
+	 
+	 
+	 <h2>3: More detailed modeling</h2>
+	<p>
+		Two possible starting points are listed below. Also feel free to pursue your own questions and 
+		make use of the tutors while they are there to help.
+	</p>
+
+
+
+	<h3>Option 1: Effects of stochasticity on synaptic integration</h3>
+	 
+	 <p>
+	 	Using the mode from 
+	 	<a href="http://senselab.med.yale.edu/modeldb/ShowModel.asp?model=128043&amp;file=\CannonEtAl2010\figs8and9\">ModelDB accession 128043</a> investigate 
+	 	how stochastic ion channels influence synaptic integration.
+		<ul>
+			<li>
+			 simulate response of deterministic CA1 neuron to distributed synaptic input</li>
+ 	<li> simulate response of stochastic CA1 neuron to distributed synaptic input</li>
+<li>identify channel populations with greatest influence on stochastic integration of synaptic responses
+ 
+			</li>
+		
+		</ul>
+	 </p> 
+		 	 <h3>Option 2: Passive modeling</h3>
+		<p>
+			Although PSICS was initially developed for studying stochastic ion channels, it can also be 
+			used for passive models. Using morphologies from this site or 
+			from <a href="http://www.neuromorpho.org">NeuroMorpho.org</a> with synaptic conductances applied
+			explore how the positions and timing of synaptic inputs affects depolarizations at the soma
+			in a passive model.
+		</p> 
+	
+
+
+</page>

@@ -1,0 +1,23 @@
+<PSICSRun   timeStep="0.1ms" runTime="120ms" startPotential="-65mV"
+	morphology="cmmorph"
+	environment="environment"
+	properties="cmmembrane"
+	access="cmrec"
+	stochThreshold="0">
+	<StructureDiscretization baseElementSize="10um"/>
+
+	<info>test for channels with xml coded functions</info>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+	    <LineSet file="psics-out.txt" color="green"/>
+
+		<View id="whole" xmin="-10." xmax="120." ymin="-80." ymax="20."/>
+
+		<View id="first" xmin="5" xmax="20." ymin="-80." ymax="20."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

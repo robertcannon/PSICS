@@ -1,0 +1,37 @@
+<PSICSRun timeStep="50us" runTime="250ms" startPotential="-65mV"
+	method="weighted_crank_nicolson"
+	morphology="cell"
+	environment="environment"
+	properties="stoch-membrane"
+	access="recording"
+	repeats="4"
+	stochThreshold="100">
+	<StructureDiscretization baseElementSize="10um"/>
+
+	<RunSet vary="stoch-leak:gSingle" values="[1, 5, 10, 20]pS"
+		covary="leakpop:density" covalues="[0.357143, 0.0714286, 0.0357143, 0.0178571]per_um2"
+		filepattern="g-$.txt"/>
+	 <info>Cable, 100um long, run for 250ms, stochastic leak</info>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+		<Line file="ref_cable_0.txt" color="white" width="2" rescale="[1000, 1000.]"/>
+		<Line file="ref_cable_x.txt" color="white" width="2" rescale="[1000, 1000.]"/>
+
+
+		<LineSet file="g-1-f.txt" color="red" label="1"/>
+		<LineSet file="g-5-f.txt" color="yellow" label="5"/>
+		<LineSet file="g-10-f.txt" color="green" label="10"/>
+		<LineSet file="g-20-f.txt" color="blue" label="20"/>
+
+		<View id="whole" xmin="-10." xmax="260." ymin="-100." ymax="100."/>
+		<View id="end" xmin="249" xmax="250.2" ymin="101.0" ymax="102.5"/>
+		<View id="midrange" xmin="80" xmax="90" ymin="25" ymax="30"/>
+
+		</LineGraph>
+	</ViewConfig>
+
+</PSICSRun>

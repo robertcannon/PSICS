@@ -1,0 +1,4 @@
+<CellEnvironment id="environment" temperature="35.0Celsius">
+    <Ion id="non_specific" name="non_specific_ion" reversalPotential="-58mV"/>
+    
+</CellEnvironment>

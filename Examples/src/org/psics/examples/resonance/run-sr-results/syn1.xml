@@ -1,0 +1,9 @@
+<Synapse id="syn1" permeantIon="AMPAion" baseConductance="200pS">
+	
+	<!--<ExponentialTimecourse tau="4ms"/>-->
+	<BiExponentialTimecourse rise="0.2ms" tau="2ms"/>
+	<!--<AlphaTimecourse tau="4ms"/>
+	<ProfileTimecourse file="stim1.txt" timeUnit="1ms"/>-->
+
+	
+</Synapse>

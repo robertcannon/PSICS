@@ -1,0 +1,30 @@
+<AutonomousDialog id="colorsDialog" title="Colors" modal="false" backgroundColor="#f0f0f0">
+
+		<BorderPanel borderWidth="12" yspace="6">
+
+
+			<Center>
+			 	<GridPanel ncolumn="1">
+					  <ColorChoice label="background" id="bgColor"/>
+					  <ColorChoice label="grid" id="gridColor"/>
+					  <ColorChoice label="axis labels" id="axisColor"/>
+					  <ColorChoice label="foreground" id="fgColor"/>
+					  <Checkbox label="show grid" initial="true" action="setShowGrid"/>
+			 	</GridPanel>
+			</Center>
+
+
+
+			<South>
+				<RightFlowPanel xspace="6" borderWidth="4">
+					<Button label="Reset" action="resetColors"/>
+					<Button label="Close">
+						<CloseEffect target="colorsDialog"/>
+					</Button>
+				</RightFlowPanel>
+			</South>
+
+		</BorderPanel>
+
+
+</AutonomousDialog>

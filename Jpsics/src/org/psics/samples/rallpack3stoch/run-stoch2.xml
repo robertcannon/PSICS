@@ -1,0 +1,36 @@
+<PSICSRun timeStep="0.1ms" runTime="250ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane2"
+	access="recording"
+	stochThreshold="10000">
+	<StructureDiscretization baseElementSize="1um"/>
+
+	<info>Cable with HH sodium and potassium channels, 20pS single channel conductance</info>
+
+	<RunSet vary="timeStep" values="[20, 50]us"
+		filepattern="ts-$"/>
+
+
+	<ViewConfig>
+		<LineGraph width="800" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<Line file="ref_axon_0_neuron.txt" color="white" width="1" rescale="[1000, 1000.]"/>
+		<Line file="ref_axon_x_neuron.txt" color="white" width="1" rescale="[1000, 1000.]"/>
+
+
+
+		<LineSet file="ts-50.txt" color="blue"/>
+		<LineSet file="ts-20.txt" color="red"/>
+
+
+		<View id="whole" xmin="-10." xmax="260." ymin="-100." ymax="80."/>
+		<View id="start"   xmin="0." xmax="30." ymin="-100." ymax="80."/>
+		 <View id="end"   xmin="210." xmax="255." ymin="-100." ymax="80."/>
+
+		</LineGraph>
+	</ViewConfig>
+
+</PSICSRun>

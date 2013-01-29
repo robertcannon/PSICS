@@ -1,0 +1,9 @@
+
+<CellMorphology id="cell">
+
+    <Point id="p0" x="0" y="0" z="0" r="1."/>
+
+	 <Point id="p1" parent="p0" x="90" y="0" z="0" r="1."/>
+
+
+</CellMorphology>

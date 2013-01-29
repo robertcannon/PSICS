@@ -1,0 +1,36 @@
+<CellProperties id="membrane-pass"
+      cytoplasmResistivity="150ohm_cm"
+      membraneCapacitance="1.0uF_per_cm2">
+
+	<!--   <Exclusion either="*apical*" or="*soma*"/> -->
+
+  	<PassiveProperties region="*apical*" membraneCapacitance="2uF_per_cm2"/>
+  	<PassiveProperties region="*basal*" membraneCapacitance="2uF_per_cm2"/>
+	<PassiveProperties region="*axon*" cytoplasmResistivity="150ohm_cm"/>
+	<PassiveProperties region="*soma*" membraneCapacitance="1uF_per_cm2"/>
+
+
+	<ChannelPopulation channel="leak-Na" density="0.0512per_um2"/>
+	<ChannelPopulation channel="leak-K" density="0.0512per_um2"/>
+
+
+<!--
+
+   <CellRegion match="*basal*">
+   <ChannelPopulation channel="leak-Na" density="0.0512per_um2"/>
+	<ChannelPopulation channel="leak-K" density="0.0512per_um2"/>
+	</CellRegion>
+
+
+	<CellRegion match="*apical*">
+   	    <ChannelPopulation channel="leak-Na" density="0.0512per_um2"/>
+	    <ChannelPopulation channel="leak-K" density="0.0512per_um2"/>
+    </CellRegion>
+
+ -->
+
+
+
+    <DensityAdjustment maintain="-65mV" vary="leak-Na, leak-K"/>
+
+</CellProperties>

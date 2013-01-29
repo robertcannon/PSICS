@@ -1,0 +1,10 @@
+
+<Access id="cmrec">
+
+	<CurrentClamp at="p0" hold="0nA">
+		<CurrentPulse start="10ms" duration="2ms" to="0.05nA"/>
+	</CurrentClamp>
+
+
+
+</Access>

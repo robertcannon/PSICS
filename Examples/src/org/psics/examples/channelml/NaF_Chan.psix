@@ -1,0 +1,13 @@
+<KSChannel id="Generic_Na" permeantIon="Na">
+   <KSComplex id="m" instances="3">
+      <ClosedState id="mc"/>
+      <OpenState gRel="1.0" id="mo"/>
+   </KSComplex>
+
+   <KSComplex id="h" instances="1">
+      <ClosedState id="hc"/>
+      <OpenState gRel="1.0" id="ho"/>
+   </KSComplex>
+
+</KSChannel>
+

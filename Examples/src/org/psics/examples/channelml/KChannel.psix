@@ -1,0 +1,12 @@
+<KSChannel id="KChannel" permeantIon="K">
+   <KSComplex id="n" instances="4">
+      <ClosedState id="nc"/>
+      <OpenState gRel="1.0" id="no"/>
+      <ExpLinearTransition rate="0.1per_ms" midpoint="-55.0mV" scale="10.0mV"
+          from="nc" to="no"/>
+      <ExpTransition rate="0.125per_ms" scale="-80.0mV" midpoint="-65.0mV"
+          from="no" to="nc"/>
+   </KSComplex>
+
+</KSChannel>
+

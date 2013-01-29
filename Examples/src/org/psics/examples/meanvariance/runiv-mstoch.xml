@@ -1,0 +1,42 @@
+<PSICSRun timeStep="0.01ms" runTime="15ms" startPotential="-80mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording-iv"
+	stochThreshold="1000"
+	repeats="10000">
+
+	<StructureDiscretization baseElementSize="3um"/>
+
+
+
+<About>
+  	Continuous I-V curve for testing stochastic convergence.
+ </About>
+
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+		
+		
+		<LineSet file="psics-out.txt" color="blue" maxshow="100"/>
+		 	 
+		 <Line file="ref-continuous.txt" color="white" width="1"/>
+		
+		<LineSet file="psics-out.txt" color="green" function="mean">
+		 		 <DataComparison file="ref-continuous.txt" line="0"/>
+		 </LineSet>
+		 
+		 
+		 
+		 <View id="16" xmin="0." xmax="40." ymin="-500." ymax="20."/>
+		 
+		 <View id="zoom" xmin="5" xmax="6" ymin="-440." ymax="-340."/>
+		 
+		  <View id="start" xmin="0" xmax="5" ymin="-10." ymax="1."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

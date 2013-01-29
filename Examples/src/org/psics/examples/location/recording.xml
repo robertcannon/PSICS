@@ -1,0 +1,20 @@
+
+<Access id="recording">
+
+	<CellLocation id="p0" path="10" rankBy="radius" sequenceFraction="1."/>
+	<CellLocation id="p1" path="120" rankBy="radius" sequenceFraction="0.5"/>
+	<CellLocation id="p2" path="240" rankBy="radius" sequenceIndex="1"/>
+
+
+	<CurrentClamp location="p2" lineColor="red" hold="0.0nA">
+	     <TimeSeries id="stim" file="stim1.txt" timeUnit="1ms" valueUnit="0.01nA"
+	     	scaleFactor="10.0"/>
+	</CurrentClamp>
+
+    <VoltageRecorder location="p1" lineColor="blue"/>
+
+	<VoltageRecorder location="p0" lineColor="blue"/>
+
+
+
+</Access>

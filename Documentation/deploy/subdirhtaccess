@@ -1,0 +1,9 @@
+order allow,deny
+AuthType Basic
+AuthName "PSICS Examples and documentation"
+AuthUserFile /kunden/homepages/45/d79746120/htdocs/psics/www/.htpasswd
+AuthGroupFile /dev/null
+require valid-user
+Allow from 82.41.19.217
+Allow from 87.106.102.242
+Satisfy Any

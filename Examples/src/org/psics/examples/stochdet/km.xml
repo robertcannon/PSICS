@@ -1,0 +1,19 @@
+<KSChannel id="km" permeantIon="K" gSingle="20pS">
+
+	<About>
+		Converted from km.mod, slow non-inactivating potassium current
+		based on I-M (Zach Mainen, 1995)
+	</About>
+
+	<KSComplex id="n" instances="1">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpLinearTransition from="c" to="o" rate="0.09per_ms" midpoint ="-30.mV" scale="9mV"
+		baseTemperature="23Celsius" q10="2.3"/>
+		 <ExpLinearTransition from="o" to="c" rate="0.009per_ms" midpoint ="-30.mV" scale="-9mV"
+		baseTemperature="23Celsius" q10="2.3"/>
+
+	</KSComplex>
+
+
+</KSChannel>

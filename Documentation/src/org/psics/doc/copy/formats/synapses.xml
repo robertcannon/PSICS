@@ -1,0 +1,16 @@
+<page label="Synapses" prev="properties" next="visualization">
+
+	<h1>Afferent activity and Synapses</h1>
+
+
+	<par>
+		 The top level activity file can specify inputs to one or more populations of synapses. These are specified
+		 in the same way as channel populations except that they contain a reference to a Synapse element to define
+		 the properties of the synapses rather than to a KSChannel element. 
+	</par>
+
+	<TypeSetRef title="Synapses" ref="SynapseComponents"/>
+
+    <TypeSetRef title="Activity" ref="ActivityComponents"/>
+
+</page>

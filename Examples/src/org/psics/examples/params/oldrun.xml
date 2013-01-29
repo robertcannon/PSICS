@@ -1,0 +1,27 @@
+<PSICSRun   lib="." timeStep="0.1ms" runTime="20ms" startPotential="-65mV"
+	method="weighted_crank_nicolson"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	fortran="true">
+	<StructureDiscretization baseElementSize="20um"/>
+
+	<RunSet vary="timeStep" values="[300]us"
+		filepattern="out-$.txt"/>
+
+
+	<ViewConfig file="rp1.view" images="whole, end, midrange">
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+		<LineSet file="out-300.txt" color="white" label="300"/>
+
+		<View id="whole" xmin="-10." xmax="260." ymin="-100." ymax="100."/>
+		<View id="end" xmin="190" xmax="260" ymin="101" ymax="102"/>
+		<View id="midrange" xmin="80" xmax="90" ymin="25" ymax="30"/>
+
+		</LineGraph>
+	</ViewConfig>
+
+</PSICSRun>

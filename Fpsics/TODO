@@ -1,0 +1,16 @@
+
+
+1) Move reader code and all model type defs to model.f90 module
+
+2) structures for the calculation itself - how to organize gating complexes, 
+   channels, states, compartments for best memory access
+   
+3) populate calc structures and make matrices from model.f90
+
+4) main loop
+
+5) stochastic bits 
+
+6) v diff
+
+

@@ -1,0 +1,5 @@
+
+<CellMorphology id="cablecell">
+	<Point id="a" x="0" y="0" z="0" r="0.5"/>
+	<Point parent="a" id="b" x="1000" y="0" z = "0" r="0.5"/>
+</CellMorphology>

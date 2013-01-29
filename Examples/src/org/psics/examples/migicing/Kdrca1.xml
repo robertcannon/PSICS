@@ -1,0 +1,12 @@
+
+<KSChannel id="Kdrca1" permeantIon="K" gSingle="30pS">
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+    <VHalfTransition from="c" to="o" z="2.70e" vHalf="13.00mV" gamma="0.700" tau="50ms"
+           tauMinFwd="0.ms" tauMinRev="0.ms"/>
+ </KSComplex>
+
+
+ </KSChannel>

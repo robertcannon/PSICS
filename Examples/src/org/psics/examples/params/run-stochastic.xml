@@ -1,0 +1,32 @@
+<PSICSRun timeStep="0.05ms" runTime="250ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="10000">
+	<StructureDiscretization baseElementSize="3um"/>
+
+	<info>Cable with channels only for first 50 um, varying time step, stochatic</info>
+
+	<RunSet vary="timeStep" values="[20, 50, 100, 200]us"
+		filepattern="out-st-$"/>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<LineSet file="out-st-200.txt" color="red"/>
+		<LineSet file="out-st-100.txt" color="orange"/>
+		<LineSet file="out-st-50.txt" color="yellow"/>
+	    <LineSet file="out-st-20.txt" color="green"/>
+
+		 <View id="st-whole" xmin="-10." xmax="260." ymin="-100." ymax="80."/>
+		 <View id="st-start"   xmin="0." xmax="30." ymin="-100." ymax="80."/>
+		 <View id="st-end"   xmin="210." xmax="255." ymin="-100." ymax="80."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+</PSICSRun>

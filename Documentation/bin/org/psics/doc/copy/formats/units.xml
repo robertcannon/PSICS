@@ -1,0 +1,45 @@
+
+<page label="Units" prev="visualization" next="standards">
+
+	<h1>Units</h1>
+
+	<par>
+		Floating point quantities in input files should normally include the units in which they are expressed
+		using one or a combination of the symbols below. Units can be combined by separating them by a spaces
+		(for products) or "/" for division.
+	</par>
+
+	<par>
+		The symbols follow SI conventions as far as possible, but are restricted to the normal character set
+		(no superscripts etc) so, for example, m2 stands for m<sup>2</sup> and per_m2 for
+		m<sup>-2</sup>.
+	</par>
+
+	<par>
+		Units with a factor of 10<sup>-6</sup> normally written with the greek letter &#956; (mu), are written
+		with a normal latin "u" instead, so "um" stands for micrometer, and "uA" for microAmpere.
+		Other prefixes are as normal: (<b>p</b>, 10<sup>-12</sup>;
+				     <b>n</b>, 10<sup>-9</sup>;
+		 		     <b>u</b>, 10<sup>-6</sup>;
+		             <b>m</b>, 10<sup>-3</sup>;
+		             <b>c</b>, 10<sup>-2</sup>;
+		             <b>K</b>, 10<sup>3</sup>;
+		             <b>M</b>, 10<sup>6</sup>;
+		             <b>G</b>, 10<sup>9</sup>)
+		although certain intermediate ones (d for deci, h for hecto etc) will not be understood.
+		<a href="../contact.html">Get in touch</a> if you really want them.
+	</par>
+
+
+	<par>
+		Several of the entries in the table are compound units for which there isn't a single name, such as
+		per_s_per_mol used in expressing a reaction rate. These are included because they are used internally
+		as single entities. For expressing parameters they may be used interchangeably with compound forms.
+		For example, a concentration-dependent transition rate could be expressed as "50 per_s_per_mol" or
+		"50 /s/mol" or 50 per_s/mol" or indeed "50 per_s per_mol" (with a space in the middle, unlike the first
+		option).
+	</par>
+
+	<UnitsListRef ref="UnitsList"/>
+
+</page>

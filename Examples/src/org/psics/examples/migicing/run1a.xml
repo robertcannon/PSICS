@@ -1,0 +1,37 @@
+<PSICSRun timeStep="0.05ms" runTime="120ms" startPotential="-65mV"
+	morphology="morph59"
+	environment="environment"
+	properties="membrane"
+	access="recording-a"
+	stochThreshold="0">
+	<StructureDiscretization baseElementSize="40.um"/>
+
+	<info>Migliore et al CA1 pyramidal cell</info>
+
+<About>
+		Model corresponding to figure 1a with a steady current injection at the soma
+		and recording from two points on the apical dendrite, 200um and 400um from the soma.
+		It shows some backpropagation to 200um but very little at 400um.
+	</About>
+
+	<About>
+		 This uses the coded channel transition rate option in several of the channels in order
+		 to use exactly the same expressions as in the Migliore paper. The leaks are stochastic
+		 with open probability 0.7 and conductance 20pS.
+	</About>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+	    <LineSet file="psics-out-f.txt" color="red" show="1"/>
+ 		<LineSet file="psics-out-f.txt" color="blue" show="2"/>
+        <LineSet file="psics-out-f.txt" color="green" show="3"/>
+
+		<View id="whole" xmin="-10." xmax="120." ymin="-80." ymax="20."/>
+
+		<View id="first" xmin="-2" xmax="20" ymin="-80." ymax="20."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

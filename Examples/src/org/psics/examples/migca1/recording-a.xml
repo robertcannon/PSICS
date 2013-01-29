@@ -1,0 +1,12 @@
+
+<Access id="recording-a">
+
+
+	<CurrentClamp at="5" id="clampat5" hold="0.15nA"/>
+
+
+	<VoltageRecorder at="Seg0_apical[12]"/>
+
+	<VoltageRecorder at="Seg0_apical[27]"/>
+
+</Access>

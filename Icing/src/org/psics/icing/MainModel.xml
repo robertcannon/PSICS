@@ -1,0 +1,22 @@
+<AutonomousPanel name="MainModel" controllerClass="MainModelController">
+	<BorderPanel>
+		<Center>
+			<GridPanel ncolumn="2">
+				<Label text="cell"/>
+				<Choice id="cellChooser" options="new cell"/>
+				<Label text="channels"/>
+				<Choice id="distChooser" options="new distribution"/>
+			</GridPanel>
+		</Center>
+		<South>
+			<BorderPanel>
+				<Center>
+					<Label text="Element scale (um)"/>
+				</Center>
+				<East>
+					<Button label="change" action="changeDiscretization"/>
+				</East>
+			</BorderPanel>
+		</South>
+	</BorderPanel>
+</AutonomousPanel>

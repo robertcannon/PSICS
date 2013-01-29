@@ -1,0 +1,51 @@
+<page label="IaF Cells" prev="environment" next="properties">
+
+	<h1>Integrate and Fire Cells</h1>
+
+	<par>
+		 Integrate and Fore cell models are characterized by a threshold.....
+	</par>
+	 
+A simple IaFCell specification looks like:
+	 
+<xcode>
+<IaFCell id="iaf1" capacitance="3pF" threshold="-45mV" 
+         reset_potentail="-70mv" refractory_period="5ms">
+</IaFCell>
+</xcode>
+<p>
+This defines a cell model which will generate a spike when the potential
+crosses -45mV from below. The potental is then reset to -70mV  and held
+there for 5ms before it begins to integrate again. 
+</p>
+<p>
+Without any input, however there is nothing to cause the potential 
+to change. The cell can have one or more populations of synapses
+refereing to separate synapse models:</p>
+<xcode>
+<IaFCell id="iaf2" capacitance="0.04nF" threshold="-45mV" 
+         reset_potentail="--0.07V" refractory_period="0.01s">
+         <SynapseSet synapse="syn1" number="50"/>
+         <SynapseSet synapse="syn2" number="50"/>
+</IaFCell>
+</xcode>
+
+<p>
+The cell may also containany combiantion of membrane channels.
+Since there is not concept of area for an IaFCell, the channels 
+are expressed by total number rather than by their surface density.
+</p>
+<xcode>
+<IaFCell id="iaf2" capacitance="3pF" threshold="-0.45V" 
+         reset_potentail="-70mV" refractory_period="0.04s">
+         <SynapseSet synapse="syn1" number="50"/>
+         <SynapseSet synapse="syn2" number="50"/>
+         
+         <ChannelSet channel="Ca_t" number="3400"/>
+         <ChannelSet channel="H1" number="800"/>
+</IaFCell>
+</xcode>
+
+	<TypeSetRef title="IaF Cells" ref="IaFComponents"/>
+
+</page>

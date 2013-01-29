@@ -1,0 +1,21 @@
+<KSChannel id="NaChannel" permeantIon="Na">
+   <KSComplex id="m" instances="3">
+      <ClosedState id="mc"/>
+      <OpenState gRel="1.0" id="mo"/>
+      <ExpLinearTransition rate="1.0per_ms" midpoint="-40.0mV" scale="10.0mV"
+          from="mc" to="mo"/>
+      <ExpTransition rate="4.0per_ms" scale="-18.000000018mV" midpoint="-65.0mV"
+          from="mo" to="mc"/>
+   </KSComplex>
+
+   <KSComplex id="h" instances="1">
+      <ClosedState id="hc"/>
+      <OpenState gRel="1.0" id="ho"/>
+      <ExpTransition rate="0.07per_ms" scale="-20.0mV" midpoint="-65.0mV"
+          from="hc" to="ho"/>
+      <SigmoidTransition rate="1.0per_ms" scale="10.0mV" midpoint="-35.0mV"
+          from="ho" to="hc"/>
+   </KSComplex>
+
+</KSChannel>
+

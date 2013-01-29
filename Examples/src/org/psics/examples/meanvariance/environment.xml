@@ -1,0 +1,4 @@
+<CellEnvironment id="environment">
+	<Ion id="Na" name="Sodium" reversalPotential="80mV"/>
+	<Ion id="K" name="Potassium" reversalPotential="-80mV"/>
+</CellEnvironment>

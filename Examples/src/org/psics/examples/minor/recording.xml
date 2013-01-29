@@ -1,0 +1,9 @@
+<Access id="recording" saveInterval="0.0010ms" separateFiles="true" recordClamps="true">
+    <CurrentClamp at="Seg0_soma_0" lineColor="red">
+        <CurrentPulse start="20.0ms" duration="60.0ms" to="0.0038nA"/>
+</CurrentClamp>
+
+
+<VoltageRecorder at="Seg0_soma_0" lineColor="0x000000" label="CG_CML_0.dat"/>
+
+</Access>

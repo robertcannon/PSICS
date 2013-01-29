@@ -1,0 +1,162 @@
+<page label="NeuroML biophysics">
+
+
+<h1>NeuroML Biophysics specifications and PSICS</h1>
+
+<par>
+	The biophysics schema concerns the electrical properties of cells and, particularly
+	the allocation of membrane channels. Most of the <a href="index.html">general observations</a>
+	about NeuroML apply to this schema, particluarly with regard to deep nesting,
+	untyped elements and simulator independence.
+</par>
+
+<par>
+	The cannonical element for specifying channel densities is:
+	<xcode><bio:mechanism name="Kf" type="Channel Mechanism">
+      <bio:parameter name="gmax" value="0.5">
+           <bio:group>pdend</bio:group>
+      </bio:parameter>
+</bio:mechanism>
+	</xcode>
+
+	which seems to be saying the same thing as:
+
+	<xcode><ChannelMechanism channel="Kf" gmax="0.5" region="pdend"/></xcode>
+
+	This expresses the concept that there is a populations of Kf channels on the region
+	called "pdend" with maximal conductance 0.5 (in the appropriate global units).
+</par>
+
+<par>
+	The first form also has  scope for causing confusion or breaking an importer in a
+	number of ways:
+	<ul>
+	<li>what happens if there are no parameters inside a
+	 <x>bio:mechanism</x> block, of if there are more than one?</li>
+	 <li>The <x>name</x> attribute isn't a freely settable name for this element
+	 but rather must match the (freely settable) <x>name</x> attribute of a channel
+	 definition. Using "name" in both contexts risks confusion and prevents
+	 mechanisms having a name set by which they can be referred to from elsewhere.
+	 </li>
+	 <li>The "Channel Mechanism" value for the <x>type</x> attribute entails constraints
+	 on the embedded parameters elements that suggest it would be better as a
+	 new element type</li>
+	 <li>
+	 	The existence of a parameter named "gmax" is required for this to specify a
+	 	channel density. Reading this type of structure to find a channel density
+	 	implies logic of the form:
+	 	"if the 'type' attribute on a mechanism is 'Channel Mechanism' then find an
+	 	embedded parameter object of which the 'name' attribute is 'gmax' and get the
+	 	corresponding 'value' attribute". These magic values should be attributes or
+	 	elemet tags.
+	 </li>
+	<li>
+		Likewise the use of an embedded <x>group</x> element could be an attribute
+		on a top level <x>ChannelMechanism</x> element, unless there could be multiple group
+		elements in a parameter, in which case the meaning becomes unclear.
+	</li>
+	</ul>
+</par>
+
+<par>
+	Similar dificulties arise with the specification of conductance and axial
+	resistance:
+
+<xcode><bio:specificCapacitance>
+    <bio:parameter value="0.6">
+         <bio:group>all</bio:group>
+    </bio:parameter>
+</bio:specificCapacitance>
+
+<bio:specificAxialResistance>
+    <bio:parameter value="0.1">
+         <bio:group>all</bio:group>
+    </bio:parameter>
+</bio:specificAxialResistance>
+</xcode>
+</par>
+<par>
+Since these both require a parameter, they could be written more comprehensibly as
+<xcode><specificCapacitance value="0.6"/>
+<specificAxialResistance value="0.6"/>
+</xcode>
+
+But the use of "value" as the only attribute of a named element would suggest that it
+shouldn't be an element at all, and could be an attribute of the main element, as in:
+<xcode><biophysics specificCapacitance="0.6" specificAxialResistance="0.1">
+	...
+</biophysics>
+</xcode>
+</par>
+
+
+<par>
+This is, however less flexible than the element based approach, which can define separate
+capacitances for different regions of membrane.
+In this case the first of the two forms above would be reuired with
+a region specifacation as in:
+	<xcode><specificCapacitance value="0.6" region="axon"/></xcode>
+
+Any number of such blocks could be used to define localy varied capacitances.
+</par>
+
+
+<par>
+The <x>initialMembPotential</x> element expresses something that either isn't settable,
+or isn't a property of the cell, and so probably doesn't belong here. If it is an instruction
+to the simulator about what potential to start the simulation at, then it certainly belongs
+elsewhere. If it is a statement that conditions should be such that the resting
+membrane potential should have this value, then it is just wishful thinking.
+</par>
+
+<par>
+In practice, it often <i>is</i> useful to have a cell rest at a given potential, and a variety of
+tricks are used to achieve this. These do not appear to be accessible from the current
+specification. One of the most common, if questionable approaches, is to adjust the leak reversal potential
+after setting up the simulation so that the net current is everywhere zero (published models
+exist in which the resulting leak reversals are way outside any physiological range).
+</par>
+<par>
+The strategy supported by  PSICS is to allows some channel densities
+to be adjusted in order to achieve a given rest. Typically these would be a sodium and a
+potassium leak. The specification block looks like:
+<xcode><DensityAdjustment maintain="-65mV" vary="leak-Na, leak-K"/></xcode>
+where the <x>vary</x> attribute contains  a comma separated list of channel IDs.
+</par>
+
+
+ <h2>Element names</h2>
+
+ <par>
+ 	The <x>specificAxialResistance</x> is not so much a resistance (Ohm) as resitivity (Ohm m) and
+ 	should probably be <x> specificResistivity</x>. The axial concept comes from the fact
+ 	that cables are generally discretized into sections that span the entire width of the cable,
+ 	 but this is not implicit in the model, so the "axial" part is probably not required.
+ </par>
+ <par>
+ 	The use of <x>mechanism</x> as in "Channel Mechanism" sounds a bit like part of a clock and
+ 	doesn't contain the specification of a mechanism in any case. It just holds the
+ 	maximal conductance density to be applied to a region of membrane so "density" might
+ 	be a better term.
+ </par>
+
+ <par>
+ 	Use of <x>gmax</x> and <x>e</x>: it is easy to be pedantic here, but these really aren't
+ 	properties of a channel distribution or even a channel itself. They both depend
+ 	on the solutions either side of the channel. But they are very conveneint. PSICS
+ 	draws a different compromise by expressing all chanel densities as the number
+ 	 of channels per unit area but then in the channel definition it has an attribute
+	for the single-channel conductance as well as for the permeant ion. It curently
+	takes the reversal potential from a separate specification of the internal and external
+	environment of the cell, but uses the single channel conductances as it is.
+ </par>
+ <par>
+ 	The grouping of cables via <x>bio:group</x> is rather a general term, whereas here it must contain the name
+ 	of a <x>cableGroup</x> defined in the cell morphology specification. As such,
+ 	<x>cableGroupID</x> might be better, (but see the
+ 	<a href="morphml.html">MorphML section</a> for queries about whether <x>cableGroup</x>
+ 	realy is the right level of abstraction for identifying regions on neuronal
+ 	arbirizations).
+ </par>
+
+</page>

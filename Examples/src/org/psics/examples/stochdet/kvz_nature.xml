@@ -1,0 +1,18 @@
+<KSChannel id="kvz_nature" permeantIon="K" gSingle="20pS">
+
+	<About>
+		Converted from kvz_nature.mod (Zach Mainen, 1995)
+	</About>
+
+	<KSComplex id="n" instances="1">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpLinearTransition from="c" to="o" rate="0.18per_ms" midpoint ="25.mV" scale="9mV"
+		baseTemperature="23Celsius" q10="2.3"/>
+		 <ExpLinearTransition from="o" to="c" rate="0.018per_ms" midpoint ="25.mV" scale="-9mV"
+		baseTemperature="23Celsius" q10="2.3"/>
+
+	</KSComplex>
+
+
+</KSChannel>

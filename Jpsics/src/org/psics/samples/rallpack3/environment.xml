@@ -1,0 +1,5 @@
+<CellEnvironment id="environment">
+	<Ion id="LEAK" name="Non-specific leak" reversalPotential="-65mV"/>
+	<Ion id="K" name="Potassium" reversalPotential="-77mV"/>
+	<Ion id="Na" name="Sodium" reversalPotential="50mV"/>
+</CellEnvironment>

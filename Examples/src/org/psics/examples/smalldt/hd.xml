@@ -1,0 +1,20 @@
+<KSChannel id="hd" permeantIon="hd" gSingle="9.99999993922529pS">
+<KSComplex instances="1">
+<ClosedState id="l0"/>
+<OpenState id="l"/>
+<TauInfCodedTransition from="l0" to="l" tauvar="ltau" infvar="linf">
+<Constant id="vhalfl" name="vhalfl" value="-81"/><![CDATA[
+    
+    
+    double temp_adj_l = Math.pow(4.5, (temperature - 33)/10);
+                                    
+    
+    
+    ltau = (Math.exp (0.033264 * (v - (-75))))/(0.011 * (1 + (Math.exp (0.08316 * (v - (-75)))))) ;
+        ltau = ltau/temp_adj_l;
+            
+    linf = 1/(1 + (Math.exp (- (v-(vhalfl))/ (-8) )) );
+        
+    ]]></TauInfCodedTransition>
+</KSComplex>
+</KSChannel>

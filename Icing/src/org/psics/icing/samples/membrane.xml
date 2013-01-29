@@ -1,0 +1,27 @@
+<CellProperties id="membrane"
+    membraneCapacitance="1.0uF_per_cm2"
+    cytoplasmResistivity="100.0ohm_cm">
+   <ChannelPopulation id="population_1"
+       channel="leak"
+       color="0xff3333"
+       density="6.0per_um2"
+       distribution="population_1_dist"/>
+   <ChannelPopulation id="population_2"
+       channel=""
+       color="0x66ff66"
+       density="10.0per_um2"
+       distribution="population_3_dist"/>
+   <ChannelPopulation id="population_3"
+       channel=""
+       color="0x00ffff"
+       density="exp(-0.01 * p)per_um2"
+       distribution="population_3_dist"/>
+   <DistributionRule id="population_1_dist">
+      <RegionMask action="restrict to"
+          where="p &lt; 140"/>
+   </DistributionRule>
+   <DistributionRule id="population_3_dist">
+      <RegionMask action="restrict to"
+          where="p &gt; 250"/>
+   </DistributionRule>
+</CellProperties>

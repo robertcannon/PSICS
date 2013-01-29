@@ -1,0 +1,10 @@
+
+<Access id="recording-iv" saveInterval="0.01ms">
+
+	<VoltageClamp at="p0" lineColor="red" hold="-80.0mV">
+		<VoltagePulse id="vstep" start="5ms" to="0mV"
+			      duration="20ms"/>
+
+	</VoltageClamp>
+
+</Access>

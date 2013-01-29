@@ -1,0 +1,24 @@
+<KSChannel id="Generic_CaHVA" permeantIon="Ca">
+   <KSComplex id="m" instances="2">
+      <ClosedState id="mc"/>
+      <OpenState gRel="1.0" id="mo"/>
+      <SigmoidTransition rate="1600.0per_ms" scale="0.013888888888888888mV"
+          midpoint="0.0050mV" from="mc" to="mo" baseTemperature="17.350264793Celsius" q10="3.0"/>
+      <ExpLinearTransition rate="100.0per_ms" midpoint="-0.0089mV"
+          scale="-0.0050mV" from="mo" to="mc" baseTemperature="17.350264793Celsius" q10="3.0"/>
+   </KSComplex>
+
+   <KSComplex id="h" instances="1">
+      <ClosedState id="hc"/>
+      <OpenState gRel="1.0" id="ho"/>
+      <AlphaBetaCodedTransition alphavar="alpha" betavar="beta" fwdFactor="1.0"
+          revFactor="1.0"
+          codeFragment="alpha = v &lt; -0.060 ? 5.0 : 5 * (exp (-50 * (v - (-0.060))));
+beta = v &lt; -0.060 ? 0 : 5 - (5 * (exp (-50 * (v - (-0.060)))));" from="hc" to="ho" baseTemperature="17.350264793Celsius" q10="3.0">
+         <constants/>
+      </AlphaBetaCodedTransition>
+
+   </KSComplex>
+
+</KSChannel>
+

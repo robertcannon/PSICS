@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channelml xmlns="http://morphml.org/channelml/schema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:meta="http://morphml.org/metadata/schema" 
+    xsi:schemaLocation="http://morphml.org/channelml/schema   ../../Schemata/v1.6/Level2/ChannelML_v1.6.xsd" 
+    units="Physiological Units">
+
+    <meta:notes>A channel from Maex and De Schutter 1998.
+    Note, the values used here are based on the GENESIS scripts accompanying the paper</meta:notes>
+    
+    <ion name="k" charge="1" default_erev="-90"/>  
+    
+    <channel_type name="Generic_KA" density="yes">
+    
+        <meta:notes>A-type K channel, with rate equations expressed in tau and inf form</meta:notes>
+        
+        <meta:authorList>
+            <meta:modelTranslator>
+                <meta:name>Padraig Gleeson</meta:name>
+                <meta:institution>UCL</meta:institution>    
+                <meta:email>p.gleeson - at - ucl.ac.uk</meta:email>
+            </meta:modelTranslator>
+        </meta:authorList>
+            
+        <meta:publication>
+            <meta:fullTitle>Maex, R and De Schutter, E. 
+            Synchronization of Golgi and Granule Cell Firing in a Detailed Network Model of the 
+            cerebellar Granule Cell Layer. J Neurophysiol, Nov 1998; 80: 2521 - 2537</meta:fullTitle>
+            <meta:pubmedRef>http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&amp;db=PubMed&amp;list_uids=9819260&amp;dopt=Abstract</meta:pubmedRef>
+        </meta:publication>        
+   
+        <meta:neuronDBref>
+            <meta:modelName>K channels</meta:modelName>
+            <meta:uri>http://senselab.med.yale.edu/senselab/NeuronDB/channelGene2.htm#table3</meta:uri>
+        </meta:neuronDBref>
+
+        
+        <current_voltage_relation>
+            <ohmic ion="k">
+                <conductance default_gmax="1.14567">   
+                    <rate_adjustments>
+                        <q10_settings q10_factor="1" experimental_temp="17.350264793"/>
+                        <offset value="10"/>
+                    </rate_adjustments>
+                    <gate power="3">
+                        <state name="m" fraction="1"/>
+                    </gate>
+                    <gate power="1">
+                        <state name="h" fraction="1"/>
+                    </gate>
+                </conductance>
+            </ohmic>
+        </current_voltage_relation>
+        
+        
+        <hh_gate state="m">
+            <transition>
+                <voltage_gate>
+                    <tau>
+                        <generic_equation_hh expr="0.410 * ((exp (( ((v) + 43.5) / (-42.8))))) + 0.167"/>
+                    </tau>
+                    <inf>
+                        <parameterised_hh type="sigmoid" expr="A/(1 + exp(k*(v-d)))">
+                            <parameter name="A" value="1"/>
+                            <parameter name="k" value="-0.050505051"/>
+                            <parameter name="d" value="-46.7"/>
+                        </parameterised_hh>
+                    </inf>
+                </voltage_gate>
+            </transition>
+        </hh_gate>
+        
+        
+        <hh_gate state="h">
+            <transition>
+                <voltage_gate>
+                    <tau>
+                        <generic_equation_hh expr="10.8 + (0.03 * v)  + (1 / (57.9 * (exp (v *0.127)) + (134e-6 * (exp (v * -0.059)))))"/>
+                    </tau>
+                    <inf>
+                        <parameterised_hh type="sigmoid" expr="A/(1 + exp(k*(v-d)))">
+                            <parameter name="A" value="1"/>
+                            <parameter name="k" value="0.119047619"/>
+                            <parameter name="d" value="-78.8"/>
+                        </parameterised_hh>
+                    </inf>
+                </voltage_gate>
+            </transition>
+        </hh_gate>
+
+        
+    </channel_type>
+</channelml>

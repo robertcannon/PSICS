@@ -1,0 +1,425 @@
+<?xml version="1.0"?>
+<project name="docs and website" default="all" basedir=".">
+    <description>
+	 	PSICS documentation (needs revising for move to Documentation project)
+    </description>
+
+	<property name="base.dir" location="${user.home}/PSICS"/>
+
+	<property name="work.dir"  location="${base.dir}/work"/>
+	<property name="dist.dir" location="${base.dir}/distrib"/>
+	<property name="webcheck.dir" location="${base.dir}/webcheck"/>
+
+	<property name="projects.dir" location="${base.dir}/eclipse"/>
+	<property name="psics.dir" location="${projects.dir}/PSICS"/>
+ 	<property name="doc.dir" location="${projects.dir}/Documentation"/>
+ 	<property name="deploy.dir" location="${doc.dir}/deploy"/>
+	<property name="copy.dir" location="${doc.dir}/src/org/psics/doc/copy"/>
+	<property name="php.dir" location="${doc.dir}/src/org/psics/doc/php"/>
+	<property name="xres.dir" location="${doc.dir}/src/org/psics/doc/xres"/>
+
+	<property name="trans.dir" location="${doc.dir}/src/org/psics/doc/transforms"/>
+	<property name="presentation.dir" location="${doc.dir}/src/org/psics/doc/presentation"/>
+	<property name="graphics.dir" location="${doc.dir}/src/org/psics/doc/graphics"/>
+	<property name="js.dir" location="${doc.dir}/src/org/psics/doc/js"/>
+	<property name="screenshots.dir" location="${doc.dir}/src/org/psics/doc/screenshots"/>
+
+
+    <property environment="env"/>
+
+
+	<property file="${psics.dir}/VERSION"/>
+
+
+	<target name="all" depends="cleanjars, html"/>
+
+
+	 <path id="doccp">
+	 		<pathelement location="${projects.dir}/PSICS/bin"/>
+	 		<pathelement location="${projects.dir}/Documentation/bin"/>
+     </path>
+
+
+
+	 <target name="typeraw">
+	 	<mkdir dir="${work.dir}/types"/>
+	         <java fork="true" jvm="/usr/local/jdk6/bin/java" classname="org.psics.doc.gen.DocWriter">
+	             <arg value="${work.dir}/types"/>
+	             <classpath refid="doccp"/>
+	         </java>
+    </target>
+
+	<target name="unitsraw">
+	 	<mkdir dir="${work.dir}/units"/>
+	         <java fork="true" jvm="/usr/local/jdk6/bin/java" classname="org.psics.doc.gen.UnitsDocWriter">
+	             <arg value="${work.dir}/units"/>
+	             <classpath refid="doccp"/>
+	         </java>
+    </target>
+
+    <target name="navify" depends="init">
+	<mkdir dir="${work.dir}tmp"/>
+	<mkdir dir="${work.dir}tmpres"/>
+        <java fork="true" classname="org.psics.doc.gen.Fattener">
+            <arg value="${copy.dir}"/>
+            <arg value="${work.dir}/tmp"/>
+            <classpath refid="doccp"/>
+        </java>
+
+		<copy todir="${work.dir}/tmp">
+		    <fileset dir="${copy.dir}">
+				<include name="**/*.txt"/>
+			</fileset>
+		</copy>
+		<copy todir="${work.dir}/tmpres">
+		    <fileset dir="${xres.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.psix"/>
+
+	    	</fileset>
+		</copy>
+
+
+        <java fork="true" classname="org.psics.doc.gen.Navifier">
+            <arg value="${work.dir}/tmp"/>
+            <classpath refid="doccp"/>
+        </java>
+    </target>
+
+
+
+    <target name="init">
+		<mkdir dir="${dist.dir}/htdocs"/>
+    </target>
+
+
+
+    <target name="clean" description="Cleaning up">
+        <delete dir="${dist.dir}/htdocs"/>
+        <delete dir="${work.dir}/tmp"/>
+		<delete dir="${work.dir}/types"/>
+    </target>
+
+  	<target name="cleanjars" description="Cleaning out old jars">
+   		<mkdir dir="${dist.dir}/htdocs"/>
+   		<delete>
+	        <fileset dir="${dist.dir}/htdocs" includes="*.jar"/>
+   		</delete>
+    </target>
+
+
+    <target name="sitemap">
+	<xslt basedir="tmp"
+              destdir="build"
+              in="${work.dir}/tmp/_index.xml"
+	          out="${work.dir}/sitemap.xml"
+              processor="trax"
+              style="style/sitemapgenerator.xsl"
+              extension=".xml"/>
+    </target>
+
+
+    <target name="timestamp">
+        <tstamp>
+	        <format property="timestamp" pattern="d-MMMM-yyyy HH:mm" locale="en"/>
+            <format property="oldtimestamp" pattern="dd/MM/yyyy HH:mm"/>
+        </tstamp>
+        <echo message="Log timestamp: ${timestamp}"/>
+    </target>
+
+
+
+
+	<target name="presentation">
+	<mkdir dir="${dist.dir}/htdocs"/>
+	<copy todir="${dist.dir}/htdocs">
+	    <fileset dir="${graphics.dir}">
+		<include name="*.png"/>
+		<include name="*.ico"/>
+		<include name="*.gif"/>
+	    </fileset>
+	    <fileset dir="${copy.dir}">
+		<include name="*.swf"/>
+		<include name="*.png"/>
+		<include name="*.gif"/>
+	    </fileset>
+
+	    <fileset dir="${presentation.dir}">
+		<include name="*.css"/>
+	    </fileset>
+
+	    	<!--
+	    <fileset dir="php">
+		<include name="*"/>
+	    </fileset>
+	    	-->
+	</copy>
+	<copy todir="${dist.dir}/htdocs/about">
+	    <fileset dir="${graphics.dir}">
+			<include name="*email.png"/>
+</fileset>
+</copy>
+
+</target>
+
+
+    <target name="html" depends="navify, presentation">
+
+	   <echo message="making html for version ${version.name}"/>
+	   <tstamp>
+          <format property="datestamp" pattern="d-MMM-yyyy"/>
+       </tstamp>
+
+	   <xslt basedir="${work.dir}/tmp"
+          destdir="${dist.dir}/htdocs"
+          includes="**/*.xml"
+	      excludes="**/menu.xml, **/_index.xml"
+          processor="trax"
+          style="${trans.dir}/page.xsl"
+          extension=".html">
+	    <param name="versionname" expression="${version.name}"/>
+	    <param name="versiondate" expression="${version.date}"/>
+	    <param name="datestamp" expression="${datestamp}"/>
+	    <param name="icingversionname" expression="${icingversion.name}"/>
+	     <param name="versionmodelsname" expression="${version.modelsname}"/>
+        </xslt>
+
+      <copy todir="${dist.dir}/htdocs">
+	    <fileset dir="${copy.dir}">
+		<include name="**/*.png"/>
+		<include name="**/*.gif"/>
+		<include name="**/*.odp"/>
+		<include name="**/*.pdf"/>
+		</fileset>
+		<fileset dir="${php.dir}">
+			<include name="*.php*"/>
+		</fileset>
+	</copy>
+
+
+	 <copy todir="${dist.dir}/htdocs/icing">
+	    <fileset dir="${screenshots.dir}">
+			<include name="*.png"/>
+		</fileset>
+	</copy>
+	 <copy todir="${dist.dir}/htdocs">
+	    <fileset dir="${js.dir}">
+			<include name="*.js"/>
+		</fileset>
+	</copy>
+
+		<mkdir dir="${dist.dir}/htdocs/examples"/>
+        <copy todir="${dist.dir}/htdocs/examples">
+			<fileset dir="${projects.dir}/Examples/psics-out">
+				<include name="**/*"/>
+			</fileset>
+        </copy>
+
+		<copy todir="${dist.dir}/htdocs">
+			<fileset dir="${base.dir}/builtjars">
+				<include name="${version.name}.jar"/>
+				<include name="dview.jar"/>
+				<include name="ccviz.jar"/>
+				<include name="icing*.jar"/>
+			</fileset>
+		</copy>
+
+    </target>
+
+
+
+
+
+   <target name="upload">
+        <ftp server="psics.org"
+             remotedir="/www"
+             userid="u34804056-psics"
+             password="aqw234M"
+             action="send"
+             passive="yes"
+             depends="no"
+             binary="yes"
+             verbose="yes"
+	     ignoreNoncriticalErrors="yes"
+	     skipFailedTransfers="yes">
+            <fileset dir="${dist.dir}/htdocs">
+                <include name="**/*.html"/>
+				<include name="**/*.css"/>
+				<include name="**/*.gif"/>
+				<include name="**/*.png"/>
+				<include name="**/*.ico"/>
+				<include name="**/*.php"/>
+				<include name="**/*.jar"/>
+
+
+				<include name="**/*.xml"/>
+
+				<include name="**/README*"/>
+             </fileset>
+        </ftp>
+    </target>
+
+
+	 <target name="uploaddata">
+        <ftp server="psics.org"
+             remotedir="/www"
+             userid="u34804056-psics"
+             password="aqw234M"
+             action="send"
+             passive="yes"
+             depends="yes"
+             binary="yes"
+             verbose="yes"
+	     ignoreNoncriticalErrors="yes"
+	     skipFailedTransfers="yes">
+            <fileset dir="${dist.dir}/htdocs">
+				<include name="**/*.txt"/>
+				<include name="**/*.png"/>
+				<!--   <include name="**/*.dat"/> -->
+			</fileset>
+		</ftp>
+	</target>
+
+
+ <target name="uploadcustom">
+        <ftp server="psics.org"
+             remotedir="/www"
+             userid="u34804056-psics"
+             password="aqw234M"
+             action="send"
+             passive="yes"
+             depends="no"
+             binary="yes"
+             verbose="yes"
+	     ignoreNoncriticalErrors="yes"
+	     skipFailedTransfers="yes">
+	      <fileset dir="${dist.dir}/htdocs">
+				<include name="**/thanks.html"/>
+				<include name="**/predownload.html"/>
+				<include name="**/*.php5"/>
+            </fileset>
+        </ftp>
+    </target>
+
+ <target name="uploadjars">
+        <ftp server="psics.org"
+             remotedir="/www"
+             userid="u34804056-psics"
+             password="aqw234M"
+             action="send"
+             passive="yes"
+             depends="no"
+             binary="yes"
+             verbose="yes"
+	     ignoreNoncriticalErrors="yes"
+	     skipFailedTransfers="yes">
+	      <fileset dir="${dist.dir}/htdocs">
+	           <include name="**/log.html"/>
+				<include name="**/down*.html"/>
+				<include name="**/ici*.jar"/>
+				<include name="**/psi*.jar"/>
+			 <!-- 
+			  -->
+            </fileset>
+        </ftp>
+    </target>
+
+
+	<target name="deployjar" depends="cleanjars, all, uploadjars">
+
+    </target>
+
+
+
+<target name="uploadforum">
+        <ftp server="psics.org"
+             remotedir="/www/forum"
+             userid="u34804056-psics"
+             password="aqw234M"
+             action="send"
+             passive="yes"
+              depends="no"
+             binary="yes"
+             verbose="yes"
+	     ignoreNoncriticalErrors="yes"
+	     skipFailedTransfers="yes">
+            <fileset dir="/home/rcc/Desktop/smf">
+                <include name="**/*.*"/>
+            </fileset>
+        </ftp>
+    </target>
+
+
+   <target name="uploadhtml">
+        <ftp server="psics.org"
+             remotedir="/www"
+             userid="u34804056-psics"
+             password="aqw234M"
+             action="send"
+             passive="yes"
+             depends="no"
+             binary="yes"
+             verbose="yes"
+	     ignoreNoncriticalErrors="yes"
+	     skipFailedTransfers="yes">
+            <fileset dir="${dist.dir}/htdocs">
+                <include name="**/*.html"/>
+            	<include name="**/*.css"/>
+            </fileset>
+        </ftp>
+    </target>
+
+    <target name="upload access control">
+<!-- 
+        <copy tofile="${dist.dir}/htdocs/examples/.htaccess" file="${about.dir}/subdirhtaccess"/>
+        <copy tofile="${dist.dir}/htdocs/guide/.htaccess" file="${about.dir}/subdirhtaccess"/>
+        <copy tofile="${dist.dir}/htdocs/formats/.htaccess" file="${about.dir}/subdirhtaccess"/>
+ -->
+        <copy tofile="${dist.dir}/htdocs/.htpasswd" file="${deploy.dir}/htpasswd"/>
+        <copy tofile="${dist.dir}/htdocs/.htaccess" file="${deploy.dir}/htaccess"/>
+        <ftp server="psics.org"
+             remotedir="/www"
+             userid="u34804056-psics"
+ 			 password="aqw234M"
+             action="send"
+             passive="yes"
+             depends="no"
+             binary="yes"
+             verbose="yes"
+	         ignoreNoncriticalErrors="yes"
+	         skipFailedTransfers="yes">
+				<fileset dir="${dist.dir}/htdocs">
+					<include name="**/.ht*"/>
+				</fileset>
+	      </ftp>
+	     </target>
+
+
+
+	<target name="webcheck-docs">
+		<exec executable="/usr/bin/webcheck" dir="${webcheck.dir}">
+			<arg value="-f"/>
+			<arg value="http://www.psics.org/"/>
+			<arg value="-x"/>
+			<arg value="/examples"/>
+		</exec>
+		<exec executable="/usr/bin/firefox">
+			<arg value="${webcheck.dir}/problems.html"/>
+		</exec>
+	</target>
+
+	<target name="webcheck-all">
+		<exec executable="/usr/bin/webcheck" dir="${webcheck.dir}">
+			<arg value="-f"/>
+			<arg value="http://www.psics.org/"/>
+		</exec>
+		<exec executable="/usr/bin/firefox">
+			<arg value="${webcheck.dir}/problems.html"/>
+		</exec>
+	</target>
+</project>
+
+
+
+
+

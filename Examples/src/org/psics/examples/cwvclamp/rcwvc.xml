@@ -1,0 +1,35 @@
+<PSICSRun   timeStep="0.01ms" runTime="1s" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="record-voltageclamp"
+        stochThreshold="1000000"
+	quickChannels="true"
+        repeats="1">
+
+	<RunSet vary="stochThreshold" values="[1000000000 0]" filepattern="st-$"/>
+
+	<info>Chow and White (1996), Biophys J</info>
+
+	<ViewConfig>
+		<LineGraph width="1000" height="400">
+		<XAxis min="0" max="100" label="time / ms"/>
+		<YAxis min="-5" max="5" label=""/>
+
+
+		<LineSet file="st-0.txt" color="green" show="2">
+			<Stats xmin="100ms"/>
+		</LineSet>
+
+		<LineSet file="st-1000000000.txt" color="yellow" show="2">
+			<Stats xmin="100ms"/>
+		</LineSet>
+
+
+		<View id="whole" xmin="-10." xmax="400." ymin="-0." ymax="0.3"/>
+
+
+
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

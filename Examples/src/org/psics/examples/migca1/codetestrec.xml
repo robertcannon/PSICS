@@ -1,0 +1,11 @@
+
+<Access id="codetestrec">
+
+	<CurrentClamp at="1" hold="0.15nA">
+
+	</CurrentClamp>
+
+	<VoltageRecorder at="100"/>
+
+
+</Access>

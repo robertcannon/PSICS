@@ -1,0 +1,7 @@
+<CellProperties id="stoch-membrane"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+
+	<ChannelPopulation id="leakpop" channel="stoch-leak" density="0.357143per_um2"/>
+
+</CellProperties>

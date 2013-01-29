@@ -1,0 +1,75 @@
+<page label="Bibliography" prev="utilities" next="../formats/index">
+
+	<h1>Bibliography</h1>
+
+	<par>
+		Under development...
+	</par>
+
+ 	<h2>Numerical methods for stochastic processes</h2>
+
+
+ 	<pbib>Cao Y, Li H and Petzold, L
+	<a name="cao" href="http://www.ncbi.nlm.nih.gov/sites/entrez?cmd=Retrieve&amp;db=pubmed&amp;dopt=AbstractPlus&amp;list_uids=15332951">Efficient
+	 formulation of the stochastic simulation algorithm for chemically reacting systems.</a>
+	J Chem Phys, Vol. 121, No. 9. (1 September 2004), pp. 4059-4067.
+ 	</pbib>
+
+
+ 	<pindent>
+ 		Summary of various stochastic simulation algorithms for chemical systems and a discussion of their efficiency.
+ 	</pindent>
+
+
+
+
+ 	<pbib>Kim T. Blackwell
+ 	<a name="blackwell" href="http://dx.doi.org/10.1016/j.jneumeth.2006.04.003">An
+ 		efficient stochastic diffusion algorithm for modeling second messengers in
+ 		dendrites and spines</a> Journal of Neuroscience Methods
+Volume 157, Issue 1, 15 October 2006, Pages 142-153
+ 	</pbib>
+ 	<pindent>
+ 		<i>Reaction-diffusion systems using a tau-leap style method and lookup tables.</i>
+ 	</pindent>
+ 	<pindent>
+	ABSTRACT: Intracellular signaling pathways, which encompass both biochemical
+	 reactions and second messenger diffusion, interact non-linearly
+	  with neuronal membrane properties in their role as essential
+	  intermediaries for synaptic plasticity and neuromodulation. Computational
+	   modeling is a productive approach for investigating these phenomena;
+	    however, most current strategies for modeling neurons exclude
+	     signaling pathways. To overcome this deficiency, a new algorithm
+	     is presented to simulate stochastic diffusion in a highly efficient
+	     manner. The gain in speed is obtained by considering collections of
+	     molecules, instead of tracking the movement of individual molecules.
+	     The probability of a molecule leaving a spatially discrete
+	      compartment is used to create a lookup table that stores the
+	       probability of km molecules leaving the compartment as a function
+	        of the total number of molecules in the compartment. During the
+	        simulation, the number of molecules leaving the compartment is
+	         determined using a uniform random number as an index into the
+	         lookup table. Simulations illustrate the accuracy of this algorithm
+	          by comparing it with the theoretical solution for deterministic
+	           diffusion. Additional simulations show how spines on a dendritic
+	           branch compartmentalize diffusible molecules. The efficiency of
+	           the algorithm is sufficient to allow simulation of second messenger
+	           pathways in a multitude of spines on an entire neuron.
+
+ 	</pindent>
+
+
+	<h2>Voltage propagation on trees</h2>
+	<pbib>
+	Hines, M. <a name="hines1" href="http://www.neuron.yale.edu/ftp/neuron/papers/effic84.pdf">Efficient
+	computation of branched nerve equations. (PDF)</a>
+	Int. J. Bio-Med. Comput. 15:69-76, 1984
+	</pbib>
+
+	<pindent>
+	   Describes the differenceing scheme used in Neuron, and in particular, the efficient
+	   voltage propagation method.
+	</pindent>
+
+
+</page>

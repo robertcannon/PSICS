@@ -1,0 +1,72 @@
+<page label="Stimulation" prev="properties" next="visualization">
+
+	<h1>Stimulation and Recording</h1>
+
+
+	<par>
+		The behavior of the model can be modified by attaching voltage clamps or current clamps
+		to particular points, and can be probed with voltage recorders to examine the membrane potential.
+		The command signal for a clamp can be specified in two ways: either components of the profile
+		(steps, pulses, noise) can be embedded inside the clamp definition directly; or the clamp
+		can refer to a profile by its id. If the same profile is used
+		in different contexts, the second approach makes models more concise and avoids unnecessary
+		duplication.
+	</par>
+	<par>
+		A third clamp type, the conductance clamp, is also available. By analogy with voltage and current clamps, this
+		has a fixed driving potential but a variable conductance. It is the closest in behavior to a normal synaptic
+		input, and makes it easier to achieve a stable stimulation across a range of parameter values than with a
+		current clamp. The difference is that whereas a current clamp forces a certain current into the cell, irrespective
+		of how depolarized it becomes, the conductance clamp lets the current flow towards a fixed reversal potential and
+		therefore will not induce extreme depolaraizations. It can also be used to simulate shunting effects of areas of
+		membrane that are not explicitly included in the model.
+	</par>
+
+	<par>
+		Although the three clamp types share a lot of the same properties, they have different dimensions and are
+		represented by different objects. Each profile type also appears in three flavors, giving rise to a lot of
+		objects. However, they are structurally very similar, so familiarity with one type should reliably map to the
+		others.
+	</par>
+
+	<h2>Clamp attributes</h2>
+	<par>
+		The main attributes of a clamp are the <x>at</x> attribute which defines where it is attached to the
+		cell. The value should be the id of a point on the morphology. The <x>hold</x> attribute sets the
+		baseline value, and either embedded profile components or a profile referred to with the <x>profile</x> attribute
+		sets the command profile. In the absence of a profile, the <x>hold</x> value applies throughout the run, as with
+		a steady current injection or a fixed voltage clamp. Voltage recorders share the <x>at</x> attribute with
+		exactly the same meaning. Indeed, internally there is no difference between a current clamp with <x>hold</x>="0"
+		and a voltage recorder.
+	</par>
+	<par>
+		Clamps and recorders also have three optional attributes: lineStyle, lineWidth, and lineColor.
+		These are suggestions as to how the results should be rendered and are stored in the output
+		files for use by plotting applications.
+	</par>
+
+
+	<h2>Profiles</h2>
+	<par>
+		A profile simply has an <x>id</x>, a <x>start</x> value in the appropriate units and then zero or more embedded
+		elements of type xxxPulse, xxxStep, or xxxNoise. A step is a transition from the current value to a new
+		value which stays there, whereas a pulse is a step to a new value which is held for a certain time and then
+		reverts to the original.  The noise profile provides a simple autoregressive moving average, AR(1), noise model
+		where the value <m>W<sub>t</sub></m> at time <m>t</m> is simply given by
+		<m>W<sub>t</sub> = a W<sub>t-1</sub> + (1 - a) X</m> where <m>X</m> is a Gaussian random variable. If <m>a</m> is
+		small, then the noise has mostly high frequencies. If <m>a</m> is close to 1, the signal stays closer to its
+		previous value and has more energy at low frequencies.  The parameters do not give direct control over <m>a</m> and
+		the variance of <m>X</m> but rather set the overall properties of the profile (mean value, amplitude, and timescale)
+		from which they are computed.
+	</par>
+
+
+	<par>
+		The step and pulse elements have an optional <x>repeatAfter</x> attribute that can be used to define
+		repeating sequences. It gives the time from the beginning (not the end) of the pulse after which
+		it should be reapplied, so it is just the reciprocal of the frequency.
+	</par>
+
+	<TypeSetRef title="Stimulation and Recording" ref="StimComponents"/>
+
+</page>

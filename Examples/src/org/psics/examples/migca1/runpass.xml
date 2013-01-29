@@ -1,0 +1,32 @@
+<PSICSRun timeStep="0.05ms" runTime="120ms" startPotential="-65mV"
+	morphology="morph59"
+	environment="environment"
+	properties="membrane-pass"
+	access="recording-pass"
+	stochThreshold="0">
+	<StructureDiscretization baseElementSize="15.um"/>
+	<ChannelDiscretization vMin="-100mV" vMax="60mV" deltaV="2mV"/>
+
+	<info>Migliore et al CA1 pyramidal cell</info>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+	    <LineSet file="psics-out.txt" color="red" show="1"/>
+ 		<LineSet file="psics-out.txt" color="blue" show="2"/>
+       <!--
+        <LineSet file="psics-out.txt" color="green" show="3"/>
+        -->
+
+		<View id="whole" xmin="-10." xmax="120." ymin="-80." ymax="20."/>
+
+		<View id="first" xmin="-2" xmax="20" ymin="-80." ymax="20."/>
+	    <View id="decay" xmin="4" xmax="40" ymin="-65." ymax="-55."/>
+
+
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

@@ -1,0 +1,58 @@
+<CellProperties id="membrane_distrib" membraneCapacitance="0.75uF_per_cm2"
+    cytoplasmResistivity="150.0ohm_cm">
+
+  	<PassiveProperties region="*myelin*" membraneCapacitance="0.02uF_per_cm2"/>
+  	<PassiveProperties region="*dend*" membraneCapacitance="1.125uF_per_cm2"/>
+	<PassiveProperties region="*apic*" membraneCapacitance="1.125uF_per_cm2"/>
+
+	<CellRegion match="*soma*">
+		<ChannelPopulation id="NaMS" channel="NaMS" color="0xff4040" density="1"/>
+		<ChannelPopulation id="KvMS" channel="KvMS" color="0x33ccff" density="10"/>
+		<ChannelPopulation id="KmMS" channel="KmMS" color="0x33ccff" density="0.005"/>
+		<ChannelPopulation id="CaMS" channel="CaMS" color="0x66ff33" density="0.015"/>
+	</CellRegion>
+
+	<CellRegion match="*dend*">
+		<ChannelPopulation id="NaMS" channel="NaMS" color="0xff4040" density="1.5"/>
+		<ChannelPopulation id="KmMS" channel="KmMS" color="0x33ccff" density="0.0075"/>
+		<ChannelPopulation id="CaMS" channel="CaMS" color="0x66ff33" density="0.02"/>
+		<ChannelPopulation id="leak-na" channel="leak-na" density="0.00415"/>
+		<ChannelPopulation id="leak-k" channel="leak-k" density="0.00415"/>
+	</CellRegion>
+
+	<CellRegion match="*apic*">
+		<ChannelPopulation id="NaMS" channel="NaMS" color="0xff4040" density="1.5"/>
+		<ChannelPopulation id="KmMS" channel="KmMS" color="0x33ccff" density="0.0075"/>
+		<ChannelPopulation id="CaMS" channel="CaMS" color="0x66ff33" density="0.02"/>
+		<ChannelPopulation id="leak-na" channel="leak-na" density="0.00415"/>
+		<ChannelPopulation id="leak-k" channel="leak-k" density="0.00415"/>
+	</CellRegion>
+
+	<CellRegion match="*hill*">
+		<ChannelPopulation id="NaMS" channel="NaMS" color="0xff4040" density="1500"/>
+		<ChannelPopulation id="KvMS" channel="KvMS" color="0x33ccff" density="100"/>
+	</CellRegion>
+
+	<CellRegion match="*iseg*">
+		<ChannelPopulation id="NaMS" channel="NaMS" color="0xff4040" density="1500"/>
+		<ChannelPopulation id="KvMS" channel="KvMS" color="0x33ccff" density="100"/>
+	</CellRegion>
+
+	<CellRegion match="*node*">
+		<ChannelPopulation id="NaMS" channel="NaMS" color="0xff4040" density="1000"/>
+		<ChannelPopulation id="leak-na" channel="leak-na" color="0xffff00" density="80"/>
+		<ChannelPopulation id="leak-k" channel="leak-k" color="0xff33cc" density="80"/>
+	</CellRegion>
+
+	<ChannelPopulation id="leak-na" channel="leak-na" color="0xffff00" density="0.0083per_um2">
+		<RegionMask action="exclude" where="region=*myelin*"/>
+	</ChannelPopulation>
+
+	<ChannelPopulation id="leak-k" channel="leak-k" color="0xff33cc" density="0.0083per_um2">
+		<RegionMask action="exclude" where="region=*myelin*"/>
+	</ChannelPopulation>
+
+
+
+	<DensityAdjustment maintain="-60mV" vary="leak-na, leak-k"/>
+</CellProperties>

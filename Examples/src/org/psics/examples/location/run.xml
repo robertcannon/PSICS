@@ -1,0 +1,34 @@
+<PSICSRun timeStep="0.05ms" runTime="250ms" startPotential="-65mV"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="0">
+	<MorphologySource format="swc" file="NM1.swc"/>
+
+	<StructureDiscretization baseElementSize="25um"/>
+
+
+	<RunSet vary="p2:sequenceIndex" values="[0, 2, 4, 6, 8]"
+		filepattern="out-$"/>
+
+	<info>Current clamp stimulation profile read from a file, varying the stimulation scale factor</info>
+
+
+	<ViewConfig morphologyData="true">
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<LineSet file="out-0.txt" color="red"/>
+		<LineSet file="out-2.txt" color="blue"/>
+		<LineSet file="out-4.txt" color="yellow"/>
+		<LineSet file="out-6.txt" color="pink"/>
+		<LineSet file="out-8.txt" color="orange"/>
+
+		 <View id="whole" xmin="-10." xmax="50." ymin="-100." ymax="80."/>
+		  <View id="enlarged" xmin="-10." xmax="50." ymin="-70." ymax="-50."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+</PSICSRun>

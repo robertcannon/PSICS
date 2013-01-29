@@ -1,0 +1,34 @@
+<PSICSRun   timeStep="0.02ms" runTime="1000ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="1000000"
+	oneByOne="true"
+	quickChannels="true">
+
+<RunSet vary="p0:r" values="[0.89206, 1.99471, 2.8209, 3.98942]um" filepattern="radius-$"/>
+
+	<info>Chow and White (1996), Biophys J. Showing spontaneous spiking with varying numbers of channels</info>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+
+		<LineSet file="radius-0.89206.txt" color="orange"/>
+		<LineSet file="radius-1.99471.txt" color="blue"/>
+		<LineSet file="radius-2.8209.txt" color="green"/>
+		<LineSet file="radius-3.98942.txt" color="yellow"/>
+	<!--
+		<LineSet file="radius-5.64189.txt" color="red"/>
+	-->
+
+		<View id="whole" xmin="-10." xmax="10000." ymin="-100." ymax="80."/>
+		<View id="start"   xmin="0." xmax="500." ymin="-100." ymax="80."/>
+		 <View id="end"   xmin="500." xmax="600." ymin="-100." ymax="80."/>
+
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

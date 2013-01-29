@@ -1,0 +1,4 @@
+<CellProperties id="membrane_AllCml_2" cytoplasmResistivity="1.5ohm_m" membraneCapacitance="0.01F_per_m2">
+<ChannelPopulation channel="pasCA1" density="0.357143014669per_um2" color="0xff0000"/>
+
+</CellProperties>

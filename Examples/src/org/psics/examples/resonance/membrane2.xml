@@ -1,0 +1,42 @@
+<CellProperties id="membrane2" membraneCapacitance="0.75uF_per_cm2"
+    cytoplasmResistivity="200.0ohm_cm">
+
+  	<PassiveProperties region="*_node*" cytoplasmResistivity="50.0ohm_cm"/>
+	<PassiveProperties region="*inode*" membraneCapacitance="0.04uF_per_cm2"/>
+	<PassiveProperties region="*dend*" membraneCapacitance="1.5uF_per_cm2"/>
+
+	<ChannelPopulation id="Nax-Mig" channel="Nax-Mig" color="0xff4040" density="10"/>
+	<ChannelPopulation id="Kdr-Mig" channel="Kdr-Mig" color="0x33ccff" density="10"/>
+
+	<CellRegion match="*dendA1*">
+		<ChannelPopulation id="leak-na1" channel="leak-na1" color="0xffff00" density="0.02"/>
+		<ChannelPopulation id="leak-k1" channel="leak-k1" color="0xff33cc" density="0.02"/>
+	</CellRegion>
+
+
+	<CellRegion match="*dendA5*">
+	 <ChannelPopulation id="leak-na2" channel="leak-na2" color="0xffff00" density="0.02"/>
+		<ChannelPopulation id="leak-k2" channel="leak-k2" color="0xff33cc" density="0.02"/>
+	</CellRegion>
+
+	 
+	<ChannelPopulation id="leak-na3" channel="leak-na3" color="0xffff00" density="0.02per_um2">
+		<RegionMask action="exclude" where="region=*dendA1*"/>
+		<RegionMask action="exclude" where="region=*dendA5*"/>
+	</ChannelPopulation>
+
+	<ChannelPopulation id="leak-k3" channel="leak-k3" color="0xff33cc" density="0.02per_um2">
+	 	<RegionMask action="exclude" where="region=*dendA1*"/>
+		<RegionMask action="exclude" where="region=*dendA5*"/>
+	</ChannelPopulation>
+
+<!-- 
+	<DensityAdjustment maintain="-70mV" vary="leak-na, leak-k"/>
+ -->
+
+	<DensityAdjustment maintain="-65mV" vary="leak-na1, leak-k1"/>
+	<DensityAdjustment maintain="-65mV" vary="leak-na2, leak-k2"/>
+	<DensityAdjustment maintain="-65mV" vary="leak-na3, leak-k3"/>
+
+
+</CellProperties>

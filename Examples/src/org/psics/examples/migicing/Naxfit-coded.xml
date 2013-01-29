@@ -1,0 +1,60 @@
+
+<KSChannel id="Naxfit-coded" permeantIon="Na" gSingle="30pS">
+
+
+
+  <KSComplex instances="3">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+
+	<TauInfCodedTransition from="c" to="o" tauvar="mtau" infvar="minf">
+ 		<Constant name="onebykt" value="0.039471195" info="AT 20 C!!"/>
+ 		<Constant name="z" value="4.82"/>
+ 		<Constant name="vHalf" value="-35.08" info="vhalf, mV"/>
+ 		<Constant name="gamma" value="0.49" info=""/>
+ 		<Constant name="tau" value="0.569" info=""/>
+ 		<Constant name="tmf" value="0.0304" info=""/>
+ 		<Constant name="tmr" value="0.1773" info=""/>
+ 		<![CDATA[
+	 	double rf = Math.exp (onebykt * gamma * z * (v - vHalf)) / tau;
+    	double rr = Math.exp (-onebykt * (1-gamma) * z * (v - vHalf)) / tau;
+  	    double a = 1. / (1. / rf + tmf);
+		double b = 1. / (1. / rr + tmr);
+        mtau = 1 / (a + b);
+        minf =  b * mtau;
+ 		]]>
+ 	</TauInfCodedTransition>
+
+ </KSComplex>
+
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+
+
+
+        <TauInfCodedTransition from="c" to="o" tauvar="htau" infvar="hinf">
+ 		<Constant name="onebykt" value="0.039471105" info="AT 20 C!!"/>
+ 		<Constant name="z" value="7.55"/>
+ 		<Constant name="vHalf" value="-46.4" info="vhalf, mV"/>
+ 		<Constant name="gamma" value="0.6" info=""/>
+ 		<Constant name="tau" value="11.4" info=""/>
+ 		<Constant name="tmf" value="0.564" info=""/>
+ 		<Constant name="tmr" value="1.42" info=""/>
+ 		<![CDATA[
+
+	 	double rf = Math.exp (onebykt * gamma * z * (v - vHalf)) / tau;
+    	double rr = Math.exp (-onebykt * (1-gamma) * z * (v - vHalf)) / tau;
+  	    double a = 1. / (1. / rf + tmf);
+		double b = 1. / (1. / rr + tmr);
+        htau = 1 / (a + b);
+        hinf =  b * htau;
+ 		]]>
+ 	</TauInfCodedTransition>
+
+
+ </KSComplex>
+
+ </KSChannel>
+

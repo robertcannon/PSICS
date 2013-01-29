@@ -1,0 +1,8 @@
+<CellProperties id="membrane"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1.e-8uF_per_um2">
+
+	<ChannelPopulation id="napop" channel="na1" density="16per_um2"/>
+
+
+</CellProperties>

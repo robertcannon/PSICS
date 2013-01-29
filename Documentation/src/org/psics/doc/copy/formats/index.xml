@@ -1,0 +1,65 @@
+<page label="Input formats" next="control" prev="../guide/biblio">
+
+	<h1>Input formats</h1>
+    <par>
+		Models and control parameters are read from a set of linked XML files. Each file covers
+		a particular aspect of the model so that each file can be used in a range of different
+		contexts and common modifications to the model often only involve switching one file for
+		another.
+	</par>
+
+	<par>
+		The <a href="../guide/specification.html">Model specification</a> section of the user guide explains the
+		structure of PSICS XML files, the various parameter types  and how to set up complete models. This
+		reference introduces each component type and tabulates all the allowed attributes (parameters) and
+		elements (sub-objects).
+	</par>
+
+
+
+
+	<h2>Contents</h2>
+
+	<par>
+
+	<ul>
+		<li><a href="control.html">Run control</a>: overall specification of the
+		simulation to be performed</li>
+		<li><a href="morphology.html">Morphology</a>: specification of cell structure</li>
+		<li><a href="environment.html">Environment</a>: the environment around the cell, including
+		the temperature and concentrations of ions</li>
+		<li><a href="channels.html">Ion channels</a>: Kinetic Scheme channels, including
+		Hodgkin-Huxley style models as multi-complex schemes</li>
+		<li><a href="properties.html">Electrical properties</a>:  resistance, capacitance and the
+		 distribution of ion channels
+		</li>
+		<li><a href="stimrec.html">Stimulation and Recording</a>: for attaching clamps and recorders to the
+		structure that drive the simulation and specify what results are stored</li>
+		<li><a href="units.html">Units</a>: all physical quantities in any of the above components of the
+		model should include the units in which they are expressed.</li>
+		<li><a href="standards.html">Standards</a>: PSICS can read various external standards
+		for model specification.</li>
+	</ul>
+	</par>
+
+	<table cellspacing="12">
+		<tr>
+			<td valign="top" width="40%">
+	<h2>Element Index</h2>
+	<par>
+		All XML tags that can be used in PSICS models.
+	</par>
+	<elementindex/>
+
+			</td>
+			<td valign="top" width="55%">
+	<h2>Attribute Index</h2>
+	<par>
+		All attribute names  and the elements on which they occur.
+	</par>
+	<attributeindex/>
+			</td>
+		</tr>
+	</table>
+
+</page>

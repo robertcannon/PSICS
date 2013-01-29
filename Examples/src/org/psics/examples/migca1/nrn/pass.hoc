@@ -1,0 +1,144 @@
+load_file("nrngui.hoc")
+cvode.active(1)
+
+mid=12
+dist=27
+secondorder=2
+FARADAY=96520
+PI=3.14159
+
+Rm = 28000
+RmDend = Rm
+RmSoma = Rm
+RmAx = Rm
+
+Cm    = 1
+CmSoma= Cm
+CmAx  = Cm
+CmDend = Cm*2
+
+RaAll= 150
+
+RaSoma=150  
+RaAx = 150
+
+Vrest = -65
+dt = 0.025
+gna =  .032
+AXONM = 2
+gkdr = 0.01
+celsius = 34.0  
+KMULT =  0.048
+KMULTP = 0.048
+
+xopen("n160_mod.nrn")             // geometry file
+
+tstim=90
+strength = 0.15 /*namps*/
+tstop=90
+
+
+objectvar stim
+
+
+
+objref g, b
+b = new VBox()
+b.intercept(1)
+g = new Graph()
+g.size(0,tstop,-70,30)
+g.addvar("soma[2].v(0.5)",2,1, 2*tstop,0,2)
+g.addvar("soma[1].v(0.5)",3,1, 2*tstop,0,2)
+g.addvar("apical[mid].v(0.5)",4,2,2*tstop,0,2)
+g.addvar("apical[dist].v(0.5)",5,2,2*tstop,0,2)
+g.color(2)
+g.label(0.1,0.05,"soma")
+g.color(3)
+g.label(0.24,0.05,"soma 1")
+g.color(4)
+g.label(0.24,0.05,"mid apical (200um)")
+g.color(5)
+g.label(0.6,0.05,"dist apical (400um)")
+g.xaxis(1)
+g.begin()
+xpanel("")
+xbutton("run Fig.1A", "runu()")
+xpanel()
+b.intercept(0)
+b.map()
+
+
+
+soma[5] distance()
+
+access soma[5]
+
+axon[1] {
+                insert pas e_pas=Vrest g_pas = 1/RmAx Ra=RaAx cm=CmAx
+}
+
+axon[0] {   
+                insert pas e_pas=Vrest g_pas = 1/RmAx Ra=RaAx cm=CmAx
+}
+
+for i=0,NumSoma-1 soma[i] {   
+                insert pas e_pas=Vrest g_pas = 1/RmSoma Ra=RaSoma cm=CmSoma
+}
+
+for i=0,NumBasal-1 basal[i] {
+                insert pas e_pas=Vrest g_pas = 1/RmDend Ra=RaAll cm=CmDend
+}
+                
+for i=0,NumApical-1 apical[i] {
+//if (i<40) {printf(" %d, %g \n",i,distance(0.5))}
+              insert pas e_pas=Vrest g_pas = 1/RmDend Ra=RaAll  cm=CmDend
+}
+
+
+proc init() {
+	t=0
+        forall {v=Vrest}
+	finitialize(v)
+        fcurrent()
+
+        forall {
+	  for (x) {if (ismembrane("na3")||ismembrane("nax")){e_pas(x)=v(x)+(ina(x)+ik(x))/g_pas(x)
+		   } else {
+			e_pas(x)=v(x)
+		   }
+		  }
+	}
+	cvode.re_init()
+}
+
+proc step() {
+	fadvance()
+	g.plot(t)
+	g.flush()
+	doNotify()
+}
+
+proc run() {
+
+	t=0
+
+	access soma[2]
+        
+
+	stim = new IClamp(0.5)
+	stim.del = 4
+	stim.dur = 1.2
+	stim.amp = 2
+
+
+	init()
+        access soma[2]
+
+	while(t<tstop) { step()}
+}
+
+
+proc runu() {
+run()
+}
+

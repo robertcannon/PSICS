@@ -1,0 +1,114 @@
+<page label="Morphology" prev="control" next="environment">
+
+	<h1>Cell Morphology</h1>
+
+
+	<par>
+		Simple morphologies can be written by hand using the native morphology format described
+		below. For more complex structures the morphology can be read in either SWC format or in
+		the XML format exported by Neuron. In particular, PSICS can read the structures provided
+		by <a href="http://www.neuromorpho.org/">NeuroMorpho.org</a>. The file must have the ".swc"
+		extension and be placed in the same folder as the main xml file for the model.
+		The ID of the morphology is taken to be the name of the file without the extension so, for
+		example, to use the structure from a file called <tt>n128.swc</tt> the main model xml file
+		would include the attribute specification <tt>morphology="n128"</tt>.
+	</par>
+
+	<par>
+		The internal model used by PSICS differs somewhat from what is possible in SWC. This means
+		that some features of the discretization and calculation process are not accessible
+		for SWC morphologies. A partial solution is to use <a href="../gui/guide.html">ICING</a> to
+		open the morphology and save it in the native format from which it can be edited by hand.
+	</par>
+	<par>
+		The main difference is that
+		PSICS supports Genesis-style spherical compartments where branches are assumed to exit from
+		the surface of the sphere with a radius set by the first daughter point (this is the
+		function of the "minor" flag in the description below). By contrast points in swc files are
+		always taken to be the ends of tapering segments so the soma of a cell, for example, is
+		normally stored as several short fat segments with rapidly tapering segments where the dendrites
+		emerge. This leads to possible mismatch between the physical extend of the soma and the
+		computed area since segments that would physically intersect are treated as independent.
+	</par>
+
+	<par>
+		There other difference is in the labelling of points and sections of the structure.
+		The different parts of a cell are often labelled
+		in SWC files by setting a "type code" for each point. The code is often an integer,
+		although it can also be a section if text as long as it does not contain any spaces.
+		These codes are the only way in which points can be labelled, so it is not possible to
+		also label a point as, for example, an intended recording location without overwriting its
+		type code. Where the codes are used only for visualization, the effect is not very
+		important, but it presents a problem if the codes are also used to assign channel densities
+		 to different regions of the cell.
+	</par>
+	<par>
+		 In PSICS, the same approach is available via the "partof" property described below
+		 but the simplest way of specifying a region in a structure is to
+		 set labels only for its boundaries and then use structural relations to
+		 to define the regions. For example, the first point of the axon could be labelled "a0" and
+		 then the whole axon could be targeted as anything distal to "a0". Such expressions are not
+		 part of the morphology definition. Only the labels are present in the morphology file; thier
+		 significance comes with the CellProperties file that uses expressions to associate electrical
+		 properties with different regions of the cell. The benefit of working only with the boundaries
+		 is that they are easier to change by hand, and with a format like SWC that supports only
+		 a single label per point, it leaves most of the labels free for other uses such as
+		 specifying a recording site.
+	</par>
+	<par>
+		Thus although PSICS supports the "partof" attribute for points in a structure, this is mainly for
+		backward compatibility and label based assignments are preferable. As well as being
+		easier to create, they avoid a potential ambiguity in the boundaries of a region.
+		For a set of points on a segment with a particular "partof" value specified, does the
+		region just include the space between the first and the last or should it go half way back
+		to the previous point? If it is the first one, what region does the segment between two
+		points with different partof property belong to? Or in the second case, how do you
+		specify where the soma ends and a dendrite begins? Putting a point at the boundary doesn't
+		help because whatever property you set for it will extend half way to each neighbor. In practice,
+		these issues are rarely important for realistic morphologies which are usually digitized to a
+		fine enough resolution that there are several points to each compartment of the discretized
+		structure. However, there is no reqirement in PSICS that a morphology specification should
+		contain a lot of points (eg, a cell with a soma and uniform cables for an axon and a dendrite
+		only needs three points) and it is for these idealized structures that the ambiguities of
+		"partof" style specifications become problematic.
+	</par>
+
+
+
+	<h2>Native morphology format</h2>
+
+	<par>
+		The morphology of a cell is defined through the positions and radii of points on the structure.
+		By default, the segment between neighboring points is assumed to taper smoothly where the radii differ
+		at the two ends giving a carrotoid segment. This can be overridden with the "minor" flag which indicates that the
+		distal segment starts from the surface of its parent and that its radius is fixed at the radius of the
+		distal point. This typically applies to branches off the soma and to spines. It may also be appropriate for
+		minor branches at branch points.
+	</par>
+
+	<par>
+		The Branch object is a convenience for defining minor branches without filling the parent segment
+		with points. It has the same fields as the Point object, but is interpreted as a branch not directly from
+		the parent point, but from somewhere along the segment proximal of the parent point such that the branch is
+		perpendicular to the segment. This is convenient, for example, in modeling spines without modifying
+		the specification of the segment to which they are attached. Note that for a branch you do not need to
+		specify the position along the parent segment: this is computed internally so that the branch and its parent are
+		at right angles. For branches at other angles it is necessary to insert a point in the parent segment where they
+		join and then to use a normal point object for the child.
+	</par>
+
+
+	<par>
+		There are a two flags that can be used to make PSICS mimic the behavior of other systems.
+		In the main PSICSRun file, setting <x>squareCaps="true"</x> causes the ends of segments
+		to be ignored (no channels, no capacitance) rather than treated as hemispherical. In this case
+		minor branches are treated as emerging from the center of the parent rather than the
+		surface. The other flag is <x>merge</x> in the StructureDiscrtization element of the
+		main PSICSRun file. If set to false, then there is at least one segment per point
+		in the original structure file. The discretization process may still subdivide sections, but
+		this can be avoided if desired by setting a large discretization parameter.
+	</par>
+
+	<TypeSetRef title="Morphology" ref="MorphologyComponents"/>
+
+</page>

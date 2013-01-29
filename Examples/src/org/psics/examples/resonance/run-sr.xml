@@ -1,0 +1,50 @@
+<PSICSRun   timeStep="0.02ms" runTime="50ms" startPotential="-70mV"
+	environment="environment"
+	properties="membrane2"
+	access="recordri06"
+	stochThreshold="0"
+	quickChannels="false"
+	morphology="ri06psics"
+	repeats="1">
+
+<!-- 
+ activity="activity-sr"
+ -->	
+
+	
+	<StructureDiscretization baseElementSize="10um"/>
+	<info>Spruston CA1 pyramidal neuron (with Ih)</info>
+
+	<!--<RunSet vary="timeStep" values="[0.02]ms" filepattern="out">
+		<CommandSet vary="ipulse:to" values="[0.05 0.1 0.15 0.2 0.3 0.35 0.4 0.45]nA"/>
+	</RunSet>-->
+
+	<!--<ChannelStochThreshold channel="Nax-Mig-tuft" threshold="100000000"/>
+	<ChannelStochThreshold channel="Kdr-Mig-tuft" threshold="100000000"/>
+	<ChannelStochThreshold channel="Ih-Spru-tuft" threshold="100000000"/>
+	<ChannelStochThreshold channel="Kaprox-Mig-tuft" threshold="100000000"/>
+	<ChannelStochThreshold channel="Kadist-Mig-tuft" threshold="100000000"/>
+	<ChannelStochThreshold channel="leak-na-tuft" threshold="100000000"/>
+	<ChannelStochThreshold channel="leak-k-tuft" threshold="100000000"/>-->
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="100" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<Line file="psics-out.txt" show="1" color="#ffffff"/>
+		<!--<Line file="psics-out.txt" show="2" color="#ffffcc"/>
+		<Line file="psics-out.txt" show="3" color="#ffff99"/>
+		<Line file="psics-out.txt" show="4" color="#ffff66"/>
+		<Line file="psics-out.txt" show="5" color="#ffff33"/>
+		<Line file="psics-out.txt" show="6" color="#ffff00"/>
+		<Line file="psics-out.txt" show="7" color="#ffcc33"/>
+		<Line file="psics-out.txt" show="8" color="#ffcc00"/>
+		<Line file="psics-out.txt" show="9" color="#ff9933"/>-->
+
+		<View id="zoom100ms" xmin="200." xmax="300." ymin="-80." ymax="-20."/>
+		<View id="whole" xmin="-10." xmax="1110" ymin="-80." ymax="-40."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

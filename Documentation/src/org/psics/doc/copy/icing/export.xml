@@ -1,0 +1,32 @@
+
+<page label="Exporting" prev="basics" next="reference">
+
+	<h1>Exporting 3D models</h1>
+
+
+	<par>
+		Models can be exported in <a href="http://www.web3d.org/about/overview/">X3D</a> format,
+		the ISO ratified successor to VRML from <a href="http://www.web3d.org/">web3d.org</a>.
+	</par>
+
+	<par>
+		The export function is under the "file" menu of the main window and does not require
+		any Java3D support, so can be used as an alternative to the internal Icing 3d viewer.
+		Once exported, models can be viewed with a range of standard 3d viewers, embedded in
+		web pages, and used to generate high-resolution visualizations.
+	</par>
+
+	<par>
+		Only the currently selected channel populations are exported so the morphology file
+		should correspond exactly to what is displayed by Icing. Depending on the size of
+		the model, the export process can generate very large files. These may take some time
+		to write and will cause the interface to freeze in the meantime.
+	</par>
+	<par>
+		At present, only the most basic form of X3D export is supported, but there are
+		several possible improvements and extensions. If you have cause to use this feature and
+		need more control over what is exported or how the process relates to the rest of
+		Icing, please get in touch.
+	</par>
+
+</page>

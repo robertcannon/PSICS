@@ -1,0 +1,23 @@
+
+<KSChannel id="Kaprox" permeantIon="K" gSingle="30pS">
+
+	<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+       <VHalfTransition from="c" to="o" z="3.42e" vHalf="0.15mV" gamma="0.655" tau="2.52ms"
+       			tauMinFwd="1.58ms" tauMinRev="0.0ms"/>
+
+ </KSComplex>
+
+
+<KSComplex instances="1">
+      <OpenState id="o"/>
+      <ClosedState id="c"/>
+       <VHalfTransition from="o" to="c" z="5.64e" vHalf="-63.64mV" gamma="0.443"
+                tau="6.17ms" tauMinFwd="3.17ms" tauMinRev="1.8ms"/>
+ </KSComplex>
+
+
+
+ </KSChannel>
+

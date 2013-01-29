@@ -1,0 +1,11 @@
+
+<CellMorphology id="ballstick2" squareCaps="true">
+	<Point id="p0" x="0" y="0" z="0" r="8"/>
+	<Point parent="p0" id="p1" x="10" y="0" z = "0" r="8"/>
+	<Point parent="p1" id="p2" x="130" y="0" z = "0" minor="false" r="0.5" onSurface="true"/>	
+	<Point parent="p2" id="p2a" x="140" y="30" z = "0" minor="false" r="0.5"/>
+
+
+	<Point parent="p0" id="p3" x="0" y="0.0" z = "0" onSurface="true" minor="true" r="1.8"/>
+	<Point parent="p3" id="p4" x="20" y="-20" z = "0" minor="false" r="1.5"/>
+</CellMorphology>

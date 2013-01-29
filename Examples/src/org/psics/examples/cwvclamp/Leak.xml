@@ -1,0 +1,3 @@
+<KSChannel id="Leak" gSingle="0.01pS" permeantIon="LEAK">
+	<OpenState id="o1"/>
+</KSChannel>

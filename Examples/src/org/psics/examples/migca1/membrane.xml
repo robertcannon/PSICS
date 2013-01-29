@@ -1,0 +1,84 @@
+<CellProperties id="membrane"
+      cytoplasmResistivity="150ohm_cm"
+      membraneCapacitance="1.0uF_per_cm2">
+
+
+    <Exclusion winner="*soma*" loser="*apical*"/>
+    <Exclusion winner="*soma*" loser="*basal*"/>
+	<Exclusion winner="*soma*" loser="*axon*"/>
+
+
+
+  	<PassiveProperties region="*apical*" membraneCapacitance="2uF_per_cm2"/>
+  	<PassiveProperties region="*basal*" membraneCapacitance="2uF_per_cm2"/>
+	<PassiveProperties region="*axon*" cytoplasmResistivity="50ohm_cm"/>
+
+
+	<PassiveProperties region="*soma*" membraneCapacitance="1uF_per_cm2"/>
+
+
+	<ChannelPopulation channel="leak-Na" density="0.0512per_um2"/>
+	<ChannelPopulation channel="leak-K" density="0.0512per_um2"/>
+
+
+	<CellRegion match="*axon*">
+	    <ChannelPopulation channel="Nax-coded" density="21.33per_um2"/>
+		<ChannelPopulation channel="Kdr-coded" density="3.33per_um2"/>
+		<ChannelPopulation channel="Kaprox-coded" density="3.2per_um2"/>
+	</CellRegion>
+
+
+
+
+   <CellRegion match="*basal*">
+   <ChannelPopulation channel="leak-Na" density="0.0512per_um2"/>
+	<ChannelPopulation channel="leak-K" density="0.0512per_um2"/>
+
+	    <ChannelPopulation channel="Na3-coded-basal" density="10.67per_um2"/>
+		<ChannelPopulation channel="Kdr-coded" density="3.33per_um2"/>
+		<ChannelPopulation channel="Kaprox-coded" density="16per_um2"/>
+	</CellRegion>
+
+
+	<CellRegion match="*apical*">
+   	    <ChannelPopulation channel="leak-Na" density="0.0512per_um2"/>
+	    <ChannelPopulation channel="leak-K" density="0.0512per_um2"/>
+
+
+	    <ChannelPopulation channel="Na3-coded-apical" density="10.67per_um2">
+	    	<RegionMask action="exclude" where="d .lt. 0.5"/>
+	    	<RegionMask action="exclude" where="p .gt. 500"/>
+	    </ChannelPopulation>
+
+
+	    <ChannelPopulation channel="Kdr-coded" density="3.33per_um2">
+		    <RegionMask action="exclude" where="d .lt. 0.5"/>
+		    <RegionMask action="exclude" where="p .gt. 500"/>
+	    </ChannelPopulation>
+
+
+        <ChannelPopulation channel="Kaprox-coded" density="16 * (1 + p/100) per_um2">
+        	<RegionMask action="exclude" where="p .gt. 100"/>
+        </ChannelPopulation>
+
+
+   	    <ChannelPopulation channel="Kadist-coded" density="16 * (1 + p / 100)per_um2">
+   	    	<RegionMask action="exclude" where="p .lt. 100"/>
+			<RegionMask action="exclude" where="p .gt. 500"/>
+   	    </ChannelPopulation>
+
+    </CellRegion>
+
+
+<CellRegion match="*soma*">
+	    <ChannelPopulation channel="Na3-coded-soma" density="10.67per_um2"/>
+		<ChannelPopulation channel="Kdr-coded" density="3.33per_um2"/>
+		<ChannelPopulation channel="Kaprox-coded" density="16per_um2"/>
+	</CellRegion>
+
+
+
+
+    <DensityAdjustment maintain="-65mV" vary="leak-Na, leak-K"/>
+
+</CellProperties>

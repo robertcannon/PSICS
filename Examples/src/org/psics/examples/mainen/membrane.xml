@@ -1,0 +1,22 @@
+<CellProperties id="membrane"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+
+
+    <ChannelPopulation channel="leak-Na" density="0.1per_um2"/>
+	<ChannelPopulation channel="leak-K" density="0.1per_um2"/>
+
+	<ChannelPopulation channel="naz_nature" density="60per_um2" distribution="proximal"/>
+    <ChannelPopulation channel="kvz_nature" density="18per_um2" distribution="proximal"/>
+
+	<ChannelPopulation channel="km" density="0.1per_um2" distribution="proximal"/>
+
+
+	<DistributionRule id="proximal">
+		<RegionMask action="include" where="p .lt. 100"/>
+	</DistributionRule>
+
+
+    <DensityAdjustment maintain="-65mV" vary="leak-Na, leak-K"/>
+
+</CellProperties>

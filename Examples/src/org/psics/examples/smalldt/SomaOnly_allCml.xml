@@ -1,0 +1,5 @@
+<CellMorphology id="SomaOnly_allCml">
+    <Point id="Seg0_soma_0_root" x="0.0" y="0.0" z="0.0" r="3.7455" label="~all~~soma_group~~ModelViewParmSubset_2~~ModelViewParmSubset_6~~ModelViewParmSubset_9~~OneSecGrp_SectionRef_1~"/>
+    <Point parent="Seg0_soma_0_root" id="Seg0_soma_0" x="0.0" y="7.4909997" z="0.0" r="3.7455" label="~all~~soma_group~~ModelViewParmSubset_2~~ModelViewParmSubset_6~~ModelViewParmSubset_9~~OneSecGrp_SectionRef_1~"/>
+    
+</CellMorphology>

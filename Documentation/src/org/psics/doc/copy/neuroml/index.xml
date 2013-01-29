@@ -1,0 +1,41 @@
+<page label="NeuroML">
+
+<h1>Interaction between PSICS and NeuroML</h1>
+
+<par>
+	Significant development effort has been devoted towards making PSICS compatible,
+	as far as possible, with other systems. In particular, this involves
+	supporting emerging standards such as ChannelML and MorphML, and more generally
+	XML data formats under the <a href="http://neuroml.sourceforge.net/">NeuroML</a> banner.
+</par>
+
+<par>
+	The approach has not, however, been to take the NeuroML specifications as defining
+	the model space and to write
+	a simulator for them. Instead, the PSICS input specifications were developed
+	independently of existing specifications or simulators and are driven purely by
+	the need to express what the modeler who uses PSICS needs.
+</par>
+
+<par>
+	This therefore presents a useful test case for the expressiveness
+	and ease-of-use of NeuroML. This document details our experiences of
+	working with NeuroML and makes a number of suggestions of ways the standard
+	could be further developed to improve its usefulness as a model storage and
+	trasfer format for projects such as PSICS.
+</par>
+
+<par>
+	An earlier version of this document contained an extensive commentary on the 
+	general structure of NeuroML and links to separate documents about MorphML, ChannelML,
+	NeuroML Biophysics and NeuroML exporting.  However, as of the March 2009 NeuroML standards 
+	meeting, many of these comments and concerns have been taken on board by the NeuroML developers and 
+	work is under way to address them. 
+	These pages are therefore no longer pertinent and have been removed. 
+	
+</par>
+
+ 
+ 
+
+</page>

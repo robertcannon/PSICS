@@ -1,0 +1,227 @@
+
+<Access id="recordri06" saveInterval="0.1ms">
+
+	<CellLocation id="pa0" path="100" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="pa1" path="100" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="pa2" path="100" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="pa3" path="100" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="pa4" path="100" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="pa5" path="100" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="pa6" path="100" rankBy="radius" sequenceIndex="6"/>
+	<CellLocation id="pa7" path="100" rankBy="radius" sequenceIndex="7"/>
+	<CellLocation id="pa8" path="100" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="pa9" path="100" rankBy="radius" sequenceIndex="9"/>
+	<CellLocation id="pa10" path="100" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="pa11" path="100" rankBy="radius" sequenceIndex="11"/>
+	<CellLocation id="pa12" path="100" rankBy="radius" sequenceIndex="12"/>
+	<CellLocation id="pa13" path="100" rankBy="radius" sequenceIndex="13"/>
+	<CellLocation id="pa14" path="100" rankBy="radius" sequenceIndex="14"/>
+	<CellLocation id="pa15" path="100" rankBy="radius" sequenceIndex="15"/>
+	<CellLocation id="pa16" path="100" rankBy="radius" sequenceIndex="16"/>
+	<CellLocation id="pa17" path="100" rankBy="radius" sequenceIndex="17"/>
+	<CellLocation id="pa18" path="100" rankBy="radius" sequenceIndex="18"/>
+	<CellLocation id="pa19" path="100" rankBy="radius" sequenceIndex="19"/>
+	<CellLocation id="pa20" path="100" rankBy="radius" sequenceIndex="20"/>
+	<CellLocation id="pa21" path="100" rankBy="radius" sequenceIndex="21"/>
+	
+	<CellLocation id="pb0" path="200" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="pb1" path="200" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="pb2" path="200" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="pb3" path="200" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="pb4" path="200" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="pb5" path="200" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="pb6" path="200" rankBy="radius" sequenceIndex="6"/>
+	<CellLocation id="pb7" path="200" rankBy="radius" sequenceIndex="7"/>
+	<CellLocation id="pb8" path="200" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="pb9" path="200" rankBy="radius" sequenceIndex="9"/>
+	<CellLocation id="pb10" path="200" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="pb11" path="200" rankBy="radius" sequenceIndex="11"/>
+	<CellLocation id="pb12" path="200" rankBy="radius" sequenceIndex="12"/>
+	<CellLocation id="pb13" path="200" rankBy="radius" sequenceIndex="13"/>
+	<CellLocation id="pb14" path="200" rankBy="radius" sequenceIndex="14"/>
+	<CellLocation id="pb15" path="200" rankBy="radius" sequenceIndex="15"/>
+	<CellLocation id="pb16" path="200" rankBy="radius" sequenceIndex="16"/>
+	<CellLocation id="pb17" path="200" rankBy="radius" sequenceIndex="17"/>
+	<CellLocation id="pb18" path="200" rankBy="radius" sequenceIndex="18"/>
+	<CellLocation id="pb19" path="200" rankBy="radius" sequenceIndex="19"/>
+	<CellLocation id="pb20" path="200" rankBy="radius" sequenceIndex="20"/>
+	<CellLocation id="pb21" path="200" rankBy="radius" sequenceIndex="21"/>
+	<CellLocation id="pb22" path="200" rankBy="radius" sequenceIndex="22"/>
+	<CellLocation id="pb23" path="200" rankBy="radius" sequenceIndex="23"/>
+	<CellLocation id="pb24" path="200" rankBy="radius" sequenceIndex="24"/>
+	<CellLocation id="pb25" path="200" rankBy="radius" sequenceIndex="25"/>
+	<CellLocation id="pb26" path="200" rankBy="radius" sequenceIndex="26"/>
+	<CellLocation id="pb27" path="200" rankBy="radius" sequenceIndex="27"/>
+	<CellLocation id="pb28" path="200" rankBy="radius" sequenceIndex="28"/>
+	<CellLocation id="pb29" path="200" rankBy="radius" sequenceIndex="29"/>
+	<CellLocation id="pb30" path="200" rankBy="radius" sequenceIndex="30"/>
+	<!--<CellLocation id="pb31" path="200" rankBy="radius" sequenceIndex="31"/> (axon)-->
+
+
+	<CellLocation id="pc0" path="300" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="pc1" path="300" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="pc2" path="300" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="pc3" path="300" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="pc4" path="300" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="pc5" path="300" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="pc6" path="300" rankBy="radius" sequenceIndex="6"/>
+	<CellLocation id="pc7" path="300" rankBy="radius" sequenceIndex="7"/>
+	<CellLocation id="pc8" path="300" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="pc9" path="300" rankBy="radius" sequenceIndex="9"/>
+	<CellLocation id="pc10" path="300" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="pc11" path="300" rankBy="radius" sequenceIndex="11"/>
+	<!--<CellLocation id="pc12" path="300" rankBy="radius" sequenceIndex="12"/> (axon) -->
+
+	<CellLocation id="pd0" path="400" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="pd1" path="400" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="pd2" path="400" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="pd3" path="400" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="pd4" path="400" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="pd5" path="400" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="pd6" path="400" rankBy="radius" sequenceIndex="6"/>
+	<CellLocation id="pd7" path="400" rankBy="radius" sequenceIndex="7"/>
+	<CellLocation id="pd8" path="400" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="pd9" path="400" rankBy="radius" sequenceIndex="9"/>
+	<CellLocation id="pd10" path="400" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="pd11" path="400" rankBy="radius" sequenceIndex="11"/>
+
+	<CellLocation id="pe0" path="500" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="pe1" path="500" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="pe2" path="500" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="pe3" path="500" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="pe4" path="500" rankBy="radius" sequenceIndex="4"/>
+
+	<CellLocation id="pf0" path="600" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="pf1" path="600" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="pf2" path="600" rankBy="radius" sequenceIndex="2"/>
+
+	<CellLocation id="pg0" path="700" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="pg1" path="700" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="pg2" path="700" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="pg3" path="700" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="pg4" path="700" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="pg5" path="700" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="pg6" path="700" rankBy="radius" sequenceIndex="6"/>
+
+	<CellLocation id="ph0" path="800" rankBy="radius" sequenceIndex="0"/>
+	<CellLocation id="ph1" path="800" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="ph2" path="800" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="ph3" path="800" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="ph4" path="800" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="ph5" path="800" rankBy="radius" sequenceIndex="5"/>
+
+	<!--<CurrentClamp at="1" hold="0nA">
+		<CurrentPulse id="ipulse" start="50ms" duration="1000ms" to="0.25nA"/>
+	</CurrentClamp>-->
+
+	<VoltageRecorder at="1"/>
+
+	<!--<VoltageRecorder location="pa0"/>
+	<VoltageRecorder location="pa1"/>
+	<VoltageRecorder location="pa2"/>
+	<VoltageRecorder location="pa3"/>
+	<VoltageRecorder location="pa4"/>
+	<VoltageRecorder location="pa5"/>
+	<VoltageRecorder location="pa6"/>
+	<VoltageRecorder location="pa7"/>
+	<VoltageRecorder location="pa8"/>
+	<VoltageRecorder location="pa9"/>
+	<VoltageRecorder location="pa10"/>
+	<VoltageRecorder location="pa11"/>
+	<VoltageRecorder location="pa12"/>
+	<VoltageRecorder location="pa13"/>
+	<VoltageRecorder location="pa14"/>
+	<VoltageRecorder location="pa15"/>
+	<VoltageRecorder location="pa16"/>
+	<VoltageRecorder location="pa17"/>
+	<VoltageRecorder location="pa18"/>
+	<VoltageRecorder location="pa19"/>
+	<VoltageRecorder location="pa20"/>
+	<VoltageRecorder location="pa21"/>
+
+	<VoltageRecorder location="pb0"/>
+	<VoltageRecorder location="pb1"/>
+	<VoltageRecorder location="pb2"/>
+	<VoltageRecorder location="pb3"/>
+	<VoltageRecorder location="pb4"/>
+	<VoltageRecorder location="pb5"/>
+	<VoltageRecorder location="pb6"/>
+	<VoltageRecorder location="pb7"/>
+	<VoltageRecorder location="pb8"/>
+	<VoltageRecorder location="pb9"/>
+	<VoltageRecorder location="pb10"/>
+	<VoltageRecorder location="pb11"/>
+	<VoltageRecorder location="pb12"/>
+	<VoltageRecorder location="pb13"/>
+	<VoltageRecorder location="pb14"/>
+	<VoltageRecorder location="pb15"/>
+	<VoltageRecorder location="pb16"/>
+	<VoltageRecorder location="pb17"/>
+	<VoltageRecorder location="pb18"/>
+	<VoltageRecorder location="pb19"/>
+	<VoltageRecorder location="pb20"/>
+	<VoltageRecorder location="pb21"/>
+	<VoltageRecorder location="pb22"/>
+	<VoltageRecorder location="pb23"/>
+	<VoltageRecorder location="pb24"/>
+	<VoltageRecorder location="pb25"/>
+	<VoltageRecorder location="pb26"/>
+	<VoltageRecorder location="pb27"/>
+	<VoltageRecorder location="pb28"/>
+	<VoltageRecorder location="pb29"/>
+	<VoltageRecorder location="pb30"/>
+
+	<VoltageRecorder location="pc0"/>
+	<VoltageRecorder location="pc1"/>
+	<VoltageRecorder location="pc2"/>
+	<VoltageRecorder location="pc3"/>
+	<VoltageRecorder location="pc4"/>
+	<VoltageRecorder location="pc5"/>
+	<VoltageRecorder location="pc6"/>
+	<VoltageRecorder location="pc7"/>
+	<VoltageRecorder location="pc8"/>
+	<VoltageRecorder location="pc9"/>
+	<VoltageRecorder location="pc10"/>
+	<VoltageRecorder location="pc11"/>
+
+	<VoltageRecorder location="pd0"/>
+	<VoltageRecorder location="pd1"/>
+	<VoltageRecorder location="pd2"/>
+	<VoltageRecorder location="pd3"/>
+	<VoltageRecorder location="pd4"/>
+	<VoltageRecorder location="pd5"/>
+	<VoltageRecorder location="pd6"/>
+	<VoltageRecorder location="pd7"/>
+	<VoltageRecorder location="pd8"/>
+	<VoltageRecorder location="pd9"/>
+	<VoltageRecorder location="pd10"/>
+	<VoltageRecorder location="pd11"/>
+
+	<VoltageRecorder location="pe0"/>
+	<VoltageRecorder location="pe1"/>
+	<VoltageRecorder location="pe2"/>
+	<VoltageRecorder location="pe3"/>
+	<VoltageRecorder location="pe4"/>
+
+	<VoltageRecorder location="pf0"/>
+	<VoltageRecorder location="pf1"/>
+	<VoltageRecorder location="pf2"/>
+
+
+	<VoltageRecorder location="pg0"/>
+	<VoltageRecorder location="pg1"/>
+	<VoltageRecorder location="pg2"/>
+	<VoltageRecorder location="pg3"/>
+	<VoltageRecorder location="pg4"/>
+	<VoltageRecorder location="pg5"/>
+	<VoltageRecorder location="pg6"/>
+	
+    <VoltageRecorder location="ph0"/>
+	<VoltageRecorder location="ph1"/>
+	<VoltageRecorder location="ph2"/>
+	<VoltageRecorder location="ph3"/>
+	<VoltageRecorder location="ph4"/>
+	<VoltageRecorder location="ph5"/>-->
+    
+    
+</Access>

@@ -1,0 +1,17 @@
+
+<Access id="recording-c">
+
+	<CurrentClamp at="4" hold="0nA">
+		<CurrentPulse start="4ms" duration="1.2ms" to="2nA"/>
+		<CurrentPulse start="44ms" duration="1.2ms" to="2nA"/>
+		<CurrentPulse start="84ms" duration="1.2ms" to="2nA"/>
+	</CurrentClamp>
+
+
+	<ConductanceClamp id="ccc" at="Seg0_apical[13]" potential="0mV">
+		<ConductancePulse id="synapse" start="10ms" duration="8ms" to="0nS" repeatAfter="10ms"/>
+	</ConductanceClamp>
+
+	<VoltageRecorder at="Seg0_apical[12]"/>
+
+</Access>

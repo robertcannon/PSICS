@@ -1,0 +1,15 @@
+
+<p>
+  Voltage clamp with stochastic channels. This uses a nested
+  CommandSet within the RunSet to vary two parameters for the model. 
+The run set changes the density of channels in the model (either 2 or
+  8 per square micron). For each model, the command set changes the
+  potential of the step by modifing the "to" attribute of the step
+  block.
+</p>
+
+<p>
+ The cell is just a sphere, and the channel is the HH sodium channel 
+from rallpack3. 
+</p>
+ 

@@ -1,0 +1,33 @@
+<AutonomousPanel name="System Monitor"
+		 controllerClass="SystemMonitorController">
+
+    <GridPanel xspace="2" yspace="2" ncolumn="1">
+
+	<FillGuage value="0.0" title="Memory usage" text="memory" id="MemoryGuage">
+	    <info>
+		This shows the how much memory is currently used compared
+		with the maximum allowed to the program. Usually the maximum
+		is not the same as the actual memory on the computer: java programs
+		run within a restricted space. The space available to the program
+		can be set at startup with with an extra argument in the
+		command line such as 'java -Xmx128M -jar program.jar'. The '-X' part
+		tells the java process that it can use up to 128Mb.
+	    </info>
+	</FillGuage>
+	<RightFlowPanel>
+	<Button label="Clean up" action="collectGarbage">
+	    <tip>Frees up any memory that is unused</tip>
+	    <info>
+		Garbage collection refers to the recovery of memory that
+		has been allocated but is no longer needed by the program.
+		The memory can then be reused. Garbace collection normally
+		happens automatically but runs at a low prority unless the
+		program is nearing its maximum allowed memory usage. By running
+		it manually you can see how much of the memory usage is
+		essential as opposed to uncollected garbage.
+	    </info>
+	</Button>
+	</RightFlowPanel>
+    </GridPanel>
+
+</AutonomousPanel>

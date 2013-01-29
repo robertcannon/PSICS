@@ -1,0 +1,42 @@
+
+<Function name="rf1" args="v, th, a, q">
+ 	
+	<Real name="full">
+		<Product times="a">
+			<Sum plus="v" minus="th"/>
+			<Reciprocol>
+				<Sum plus="1">
+					<Minus>
+						<Exp>
+							<Product times="-1" divide="q">
+								<Sum plus="v" minus="th"/>
+							</Product>
+						</Exp>
+					</Minus>
+				</Sum>
+			</Reciprocol>
+		</Product>
+	</Real>
+	
+	 
+	<Boolean name="cond">
+		<GreaterThanCondition relTo="1.e-6">
+			<Sum>
+				<Abs>
+					<Sum plus="v" minus="th"/>
+				</Abs>
+			</Sum>
+		</GreaterThanCondition>
+	</Boolean>
+	
+	<Return>	
+		<Choose>
+			<When test="cond">
+				<ValueOf select="full"/>
+			</When>
+			<Otherwise>
+				<Product times="a, q"/>
+			</Otherwise>
+		</Choose>
+	</Return>
+</Function>

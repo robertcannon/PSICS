@@ -1,0 +1,256 @@
+<page label="FAQ" prev="examples" next="contact">
+
+	<h2>Frequently Asked Questions</h2>
+
+	<par>
+		If you don't find what you want here, try the <a href="http://www.psics.org/forum">forum</a>.
+	</par>
+
+		<faqlist>
+			<qa>
+				<question>
+					The rate in the PSICS Hodgkin Huxley channels for n and m transitions looks
+					to be ten times larger than the original model. Why is this?
+				</question>
+				<answer>
+					<par>
+					The expression used for the Rallpack HH model is:
+					<m>alpha = A (v-V0) / (exp((v-V0)/B) - 1)</m>
+					where <m>A</m> has units 1/(mV msec).
+
+			This is slightly different from the rate(A), scale(B) and midpoint(V0) parameters used
+			by PSICS where <m>rate = A x / (1 - exp(-x)) where x = (v - v0) / B.</m>
+					</par>
+					<par>
+						The PSICS expression converts  the potential to a dimensionless
+						quantity, x, using the midpoint and scale, applies the function and
+						then multiply by the rate constant, A. The units of A in PSICS are just per_ms.
+
+						This differes from  the Rallpack/HH form of the expression which
+						just has <m>A (v - V0)</m> as the numerator, not <m>A (v - V0)/B</m>.
+
+						So <m>A</m> in psics is larger than <m>A</m> in Rallpack by a factor of
+						<m>B</m>, and the units of <m>A</m> in PSICS are just per_mV.
+						It just happens that <m>B=10</m> in this model which adds to the confusion.
+					</par>
+					<par>
+				 		The motivation for the form in PSICS is to make the parameter  <m>A</m>
+						 a rate, rather than a rate per mV as in HH. It makes it a bit easier to
+						 understand and allows the parameterizations to be uniform across the
+						 different functional forms.
+					</par>
+				</answer>
+			</qa>
+
+
+			<qa>
+				<question>
+					The documentation includes ranges for most variables.
+					Are these hard limits or just suggestions? What effect do they have?
+				</question>
+				<answer>
+					<par>
+					These are just suggestions. There is a rather loose convention that
+					square brackets imply hard limits (eg gamma being between 0 and 1
+					for a gating transition would be written "[0, 1]" ) and round
+					brackets for soft limits.
+
+					At present, the only use is to give the user an idea of what might be plausible.
+					But there are potential future uses - eg, a facility to compare a
+					model's parameters with the suggested ranges and generate a report about
+					any that are way out of range (this might be most useful for models that
+					result from parameter fitting that aren't necessarily biologically plausible).
+
+					The other place where they could be used is for an eventual user interface
+					 with sliders: you need to know what range to start with for the
+					 slider, but this is a long way off.
+					</par>
+				</answer>
+			</qa>
+
+
+
+
+
+			<qa>
+				<question>
+					In the example models, quantites are sometimes written with a decimal point as
+					in "-65.mV", rather than just "-65mV". Is this significant?
+				</question>
+				<answer>
+					<par>
+						No, it doesn't make any difference. This is just a programming
+						convention to be clear about whether a quantity is an integer or a floating
+						point number. The purpose is to avoid accidental integer arithmetic, like writing
+						(10 / 3) which evaluates to 3 in most programming languages, whereas
+						(10. / 3) implies a floating point division and evaluates
+						to 3.333... But in PSICS it doesn't make any differnce
+						since the data types are internally defined already.
+					</par>
+				</answer>
+			</qa>
+
+
+
+			<qa>
+				<question>
+					How are the tips of compartments treated? Is the area included? Can they
+					contain ion channels?
+				</question>
+				<answer>
+					<par>
+					The default behavior is to assume hemispherical ends. The end area goes
+					into the surface area calculation so it affects both the compartment
+					capacitance and the number of channels. You can also make a morphology
+					with a single point and then it is assumed to be a sphere.
+					</par>
+					<par>
+			You can change the behavior by setting squareCaps="true" in the
+			StructureDiscretization block. The main reason for this is to allow it to
+			express models that exactly match the rallpack specification.
+					</par>
+				</answer>
+			</qa>
+
+
+
+			<qa>
+				<question>
+					When I run it, a number of files with different extensions are created. What are they all?
+				</question>
+				<answer>
+					<par>
+					For a simple run there will be three files: one ".ppp" file, one ".dat" and one ".txt".
+					The .ppp file is the Psics Pre-Processed form of the model. This is a complete description
+					of the model as it is to be run, with tabulated transitions rates for the ion channels
+					and details of the compartements making up the discretized form. The .ppp file is the
+					only input to the core calculation, so if PSICS is running on a grid, it is this file
+					that gets moved around to the separate nodes.
+					</par>
+					<par>
+						The .dat file contains the raw results as binary data in the order in which they arrive.
+						The core calculation simply writes to the end of the file as it goes along.
+					</par>
+					<par>
+						The .txt file is created for plotting convenience. It contains the same data as the .dat
+						file but formatted as text. Also, if the .ppp file model specifies multiple runs with the same
+						 parameters, these pile up one after another in the .dat file. In the .txt file they
+						 are rearranged into columns with just one set of time points in the first column.
+					</par>
+					<par>
+						If the model specifies a paramter sweep, then there is one set of the three files
+						for each paramter value.
+					</par>
+				</answer>
+			</qa>
+
+
+			<qa>
+				<question>
+					Why another neural simulator?
+				</question>
+
+				<answer>
+					<par>
+					PSICS was written to address a class of problems that can't be handled with existing tools:
+					the efficient simulation of the stochastic behavior of kinetic scheme ion channels
+					on complex geometries.
+					</par>
+					<par>
+						Since it also computes continuous channel behavior, there is some overlap
+						with other systems, but this kind of choice is a good thing. It helps
+						improve software quality in general and introduces new ideas that may or may
+						not take hold depending how users respond to them.
+					</par>
+					<par>
+						It is also something of a myth
+						to imagine that the community would be better served by concentrating development
+						effort on a few large projects. As was eloquently been explained in
+						<a href="http://en.wikipedia.org/wiki/The_Mythical_Man-Month">The Mythical
+						Man Month</a> back in 1975, the dynamics of the software development
+						process leads to drastically reduced efficiency as group sizes grow. The more
+						effective approach is to focus on cross-system compatibility and modularization.
+						These are core aspects of PSICS with its simple declarative file formats and
+						standalone core computations.
+					</par>
+
+				</answer>
+			</qa>
+
+			<qa>
+				<question>
+					You say it uses Fortran, but I didn't have to install any Fortran. Where is it?
+				</question>
+
+				<answer>
+					<par>
+					The core that does the calculations is indeed written in Fortran.  It is built as a
+					single exectable that does not depend on any non-standard system libraries.
+					The executable is included inside the .jar file. Each time you run PSICS, it unpacks
+					the executable to a temporary directory and runs it from there. This avoids the
+					need for a separate installation and eliminates possible version compatibility issues
+					between the Java preprocessing and the core calculation.
+					</par>
+				</answer>
+			</qa>
+
+			<qa>
+				<question>
+					Why Fortran and Java? Isn't c++ the best language for this kind of thing?
+				</question>
+				<answer>
+					<par>
+						For a simultor, c++ does provide an appealing combination of flexibility with
+						its object oriented structure and computational efficiency, but it is not the only
+						answer.
+					</par>
+					<par>
+						PSICS is designed in such a way that the simulation task breaks down into two
+						very different parts: processing a complex model specification into something
+						ready to be run; then repeating the same small set of core steps over and over again.
+						For the first the focus is on eas of writing and debugging, and Java, with its
+						garbage collection, simple program structure, and cross platform deployment is an
+						easy choice.
+					</par>
+					<par>
+						For the core calculation, Fortran has two great benefits: first it is a high level
+						language with built in support for sophisticated array based operations, linear
+						algebra, maths,  data parallelization and smart IO constructs. This makes the code shorter and easier
+						to write, read and maintain. And second, it is a compiler-aware language with
+						numerous attributes that can be attached to variable declarations to tell the compiler
+						how they will be used and, more importantly, how they will not be used. This
+						includes things like saying you will never use a pointer to refer to an array element
+						which lets the compiler use transient storage or even optimize away the array
+						completely. The result is that, for calculations like the ones done by PSICS, Fortran
+						makes it relatively easy to get a well optimized executable in a fairly predictable
+						way.
+					</par>
+				</answer>
+			</qa>
+
+			<qa>
+				<question>
+					Can I save a model from XYZ and open it with PSICS?
+				</question>
+
+				<answer>
+					<par>
+					Not for a complete model, but you can import some components such as morphologies and
+					channel definitions.
+					This is partly because PSICS covers a different problem domain from
+					other simulators, but also because the interchange formats needed for this kind of
+					comaptibility are still under development (compare, for example, the effort behind
+					<a href="http://www.smbl.org/">SBML</a> which arguably has a less diverse domain
+					to address).
+				</par>
+				<par>
+					The ones that are supported are morphologies in SWC and MorphML
+					formats, kinetic scheme channels in ChannelML and some of the
+					more standard HH style channels	in ChannelML.
+					</par>
+				</answer>
+			</qa>
+
+		</faqlist>
+
+</page>

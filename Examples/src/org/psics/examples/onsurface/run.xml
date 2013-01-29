@@ -1,0 +1,49 @@
+<PSICSRun timeStep="0.1ms" runTime="250ms" startPotential="-65mV"
+	method="weighted_crank_nicolson"
+	morphology="ballstick2"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	squareCaps="true">
+
+	<StructureDiscretization baseElementSize="50um"/>
+
+	<RunSet vary="timeStep" values="[20, 50, 100, 200, 500]us"
+		filepattern="ts-$"/>
+	 <info>Cable, 100um long, run for 250ms with different timesteps between 20 and 500 microseconds</info>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<LineSet file="ts-500.txt" color="orange" label="500">
+
+		</LineSet>
+
+		<LineSet file="ts-200.txt" color="yellow" label="200">
+		</LineSet>
+
+		<LineSet file="ts-100.txt" color="green" label="100">
+		</LineSet>
+
+		<LineSet file="ts-50.txt" color="cyan" label="50">
+		</LineSet>
+
+		<LineSet file="ts-20.txt" color="blue" label="20">
+		</LineSet>
+
+
+
+
+		<View id="whole" xmin="-10." xmax="260." ymin="-100." ymax="100."/>
+		<View id="end" xmin="249" xmax="250.2" ymin="101.93" ymax="101.94"/>
+		<View id="midrange" xmin="80" xmax="90" ymin="25" ymax="30"/>
+		<View id="start" xmin="-0.1" xmax = "2.1" ymin="-70" ymax="-10"/>
+
+
+		</LineGraph>
+	</ViewConfig>
+
+</PSICSRun>

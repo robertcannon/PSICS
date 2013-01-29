@@ -1,0 +1,18 @@
+<CellProperties id="membrane_SomaOnly_allCml" cytoplasmResistivity="1.5ohm_m" membraneCapacitance="0.01F_per_m2">
+<ChannelPopulation channel="kad" density="30.000001907349per_um2" color="0xff0000"/>
+
+<ChannelPopulation channel="kap" density="30.000001907349per_um2" color="0x0000ff"/>
+
+<ChannelPopulation channel="pasCA1" density="0.035714302212per_um2" color="0x009b00"/>
+
+<ChannelPopulation channel="nax" density="125per_um2" color="0xffc800"/>
+
+<ChannelPopulation channel="kdr" density="10per_um2" color="0x8c6400"/>
+
+<ChannelPopulation channel="hd__vhalfl_-73" density="0.04999999702per_um2" color="0xff00ff"/>
+
+<ChannelPopulation channel="na3" density="25per_um2" color="0xffff00">
+    <RegionMask action="include" where="region = *soma_group*"/>
+</ChannelPopulation>
+
+</CellProperties>

@@ -1,0 +1,181 @@
+
+<page label="Architecture" title="PSICS System Architecture" prev="index" next="rallpack">
+	<h1>PSICS System Architecture</h1>
+
+	<par>
+		There are a variety of ways to structure software for computing the behavior of a neuron. Each has
+		its own benefits and complications. This section presents the approach taken with PSICS. It is intended
+		primarily for software developers or for users who who are interested in extensions to the
+		current modeling capabilities.
+	</par>
+
+
+
+	<h2>Candidate architectures</h2>
+	<par>
+		Given a biological model, possible ways to compute its behavior include:
+		<ol>
+			<li>constructing a set of partial differential equations from the model specification and solving
+			these by standard methods of computational applied mathematics</li>
+			<li>mapping each component of the model onto a computational entity that implements its own update rule
+			and then joining them all up</li>
+			<li>homogenizing the structures as far as possible so
+			that the resulting system can be updated by repeating the same few operations right across the
+			structure</li>
+		</ol>
+		</par>
+
+		<par>
+			An equation based solution can take advantage of sophisticated packages for PDEs and can offer a wide
+			range of solution methods including adaptive time steps and good control of solution tolerances. Extending
+			such a system typically involves specifying how a new structure should be mapped to equations and so can
+			be achieved without any low-level code modifications.
+		</par>
+		<par>
+			A component-based solution is conceptually simple
+			and may match a biological system more readily since large parts of many such systems, including neurons, are
+			are intrinsically component-based.
+			It is also possible to work with entities that do not naturally
+			map onto differential equations. Extensions typically involve writing new objects that form part of the
+			core computation.
+		</par>
+		<par>
+			Finally, a table-based system offers a small, optimizeable, computational core
+			that can be thoroughly insulated from the details of the model specification. It makes some forms of extension
+			(those that fit within what the core already does) very easy, but makes others much harder since modifications
+			of the core are required.
+		</par>
+
+		<par>
+			Very loosely, Neuron adopts the first approach (with elements of the second) and
+			Genesis the second (with elements of the first). The third option is
+			only mentioned here because it is what PSICS does. It could be seen as something of a counter current
+			to the prevailing approach to biological simulations in which object oriented designs naturally match
+			the underlying structures that are being modelled, and where the flexibility and extensibility that they
+			provide is highly valued. However, object oriented structures are most useful for model description, and
+			here PSICS has plenty of objects: the first level of classes exactly matches
+			the <a href="formats/index.html">model specification schemas</a>. But these classes are only distantly
+			related to the objects used in the computation itself. In general, the model specification classes
+			export themselves as structures suitable for (re)discretization. The outputs of the discretization
+			step export
+			themselves as compact structures that represent the task from a computational perspective. These are
+			serialized from Java and deserialized into Fortran objects (modules and derived types)
+			that are finally reordered for the most efficient calculation sequence and converted to arrays.
+			All the intermediate objects are discarded and the calculation uses just the arrays.
+		</par>
+
+		<par>
+			The main benefits are in ease of implementation and performance. Each of the processing steps is largely
+			self-contained and can be implemented in the most convenient way. For example, the initial model
+			specification level is all about readability and annotations. It uses small objects, reflection and public
+			fields. And performance is not a consideration at all. By contrast the last level is almost entirely array
+			based with private fields in the interests of minimizing memory usage and maximizing the freedom of the
+			compiler to produce an efficient executable.
+		</par>
+		<par>
+			 The performance target for the core calculation is that the main cost should be the
+			essential costs of updating channel states. The most important consideration in achieving this
+			is to order the operations so that large sets of identical channels are treated within
+			each of the innermost function calls or page accesses. Channel update costs can vary from less than one
+			to a hundred or more floating operations per channel depending on population sizes and channel complexity, so
+			the costs of function calls and cache misses can easily outweigh channel updates if, for example the
+			code were to iterate first over compartements and then over channel types on each compatment.
+			These considerations drives the choice of a uniform structure for all channel types and a memory
+			layout that orders all channels of one type together, only making the connection back from channel
+			states to compartmentalization once per step.
+		</par>
+
+
+		<h2>Declarative model specification</h2>
+		<par>
+			PSICS Models are specified as a collection of purely declarative structures represented as XML.
+			In some cases expressions
+			can be included but parameterized forms are provided for the most common (and physiologically plausible)
+			expressions so that only the parameter values need be included in the specification.
+			The bulk of the application is concerned with processing
+			these structures into a form suitable for running the calculation. Morphologies are rediscretized, ion
+			channels converted to a generic matrix form and stimulation profiles are tabulated.
+		</par>
+
+		<h2>Internal data structures</h2>
+		<par>
+			The end goal of the processing is a set of data structures that make the inner loops of the update
+			step as concise as possible. Each type of voltage-dependent channel yields an array of matrices containing
+			the transition probabilities over a given timestep at different membrane potentials. The electrical structure
+			becomes an array of capacitances for the compartments and an array of connections (indexes of each
+			compartment, and a conductance). The channel states are an array of population vectors for each
+			channel type and each compartment on which it occurs. For channels treated stochastically these are
+			integers; in the continuous limit they are floating point density vectors.
+		</par>
+
+		<h2>Update rules</h2>
+		<par>
+			For continuous channels, most of the computing time is spent repeating the operation<br/>
+			<m>p</m> = <m>f</m><m>M<sub>i</sub></m><m>p</m> + <m>(1 - f)</m><m>M<sub>i+1</sub></m><m>p</m><br/>
+			where <m>p</m> is the population vector,  <m>i</m> is an index in the matrix table for the
+			potential of the compartment, <m>M<sub>i</sub></m> is the discrete transition matrix at that potential,
+			and <m>f</m> interpolates between the two nearest matrices. I.e., it uses a linear interpolation in the
+			discrete-interval matrices instead of recomputing the matrices at exactly the right potential.
+		</par>
+
+		<par>
+			For stochastic channels, the update involves generating a new discrete occupancy vector for each
+			compartment and channel type using the probabilities in the discrete transition matrices. For a single
+			channel, this involves sampling from the matrix column corresponding to its current state according
+			to a uniformly distributed random variable. For a population of channels a range of more economical
+			algorithms are available where the dominant cost in most cases is the generation of random numbers.
+			The <a href="guide/methods.html">numerical methods section</a> of the user guide explains the
+			algorithms that are used.
+		</par>
+
+
+		<par>
+			The <a href="guide/_passprop.html">membrane potential update</a> using the Hines method based on
+			a connection array is also very concise. If there are channels on most compartments then it is typically
+			a small contribution to the computational cost unless the channels are very simple.
+		</par>
+
+		<h2>Memory footprint</h2>
+		<par>
+			The performance of numerical software frequently falls far short of the theoretical maximum number
+			of floating operations that the processor is capable of. The limiting factor in these cases is
+			access to main memory when data is needed that is not already on the cache (cache misses).
+			The preprocessing step, performed in Java, has a large and somewhat unpredictable footprint, but
+			thereafter PSICS has a fairly predictable memory usage. The main contributions are approximately:
+
+			<table class="data" cellspacing="0">
+				<tr>
+					<td>Core code</td><td>80kB (Linux)</td>
+				</tr>
+				<tr>
+					<td>Electrical structure</td><td>(2 R + 2 I) N<sub>cpt</sub></td>
+				</tr>
+				<tr>
+					<td>Channel transition tables</td><td>100 R N<sub>channel</sub> N<sub>state</sub><sup>2</sup></td>
+				</tr>
+				<tr>
+					<td>Channel states</td><td>I N<sub>cpt</sub> N<sub>channel</sub> N<sub>state</sub></td>
+				</tr>
+				<tr>
+					<td>Transient workspace</td><td>4 R N<sub>cpt</sub></td>
+				</tr>
+			</table>
+
+		where R is the size of a  floating point numbers and I the size of an integer. There is a choice between single and
+		double precision (4 or 8 byte) storage for real values. There is a negligible difference in arithmetic
+		costs in most hardware, since all calculations are performed in double precision, but it does affect
+		memory usage which can in turn affect on performance.
+		</par>
+
+		<par>
+			For a cell discretized to 1,000 compartments and populated with five types of six-state channel
+			everywhere, this yields about 280kB using floats and 380kB using doubles. For a cell of 10,000 compartments
+			the numbers are about 1.6MB and 2.0MB. Therefore, for moderate size cells it should be possible to keep
+			the entire calculation within the cache.  Preliminary tests with
+			<a href="http://www.valgrind.org/">valgrind</a> confirm this for the rallpack 3 example on a Pentium4: cache
+			misses are below 0.1% and the number of instructions actually executed per second is close to the clock
+			frequency.
+		</par>
+
+
+</page>

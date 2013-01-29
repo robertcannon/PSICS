@@ -1,0 +1,144 @@
+<page label="Run control" prev="index" next="morphology">
+
+	<h1>Run control - the PSICSMaster file</h1>
+
+	<par>
+		The master file is the first file read by PSICS and specifies a single run or sequence of runs for the
+		simulator. Some parameters are set within this file itself, but most of the specification comes from other
+		objects that are referred to by the master file. It links four other essential
+		model files: morphology, environment, properties and access. In each case, the attribute in the master file
+		should be set to the id of the target object.
+		The <x>timestep</x> and <x>runTime</x> are also set at the start of the file and, optionally,
+		the numerical method to be used. This can be  set either with
+		the <x>method</x> attribute or via explicitly setting the
+		temporal difference weighting, <x>tdWeighting</x>. See the <a href="../guide/methods.html">numerical methods</a>
+		section of the user guide for details.
+	</par>
+
+	<par>
+		The elements of the master object are all optional and either extend the scope of the calculation, as with
+		parameter sweeps, or give greater control over aspects of the calculation such as morphology discretization
+		or the threshold for treating channels stochastically. The use of the main elements is described first followed
+		by the complete reference for all the master file attributes and elements.
+	</par>
+
+
+	<h2>Finding components</h2>
+	<par>
+		By default, PSICS will look in the current folder for the other components needed for the full model, but it
+		can be useful to build up standard libraries elsewhere for frequently used components such as ion channel models.
+		In this case, embedded <x>ModelFolder</x> elements are needed with the <x>path</x> attribute set to relative
+		or absolute path of the library folder. One <x>ModelFolder</x> element is required for each search path.
+		So, for example, if your morphology files are stored in <tt>/home/abc/psics/lib/morph</tt> then you
+		could add the line <br/>
+		<x>&lt;ModelFolder path="/home/abc/psics/lib/morph"/&gt;</x><br/>
+		Inside a model specification file. Then, wherever it is saved, you could refer to channels
+		by their id from that file or from other files that it references without needing local copies
+		of the channel definitions themselves.
+	</par>
+	<par>
+		The path can also be a relative link, such as "../channels" (indicating the folder called
+		"channels" under in the parent of the model folder). This can be used for example when
+		developing a series of related models in different folders. By using relative paths for the
+		library components, the models are more portable: you can package up and distribute the whole
+		folder tree and expect the models to work straight away for other users on other systems. If
+		you use absolute paths, then other users will have to download the library as well as a
+		particular model and set the <x>ModelFolder</x> path to wherever they have put the library
+		models.
+	</par>
+
+
+	<h2>Multiple runs and parameter sweeps</h2>
+	<par>
+		By default, the master file defines a single run of the calculation. There are several options to define
+		multiple runs. The simplest is to set the <x>repeats</x> attribute to a number greater than one. This causes
+		multiple stochastic instances to be run. The output data all go in the same file, just adding extra columns for
+		each run.
+	</par>
+
+	<par>
+		Parameter sweeps, where the model is run repeatedly systematically changing one parameter, are defined with
+		an embedded <x>RunSet</x> object.  If there is an embedded <x>RunSet</x> then there will always be multiple
+		output files, so it has to specify what names should be used via the <x>filepattern</x> attribute which shows
+		how to generate the file names. It is just a template for the file name containing a "$" sign. For each file
+		the "$" will be replaced by the current value of the parameter being changed in the sweep.
+	</par>
+
+	<par>
+		The other required attributes of a <x>RunSet</x> are a way to identify the parameter being changed, and the
+		values it can take. The first is a standard parameter reference, in the form "component_id:attribute_name" where
+		component_id is the id of the object that contains the target parameter, and attribute_name is its name within
+		that object. The values should be entered as a dimensional array, such as "[2, 4, 8]ms". This extends the normal
+		units convention for input quantities to allow vectors where all elements are expressed in the same units.
+	</par>
+	<par>
+		It is also possible to vary two parameters together by setting the <x>covary</x> and <x>covalues</x> attributes.
+		This do not do a grid of models, but rather changes the <x>covary</x> target each time the <x>vary</x> target
+		is changed. It is useful where you need a balancing change for the original variation, such as studying the
+		effect of single channel conductance on the cell without changing the total available conductance. In this case
+		each time the single channel conductance is increased, the number density should be decreased by the corresponding
+		factor, so, for example if <x>values</x> array for the conductance was "[10, 20, 40]pS", the <x>covalues</x>
+		array for the density could be "[10, 5, 2.5]per_um2".
+	</par>
+
+
+	<h2>Multiple commands</h2>
+	<par>
+		When a parameter is varied via the <x>RunSet</x> a different set of results is generated for each value, which
+		is normally appropriate of the model itself has been changed. But when the target parameter only changes the
+		stimulation, not the model itself, it can be more convenient to combine it all within a
+		single run. This is achieved via the <x>CommandSet</x> element. Like the <x>RunSet</x> it has <x>vary</x> and
+		<x>values</x> attributes, but the vary target must be part of a stimulation definition. Internally, the command set
+		causes the target stimulation command to be multiplied up into a set of commands in the preprocessing stages just
+		as if you had manually created a set of commands within the <a href="stimrec.html">stimulus definition file</a>.
+	</par>
+	<par>
+		N.B., at present, a <x>CommandSet</x> can only appear within a <x>RunSet</x> object even if you only want one run.
+		The workaround in this case is to create a dummy <x>RunSet</x> with only one value, such as,
+		 "vary='timeStep' values='[100]ms'".
+	</par>
+
+	<h2>Discretization control</h2>
+	<par>
+		Various optional elements control the discretization of the model. The most important is the
+		<x>StructureDiscretization</x> that sets the <x>baseElementSize</x> for the compartments. See
+		the <a href="../guide/process.html">model processing</a> section of the user guide for details of the
+		structure discretization. It is also possible to set the channel table increment via the
+		 <x>ChannelDiscretization</x> element, though this is likely only to be useful for performance or accuracy tests.
+	</par>
+
+	<h2>Stochasticity</h2>
+	<par>
+		A typical PSICS model involves both stochastic and continuous calculation of channels according to how many channels
+		of a given type there are on a compartment. The dividing line above which the continuous calculation is used can be
+		set on a cell-wide basis via the <x>stochThreshold</x> attribute of the master file. For finer grained control,
+		it can be set on a channel by channel basis with embedded <x>ChannelStochThreshold</x> elements.
+	</par>
+
+	<h2>Documentation</h2>
+
+	<par>
+		As with all stand-alone models, the <x>PSICSMaster</x> component has an <x>info</x> attribute which is intended
+		for a brief (&lt; 1 line) description of the model, and supports embedded <x>About</x> elements to contain more
+		extended paragraphs of text intended for the user or reader of the model. Any text present in the <x>info</x>
+		attribute or <x>About</x> elements is incorporated in the results summary page that is generated when the
+		model is run, and will therefore be readily accessible to anyone viewing the output of the model.
+
+	</par>
+
+
+	<h2>Visualization</h2>
+	<par>
+		As well as textual information about the model it is possible to define default views of the results via
+		an embedded <x>ViewConfig</x> object. This is not strictly part of the model specification, but is included
+		 in the master file because it typically needs to refer to the output files by name.
+		 Details of the <x>ViewConfig</x> format are not included below but are presented
+		 separately in the <a href="visualization.html">Visualization</a> section.
+	</par>
+
+
+
+
+	<TypeSetRef title="Run Control" ref="ControlComponents"/>
+
+</page>

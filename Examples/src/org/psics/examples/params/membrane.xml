@@ -1,0 +1,12 @@
+<CellProperties id="membrane"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+
+	<ChannelPopulation channel="na1" density="8per_um2" distribution="start"/>
+    <ChannelPopulation channel="k1" density="20per_um2" distribution="start"/>
+
+    <DistributionRule id="start">
+    	<RegionMask action="include" where="p .lt. 50"/>
+    </DistributionRule>
+
+</CellProperties>

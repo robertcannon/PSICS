@@ -1,0 +1,101 @@
+<page label="Exporting NeuroML">
+
+<h1>Exporting NeuroML from PSICS</h1>
+
+<par>
+	Most of the discussion so far has focused on the issues involved in importing models
+	expressed in  NeuroML for use in PSICS. The conclusion has generally been that it
+	can't be done automatically but that a fair fraction of most NeuroML models can be
+	imported automatically and that it is not particularly onerous to patch in the
+	rest by hand.
+</par>
+
+<par>
+	The answer to the corresponding question as to whether models built for PSICS can
+	be exported as NeuroML is generally "no". A large part of the reason for this is that
+	PSICS simply addresses a different problem domain form that for which NeuroML has
+	been developed. If it did not, then there would not be much point in writing it.
+	However, the concepts that can be expressed in PSICS are there because there is a
+	modeling demand for them, so it it is of some interest to enumerate the main features
+	present in PSICS that are currently missing from NeuroML since these may prove to be useful
+	candidates for inclusion in future versions.
+</par>
+
+<par>
+	The <a href="../formats/index.html">formats reference</a> details the exact forms
+	used for PSICS input files. Here we focus on the general concepts that can be expressed
+	in PSICS models that may be of interest in NeuroML.
+</par>
+
+	<h2>Morphology</h2>
+
+	<par>
+		The essential feature of PSICS morphologies is the ability to attach unique
+		labels to user-selected points in the structure. These are used for defining
+		pionts for recording and stimulation as well as for bounding regions used
+		for allocationg channels.
+	</par>
+	<par>
+		Two extensions to the core point-based model are the use of <x>Branch</x> elements
+		with an <x>offset</x> attribute to specify branches that emerge perpendicularly from
+		the parent process (typically spines), and the use of points with a <x>beyond</x>
+		attribute instead of an absolute position to indicate that a point extends its
+		parent process by a certain distance in the same direction without the user having
+		to define the exact coordinates.
+	</par>
+
+
+	<h2>Channel Kinetics</h2>
+
+	<par>
+		The standard transition type for PSICS channels is the
+		<a href="formats/channels.html">VHalfTransition</a> which is parameterized in terms
+		of the gating charge <x>z</x>, vHalf potential, <x>vHalf</x>, gating assymetry
+		<x>gamma</x> time constant <x>tau</x>, and either a single saturation rate
+		<x>tauMin</x> or separate forward and reverse reates <x>tauMinFwd</x> and
+		<x>tauMinRev</x>. The transition specification can also include the <x>baseTemperature</x>
+		and <x>q10</x>. There is a functionally equivalent transition specification in the
+		<x>VRateTransition</x> which has forward and reverse rates at zero membrane potential instead
+		of <x>vHalf</x> and <x>tau</x>, but either one is sufficient. These are the
+		only parameterized transitions required for new PSICS models. Any system that
+		supports multi-complex kinetic schemes with one of these transition types should
+		be sufficient for non-deprecated PSICS channels models.
+	</par>
+
+
+	<h2>Channel distribution</h2>
+	<par>
+		This is the main focus of PSICS.
+		The majority of the <a href="../formats/properties.html">features</a>
+		it provides for specifying channel densities are currently not available in NeuroML.
+	</par>
+
+
+	<h2>Stimulation and recording</h2>
+	<par>
+		As far as we are aware this is not covered by the current NeuroML specification.
+		PSICS has a <a href="../formats/stimrec.html">fairly wide</a> range of structures
+		for expressiong recording configurations and stimulation protocols including
+		periodic and repeated steps as well as noise sources and algorithmically defined
+		recording sites.
+	</par>
+
+
+
+
+	<h2>Units</h2>
+
+	<par>
+		Almost all specification of dimensionl quantities in PSICS requires the units
+		to be included (the exception is for morphologies where everything is in microns).
+		The <a href="../formats/units.html">standard units set</a> covers most common
+		cases but can easily be extended if required. On export PSICS could easily
+		convert to any desired collection of units but the inclusion of units with a model
+		specification considerably improves its readability and intelligibility.
+	</par>
+
+
+
+
+
+</page>

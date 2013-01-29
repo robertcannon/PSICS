@@ -1,0 +1,5 @@
+<CellEnvironment id="environment" temperature="37.0Celsius">
+	<Ion id="Na" name="Sodium" reversalPotential="50mV"/>
+	<Ion id="K" name="Potassium" reversalPotential="-90mV"/>
+	<Ion id="Ca" name="Calcium" reversalPotential="140mV"/>
+</CellEnvironment>

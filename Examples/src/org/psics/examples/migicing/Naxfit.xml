@@ -1,0 +1,25 @@
+
+<KSChannel id="Naxfit" permeantIon="Na" gSingle="30pS">
+
+
+
+  <KSComplex instances="3">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+ 	  <VHalfTransition from="c" to="o" z="4.82e" vHalf="-35.08mV" gamma="0.49" tau="0.569ms"
+ 		tauMinFwd="0.0304ms" tauMinRev="0.1773ms"/>
+
+
+
+ </KSComplex>
+
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+        <VHalfTransition from="o" to="c" z="7.55e" vHalf="-46.40mV" gamma="0.6"
+           tau="11.4ms" tauMinFwd="0.564ms" tauMinRev="1.42ms"/>
+ </KSComplex>
+
+ </KSChannel>
+

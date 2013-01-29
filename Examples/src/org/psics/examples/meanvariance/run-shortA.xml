@@ -1,0 +1,89 @@
+<PSICSRun timeStep="0.01ms" runTime="16ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording-short"
+	stochThreshold="1000"
+	repeats="600">
+	<StructureDiscretization baseElementSize="3um"/>
+
+<RunSet vary="napop:density" values="[0.4, 2, 4, 8, 16]per_um2"
+                filepattern="out-$.txt">
+	</RunSet>
+
+
+
+<About>
+
+ </About>
+
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+
+		<LineSet file="out-0.4-f.txt" color="yellow" maxshow="6"/>
+		<LineSet file="out-2-f.txt" color="red" maxshow="6"/>
+		<LineSet file="out-4-f.txt" color="orange" maxshow="6"/>
+		<LineSet file="out-8-f.txt" color="blue" maxshow="6"/>
+		<LineSet file="out-16-f.txt" color="green" maxshow="6"/>
+
+
+		 <View id="whole" xmin="0." xmax="25." ymin="-20." ymax="160."/>
+		 <View id="start" xmin="1.8" xmax="2.5" ymin="-20." ymax="300."/>
+		</LineGraph>
+
+
+		<LineGraph>
+			<XAxis label="mean current, nA"/>
+			<YAxis label="current variance, nA^2"/>
+				<MeanVariance file="out-0.4-f.txt" tmin="2.3" tmax="11.9" binSize="1" color="yellow">
+					<Comparison nChannel="5" iSingle="1.5"/>
+				</MeanVariance>
+
+				<MeanVariance file="out-2-f.txt" tmin="2.3" tmax="11.9" binSize="1" color="red">
+					<Comparison nChannel="25" iSingle="1.5"/>
+				</MeanVariance>
+			 	<MeanVariance file="out-4-f.txt" tmin="2.3" tmax="11.9" binSize="2" color="orange">
+			 		 <Comparison nChannel="50" iSingle="1.5"/>
+			 	</MeanVariance>
+			 	<MeanVariance file="out-8-f.txt" tmin="2.3" tmax="11.9" binSize="3" color="blue">
+			 		<Comparison nChannel="101" iSingle="1.5"/>
+			 	</MeanVariance>
+	        	<MeanVariance file="out-16-f.txt" tmin="2.3" tmax="11.9" binSize="3" color="green">
+	        		<Comparison nChannel="201" iSingle="1.5"/>
+	        	</MeanVariance>
+
+	            <View id="inactivation" xmin="0" xmax="280" ymin = "0." ymax="200"/>
+		</LineGraph>
+
+
+		<LineGraph>
+			<XAxis label="mean current, nA"/>
+			<YAxis label="current variance, nA^2"/>
+				<MeanVariance file="out-0.4-f.txt" tmin="2" tmax="2.3" binSize="1" color="yellow">
+					<Comparison nChannel="5" iSingle="1.5"/>
+				</MeanVariance>
+				<MeanVariance file="out-2-f.txt" tmin="2." tmax="2.3" binSize="1" color="red">
+					<Comparison nChannel="25" iSingle="1.5"/>
+				</MeanVariance>
+			 	<MeanVariance file="out-4-f.txt" tmin="2." tmax="2.3" binSize="2" color="orange">
+			 		<Comparison nChannel="50" iSingle="1.5"/>
+				</MeanVariance>
+			 	<MeanVariance file="out-8-f.txt" tmin="2." tmax="2.3" binSize="-1" color="blue">
+			 		<Comparison nChannel="101" iSingle="1.5"/>
+				</MeanVariance>
+	        	<MeanVariance file="out-16-f.txt" tmin="2." tmax="2.3" binSize="-1" color="green">
+	        		<Comparison nChannel="201" iSingle="1.5"/>
+				</MeanVariance>
+
+	            <View id="activation" xmin="0" xmax="280" ymin = "0." ymax="200"/>
+		</LineGraph>
+
+
+	</ViewConfig>
+
+
+</PSICSRun>

@@ -1,0 +1,42 @@
+<PSICSRun timeStep="0.02ms" runTime="16ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording-short"
+	stochThreshold="0"
+	repeats="20">
+	<StructureDiscretization baseElementSize="3um"/>
+
+<RunSet vary="stochThreshold" values="[0, 1000]"
+                filepattern="out-$.txt">
+	</RunSet>
+
+
+
+<About>
+Voltage clamp step onset behavior for continuous and stochastic channels. The step begins
+at 1.985ms and the timestep is 0.02ms. This uses the midpoint evaluation method for the step,
+(stepStyle="midpoint" in the voltage clamp)
+so the effect is as if the step started at 1.980ms. This fugure should be compared with
+the file run-onset-avg, which does the same calculation but with stepStyle="average" for the clamp.
+ </About>
+
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+
+		<LineSet file="out-1000-f.txt" color="red" maxshow="6"/>
+		<LineSet file="out-0-f.txt" color="green" maxshow="2"/>
+
+		 <View id="whole" xmin="0." xmax="20." ymin="-360." ymax="30."/>
+		 <View id="start" xmin="1.93" xmax="2.15" ymin="-260." ymax="30."/>
+		</LineGraph>
+
+
+	</ViewConfig>
+
+
+</PSICSRun>

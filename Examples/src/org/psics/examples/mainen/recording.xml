@@ -1,0 +1,15 @@
+
+<Access id="recording">
+
+	<CellLocation id="p0" path="10" rankBy="radius" sequenceFraction="1."/>
+	<CellLocation id="p1" path="120" rankBy="radius" sequenceFraction="0.5"/>
+	<CellLocation id="p2" path="240" rankBy="radius" sequenceFraction="0.5"/>
+
+
+	<CurrentClamp id="clamp" location="p0" lineColor="red" hold="0pA"/>
+
+	<VoltageRecorder location="p2" lineColor="blue"/>
+
+
+
+</Access>

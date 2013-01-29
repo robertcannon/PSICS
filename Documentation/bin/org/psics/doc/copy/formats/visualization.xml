@@ -1,0 +1,55 @@
+<page label="Visualization" prev="stimrec" next="units">
+
+	<h1>Visualizaiton and Output</h1>
+
+	<par>
+		The core calculation produces output files consisting of tabular data where the first
+		column is the time and subsequent columns are the values of whtever recorders are
+		configured in the model. For a simple model there is just one output data set. For
+		parameter sweeps (RunSet) there is one for each paramter value. Each data set is
+		stored in two formats: a compact binary form with the .dat extension, and a space delimited
+		text form with the .txt extension.
+	</par>
+
+	<par>
+		After the core calculation has finished, the results are summarized on an HTML page. The
+		ViewConfig object exists to add plots to that page by defining some default views of the data.
+		The normal usage is to embed a ViewConfig block within the main model file containing one or
+		more plot definition. Currently the available plots are: LineGraph,
+		MeanVariance and PowerSpectrum as
+		described below. All three plot definitions have the same structure. The LineGraph just
+		produces plots of the columns of the specified output file against time. The other plot types
+		perform some processing on the data first and plot the derived data on appropriate axes. The
+		MeanVariance plot is a special case for performing mean-variance analysis and is only
+		useful if the data it is given are currents from a single compartment with a single
+		type of stochastic ion channel.
+	</par>
+
+	<par>
+		The contents of a LineGraph block are optional axis definitions, one or more Line or LineSet
+		definitions, and one or more View definitions. The Line and LineSet blocks work the
+		same way to specify the file that the data comes from, and optionally the line width, color etc.
+		The View blocks each define a single plot of the data, specifying the axis ranges for the
+		view window.
+	</par>
+
+	<par>
+		The data that is plotted does not have to come from the results of the PSICS calculation.
+		Other data filed can be included in the folder and plotted the same way, as long as they
+		conform to plain ascii table structure. For the case where different units were used for
+		external files, the data can be rescaled by setting the <x>rescale</x> parameterin a LineSet
+		definition.
+	</par>
+
+	<par>
+		One last convenience element in a LineGraph definition is the DataComparison block.
+		This also referes to a reference file, but instead of generating a plot, the mean
+		mean and variance of the difference between the plotted data and the comparison data
+		will be computed and added to the html output file.
+	</par>
+
+
+	<TypeSetRef title="Visualization" ref="VisComponents"/>
+
+
+</page>

@@ -1,0 +1,17 @@
+<KSChannel id="CaMS" permeantIon="Ca" gSingle="20pS">
+
+	<KSComplex id="m" instances="2">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpLinearTransition from="c" to="o" rate="0.209per_ms" midpoint ="-27mV" scale="3.8mV" q10="2.3" baseTemperature="23Celsius"/>
+		<ExpTransition from="o" to = "c" rate="0.94per_ms" midpoint="-75mV" scale="-17mV" q10="2.3" baseTemperature="23Celsius"/>
+	</KSComplex>
+
+	<KSComplex id="h">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpTransition from="c" to="o" rate="0.000457per_ms" midpoint="-13mV" scale="-50mV" q10="2.3" baseTemperature="23Celsius"/>
+		<SigmoidTransition from="o" to="c" rate="0.0065per_ms" midpoint="-15mV" scale="28mV" q10="2.3" baseTemperature="23Celsius"/>
+	</KSComplex>
+
+</KSChannel>

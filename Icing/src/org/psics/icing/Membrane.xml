@@ -1,0 +1,43 @@
+<AutonomousPanel name="Membrane"
+                 controllerClass="MembraneController">
+
+   	<BorderPanel borderWidth="6" borderTitle="Channel populations">
+   		<West>
+
+		<BorderPanel paddingTop="4" borderWidth="4" border="none">
+
+							<Center>
+								<ScrollingCheckboxList id="poplist" action="popSelected"
+										prefWidth="160" prefHeight="180"
+										toggleAction="popToggled"/>
+								<!-- 		clickAction="toggle" -->
+							</Center>
+
+							<South>
+								<BorderPanel>
+									<West>
+										<FlowPanel>
+										<Button label="Up" action="moveUp"/>
+										<Button label="Down" action="moveDown"/>
+										</FlowPanel>
+									</West>
+									<East>
+									<RightFlowPanel xspace="2">
+										<Button label="Add" action="addPopulation"/>
+										<Button id="delpop" label="Delete" action="deletePopulation"/>
+									</RightFlowPanel>
+									</East>
+								</BorderPanel>
+							</South>
+
+						</BorderPanel>
+
+
+
+   		</West>
+
+   		<Center>
+   			<Insert id="popedit" source="Population"/>
+   		</Center>
+   	</BorderPanel>
+ </AutonomousPanel>

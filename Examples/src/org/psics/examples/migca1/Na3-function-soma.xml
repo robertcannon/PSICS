@@ -1,0 +1,482 @@
+
+<KSChannel id="Na3-function-soma" permeantIon="Na" gSingle="30pS">
+
+
+<Function name="explinear" args="v, th, a, q">
+	<Sum name="vmth">
+		<Val>v</Val>
+		<Minus>
+			<Val>th</Val>
+		</Minus>
+	</Sum>
+
+
+	<Product name="full">
+			<Val>a</Val>
+			<Val>vmth</Val>
+			<Reciprocol>
+				<Sum>
+					<Con>1</Con>
+					<Minus>
+						<Exp>
+							<Product>
+								<Con>-1</Con>
+								<Val>vmth</Val>
+								<Reciprocol>
+									<Val>q</Val>
+								</Reciprocol>
+							</Product>
+						</Exp>
+					</Minus>
+				</Sum>
+			</Reciprocol>
+		</Product>
+
+
+		<Condition name="cond">
+			<Lesser>
+				<Con>1.e-6</Con>
+			</Lesser>
+			<Greater>
+			<Sum>
+				<Abs>
+					<Val>vmth</Val>
+				</Abs>
+			</Sum>
+			</Greater>
+		</Condition>
+
+
+	<Return>
+		<Choose>
+			<When test="cond">
+				<Val>full</Val>
+			</When>
+			<Otherwise>
+				<Product>
+					<Val>a</Val>
+					<Val>q</Val>
+				</Product>
+			</Otherwise>
+		</Choose>
+	</Return>
+</Function>
+
+
+
+
+
+<KSComplex instances="3">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+
+ 	<TauInfTransition from="c" to="o" id="tr1">
+ 		<Constant name="q10">2</Constant>
+ 		<Constant name="tha">-30</Constant>
+ 		<Constant name ="Ra">0.4</Constant>
+ 		<Constant name="Rb">0.124</Constant>
+ 		<Constant name="qa">7.2</Constant>
+ 		<Constant name="mmin">0.02</Constant>
+
+
+ 		<Power name="qt">
+			<Base>
+				<Val>q10</Val>
+			</Base>
+			<Exponent>
+				<Product>
+	 				<Con>0.1</Con>
+ 					<Sum>
+ 						<Val>temperature</Val>
+ 						<Minus>
+ 							<Con>24</Con>
+ 						</Minus>
+ 					</Sum>
+ 				</Product>
+			</Exponent>
+		</Power>
+
+ 		<FunctionValue name="a" function="explinear">
+ 			<Arg name="v">
+ 				<Val>v</Val>
+ 			</Arg>
+ 			<Arg name="th">
+ 				<Val>tha</Val>
+ 			</Arg>
+ 			<Arg name="a">
+ 				<Val>Ra</Val>
+ 			</Arg>
+ 			<Arg name="q">
+ 				<Val>qa</Val>
+ 			</Arg>
+ 		</FunctionValue>
+
+
+
+
+ 		<FunctionValue name="b" function="explinear">
+ 			<Arg name="v">
+ 				<Minus><Val>v</Val></Minus>
+ 			</Arg>
+ 			<Arg name="th">
+ 				<Minus><Val>tha</Val></Minus>
+ 			</Arg>
+ 			<Arg name="a">
+ 				<Val>Rb</Val>
+ 			</Arg>
+ 			<Arg name="q"><Val>qa</Val></Arg>
+ 		</FunctionValue>
+
+
+ 			<Reciprocol name="mtau">
+ 				<Product>
+ 					<Sum>
+ 						<Val>a</Val>
+ 						<Val>b</Val>
+ 					</Sum>
+ 					<Val>qt</Val>
+ 				</Product>
+ 			</Reciprocol>
+
+ 			<Condition name="cond">
+ 				<Lesser>
+ 					<Val>mmin</Val>
+ 				</Lesser>
+ 				<Greater>
+					<Val>mtau</Val>
+				</Greater>
+			</Condition>
+
+
+ 			 <TauValue>
+ 				<Choose>
+ 					<When test="cond">
+ 						<Val>mtau</Val>
+ 					</When>
+ 					<Otherwise>
+ 						<Val>mmin</Val>
+ 					</Otherwise>
+ 				</Choose>
+ 			 </TauValue>
+
+ 		<InfValue>
+ 			<Product>
+				<Val>a</Val>
+				<Reciprocol>
+	 				<Sum>
+	 					<Val>a</Val>
+	 					<Val>b</Val>
+	 				</Sum>
+ 				</Reciprocol>
+ 			</Product>
+ 		</InfValue>
+
+
+ 	</TauInfTransition>
+ </KSComplex>
+
+
+
+
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+
+    <TauInfTransition from="c" to="o" id="tr2">
+ 		<Constant name="q10">2</Constant>
+ 		<Constant name="thi1">-45</Constant>
+ 		<Constant name="thi2">-45</Constant>
+ 		<Constant name="thinf">-50</Constant>
+ 		<Constant name ="Rd">0.03</Constant>
+ 		<Constant name="Rg">0.01</Constant>
+ 		<Constant name="qd">1.5</Constant>
+ 		<Constant name="qg">1.5</Constant>
+ 		<Constant name="hmin">0.5</Constant>
+ 		<Constant name="qinf">4</Constant>
+
+ 	<Product name="t10">
+ 			<Con>0.1</Con>
+ 			<Sum>
+ 				<Val>temperature</Val>
+ 				<Con>-24</Con>
+ 			</Sum>
+ 		</Product>
+ 		<Real name="qt">
+ 			<Power>
+ 				<Base>
+ 					<Val>q10</Val>
+ 				</Base>
+ 					<Exponent>
+ 						<Val>t10</Val>
+ 					</Exponent>
+ 			</Power>
+ 		</Real>
+
+ 		<FunctionValue name="a" function="explinear">
+ 			<Arg name="v">
+ 				<Val>v</Val>
+ 			</Arg>
+ 			<Arg name="th">
+ 				<Val>thi1</Val>
+ 			</Arg>
+ 			<Arg name="a">
+ 				<Val>Rd</Val>
+ 			</Arg>
+ 			<Arg name="q">
+ 				<Val>qd</Val>
+ 			</Arg>
+ 		</FunctionValue>
+
+
+
+
+ 		<FunctionValue name="b" function="explinear">
+ 			<Arg name="v">
+ 				<Minus><Val>v</Val></Minus>
+ 			</Arg>
+ 			<Arg name="th">
+ 				<Minus><Val>thi2</Val></Minus>
+ 			</Arg>
+ 			<Arg name="a">
+ 				<Val>Rg</Val>
+ 			</Arg>
+ 			<Arg name="q">
+ 				<Val>qg</Val>
+ 			</Arg>
+ 		</FunctionValue>
+
+
+
+ 			<Reciprocol name="htau">
+ 				<Product>
+ 					<Val>qt</Val>
+ 					<Sum>
+ 						<Val>a</Val>
+ 						<Val>b</Val>
+ 					</Sum>
+ 				</Product>
+ 			</Reciprocol>
+ 			<Condition name="cond">
+ 				<Lesser>
+ 					<Val>hmin</Val>
+ 				</Lesser>
+				<Greater>
+					<Val>htau</Val>
+				</Greater>
+			</Condition>
+
+ 		 <TauValue>
+ 				<Choose>
+ 					<When test="cond">
+ 						<Val>htau</Val>
+ 					</When>
+ 					<Otherwise>
+ 						<Val>hmin</Val>
+ 					</Otherwise>
+ 				</Choose>
+	 	</TauValue>
+
+
+ 		<InfValue>
+ 				<Reciprocol>
+ 					<Sum>
+ 						<Con>1</Con>
+ 						<Exp>
+ 							<Product>
+ 								<Sum>
+ 									<Val>v</Val>
+ 									<Minus>
+ 										<Val>thinf</Val>
+ 									</Minus>
+ 								</Sum>
+ 								<Reciprocol>
+ 									<Val>qinf</Val>
+ 								</Reciprocol>
+ 							</Product>
+ 						</Exp>
+ 					</Sum>
+ 				</Reciprocol>
+ 		</InfValue>
+ 	</TauInfTransition>
+ </KSComplex>
+
+
+
+
+
+
+
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+   <TauInfTransition from="c" to="o" id="tr3">
+ 		<Constant name="q10">2</Constant>
+ 		<Constant name="vvh">-58</Constant>
+ 		<Constant name="vvs">2</Constant>
+ 		<Constant name ="a2" id="Na3-a2-semiconstant">0.8</Constant>
+ 		<!--  a2 is the only change between soma, apical basal. -->
+ 		<Constant name="zetas">12</Constant>
+ 		<Constant name="gms">0.2</Constant>
+ 		<Constant name="vhalfs">-60</Constant>
+ 		<Constant name="a0s">0.0003</Constant>
+ 		<Constant name="smax">10</Constant>
+
+
+		<Constant name="faraday">9.648e4</Constant>
+		<Constant name="R">8.315</Constant>
+		<Constant name="kelvin0">273.16</Constant>
+
+
+ 		<Product name="t10">
+ 			<Con>0.1</Con>
+ 			<Sum>
+ 				<Val>temperature</Val>
+ 				<Con>-24</Con>
+ 			</Sum>
+ 		</Product>
+
+ 		<Real name="qt">
+ 			<Power>
+ 				<Base>
+ 					<Val>q10</Val>
+ 				</Base>
+ 				<Exponent>
+ 					<Val>t10</Val>
+ 				</Exponent>
+ 			</Power>
+ 		</Real>
+
+
+ 		<Real name="c">
+ 			<Reciprocol>
+ 				<Sum>
+ 					<Con>1</Con>
+ 					<Exp>
+ 						<Product>
+ 							<Reciprocol>
+ 								<Val>vvs</Val>
+ 							</Reciprocol>
+ 							<Sum>
+ 								<Val>v</Val>
+ 								<Minus>
+ 									<Val>vvh</Val>
+ 								</Minus>
+ 							</Sum>
+ 						</Product>
+ 					</Exp>
+ 				</Sum>
+ 			</Reciprocol>
+ 		</Real>
+
+ 	  	<InfValue>
+ 	  		<Sum>
+ 	  			<Val>c</Val>
+ 	  			<Product>
+ 	  				<Val>a2</Val>
+ 	  				<Sum>
+ 	  					<Con>1</Con>
+ 	  					<Minus>
+ 	  						<Val>c</Val>
+ 	  					</Minus>
+ 	  				</Sum>
+ 	  			</Product>
+ 	  		</Sum>
+ 	  	</InfValue>
+
+
+		<Real name="fort">
+			<Product>
+				<Val>faraday</Val>
+				<Reciprocol>
+					<Product>
+						<Val>R</Val>
+						<Sum>
+							<Val>kelvin0</Val>
+							<Val>temperature</Val>
+						</Sum>
+					</Product>
+				</Reciprocol>
+			</Product>
+		</Real>
+
+
+		 <Real name="bets">
+		 	<Exp>
+		 		<Product>
+		 		 	<Con>1.e-3</Con>
+		 		 	<Val>zetas</Val>
+		 		 	<Val>gms</Val>
+		 		 	<Val>fort</Val>
+		 			<Sum>
+		 				<Val>v</Val>
+		 				<Minus>
+		 					<Val>vhalfs</Val>
+		 				</Minus>
+		 			</Sum>
+		 		</Product>
+		 	</Exp>
+		 </Real>
+
+		  <Real name="alps">
+		 	<Exp>
+		 		<Product>
+		 			<Con>1.e-3</Con>
+		 			<Val>zetas</Val>
+		 			<Val>fort</Val>
+		 			<Sum>
+		 				<Val>v</Val>
+		 				<Minus>
+		 					<Val>vhalfs</Val>
+		 				</Minus>
+		 			</Sum>
+		 		</Product>
+		 	</Exp>
+		 </Real>
+
+		<Real name="stau">
+			<Product>
+				<Val>bets</Val>
+				<Reciprocol>
+					<Product>
+						<Val>a0s</Val>
+						<Sum>
+							<Con>1</Con>
+							<Val>alps</Val>
+						</Sum>
+					</Product>
+				</Reciprocol>
+			</Product>
+		</Real>
+
+
+			<Condition name="cond">
+			<Lesser>
+				<Val>smax</Val>
+			</Lesser>
+			<Greater>
+				<Val>stau</Val>
+			</Greater>
+			</Condition>
+
+
+		<TauValue>
+ 				<Choose>
+ 					<When test="cond">
+ 						<Val>stau</Val>
+ 					</When>
+ 					<Otherwise>
+ 						<Val>smax</Val>
+ 					</Otherwise>
+ 				</Choose>
+ 			</TauValue>
+
+ 	</TauInfTransition>
+
+ </KSComplex>
+
+
+
+ </KSChannel>
+

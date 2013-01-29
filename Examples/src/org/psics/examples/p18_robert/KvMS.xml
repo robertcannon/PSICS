@@ -1,0 +1,11 @@
+<KSChannel id="KvMS" permeantIon="K" gSingle="20pS">
+
+	<KSComplex id="n">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpLinearTransition from="c" to="o" rate="0.18per_ms" midpoint ="25mV" scale="9mV" q10="2.3" baseTemperature="23Celsius"/>
+		<ExpLinearTransition from="o" to = "c" rate="0.018per_ms" midpoint="25mV" scale="-9mV" q10="2.3" baseTemperature="23Celsius"/>
+	</KSComplex>
+
+
+</KSChannel>

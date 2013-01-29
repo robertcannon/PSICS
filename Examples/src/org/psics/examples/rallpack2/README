@@ -1,0 +1,30 @@
+
+
+<p>
+Branched tree with ten levels of branching obeying the Rall 3/2 power
+law. This gives a tree with 512 terminal segments and 1023 segments in total.
+Electrical properties are as for Rallpack 1. Full details in
+ <a href="README.upi">README.upi</a>.
+</p>
+
+<p>
+The model produces three graphs showing the reference data (correct solution)
+in white, and calculated curves in other colors according to the timestep used.
+The only difference between the graphs are the axis ranges: they all show the same data.
+</p>
+
+<p>
+	For each timestep (and for the reference) there are two
+	curves: the potentail at the root of the tree and the
+	potential at a terminal. Note that for this set of cell properties, the two
+	potentials are very close throughout the simulation and are
+	barely distinguishable in the first figure.
+</p>
+
+
+<p>
+	If the system performs correctly, the lines should be almost on top
+	of each other at these scales (well within 0.01mV).
+
+</p>
+

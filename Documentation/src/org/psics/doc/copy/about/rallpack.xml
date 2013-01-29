@@ -1,0 +1,63 @@
+<page label="Rallpack" prev="architecture" next="log">
+
+	<h1>Rallpack</h1>
+
+	<p>
+		The rallpack tests are a collection of models with either analytic solutions (Rallpack 1 and 2) or
+		data computed by independently validated systems (Rallpack 3). The three models are packaged within
+		PSICS and can be run with the "-v" flag. The output should match
+		<anew href="examples/rallpack1/index.html">Rallpack1</anew>,
+		<anew href="examples/rallpack2/index.html">Rallpack2</anew>, and
+		<anew href="examples/rallpack3/index.html">Rallpack3</anew>.
+	</p>
+
+	<p>
+		The generated graphs show that calculations agree with reference data to within the typical change over
+		a single timestep, but the asymptotic behavior for small timesteps is generally buried under superimposed
+		lines. This behavior also depends on the choice of time differencing for the calculation.
+		PSICS supports the implicit Euler and Crank-Nicolson schemes via the "method"
+		attribute of a model specification and also anything in between by setting the "tdWeighting" attribute.
+	</p>
+	<p>
+		For the implicit Euler scheme, the change in membrane potential during a step is computed with the
+		gradient at the end of the step. For Crank Nicolson, the average of the gradients at the start and end are used
+		and for others a weighted average is used: <br/>
+		<m>grad</m> <m>=</m> <m>tdWeighting (gradient at end)</m> <m>+</m> <m>(1 - tdWeighting)</m> <m>(gradient at start)</m>.<br/>
+		Thus the implicit Euler is equivalent to a weighting factor of 1.0 and Crank-Nicolson to a weighting factor of 0.5.
+		Using a tdWeighting of zero would give the forward Euler method.
+	</p>
+
+	<p>
+		The choice of scheme is discussed further in the <a href="guide/index.html">user guide</a> but for for validation
+		purposes there are three main observations to be made that apply to the differencing algorithm rather than to a
+		particular implementation.
+		<ol>
+			<li>With the implicit Euler method the numerical results can be expected to be a relatively poor approximation
+			at large timesteps and to approach the analytic results
+			monotonically for increasingly small timesteps, at least down to 1 microsecond. This is a good validation
+			test because using smaller timesteps should bring the results asymptotically closer to the reference.
+			</li>
+			<li>
+				The standard Crank Nicolson <m>(tdWeighting = 0.5)</m> often suffers from ringing in which the numerical
+				result jumps back and forth across the analytic solution. The effect increases with larger timesteps.
+			</li>
+			<li>
+				The best results are normally obtained with a slightly modified Crank Nicolson
+				(eg <m>tdWeighting = 0.51</m>) which damps out most of the ringing but keeps the improved accuracy.
+				However, in general this cannot be expected to consistently improve with smaller timesteps and
+				may actually get worse below a certain level.
+			</li>
+		</ol>
+	</p>
+
+
+	<p>
+	 	The examples above use the weighted Crank-Nicolson method.  The implicit Euler method behavior can be seen in
+	 	<anew href="examples/rallpack1-IE/index.html">Rallpack1-IE</anew>,
+		<anew href="examples/rallpack2-IE/index.html">Rallpack2-IE</anew>, and
+		<anew href="examples/rallpack3-IE/index.html">Rallpack3-IE</anew>.
+	</p>
+
+
+
+</page>

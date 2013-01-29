@@ -1,0 +1,105 @@
+<page title="PSICS: Parallel Stochastic Ion Channel Simulator" label="Home" next="download" prev="../guide/standards">
+
+
+	<p>
+		<b>Edinburgh Summer School 2012:</b> <a href="tutorial.html">tutorial and links, Wednesday 29th August</a>.
+	</p>
+
+	
+	<p>
+	New: <a href="http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1000886">
+	Stochastic Ion Channel Gating in Dendritic Neurons: Morphology Dependence and Probabilistic Synaptic Activation of Dendritic Spikes
+	</a> in PLoS Computational Biology 6(8): e1000886. doi:10.1371/journal.pcbi.1000886.
+	</p>
+
+    <latestinfo/>
+
+	<h2>PSICS</h2>
+
+	<par>
+		PSICS computes the behavior of neurons taking account of the stochastic nature of ion
+		channel gating and the detailed positions of the channels themselves. It supports representation of
+		ion channels as kinetic schemes inviolving one or more serial gating complexes.
+	</par>
+	<par>
+		It uses a variety of approximations to speed up the calculations while retaining
+		effects of channel stochasticity. In particular, it uses population statistics for
+		electrically compact homogeneous channel populations instead of following each channel independently.
+		This contrasts with more costly simulation methods where exact transition times are generated for
+		each stochastic element in the system. As a further approximation, it can compute some or all of the
+		channels in the continuum limit where the behavior is deterministic.
+	</par>
+
+	<par>
+		PSICS is intended to be complementary to existing tools. With its focus on kinitec scheme
+		channel models, stochastic behavior, and detailed geometry, it lives in the space between stochastic
+		diffusion models of small sections of neurons (MCell, STEPS) and deterministic whole cell
+		models (Neuron, Genesis).
+	</par>
+
+	<par>
+		The <a href="guide/index.html">user guide</a> explains how to install PSICS, set up models
+		and run them. The <a href="examples.html">examples</a> show input files and results for a
+		range of models and the <a href="formats/index.html">input formats reference</a> details
+		all the possible options for specifying models.
+	</par>
+
+
+	<par>
+		The best way to hear about the latest developments with PSICS is to
+		register on the <a href="http://www.psics.org/forum">forum</a> and switch on
+		notifications for the "Announcements" list.
+	</par>
+
+
+	<h2>ICING user interface</h2>
+	 <par>
+	 	Models for use with PSICS are expressed as simple XML files
+	 	(see <anew href="examples/rallpack1/index.xml#bottom">Rallpack1</anew> for an example) that can
+	 	be created with an <a href="guide/utilities.html">xml-aware text editor</a>.
+	 	Apart from cell morphologies and ion channels (which rarely need changing) the most complex
+	 	part of building a model is normally the specification of channel distributions and the positioning of
+	 	stimuli and recorders.  This is the purpose of <a href="icing/index.html">ICING</a>, a standalone
+	 	graphical tool for creating and visualizing ion channel distributions.
+	 </par>
+	 <table align="center" cellspacing="12">
+	 	<tr>
+	 		<td><a href="icing/screenshots.html"><img src="icing/vsml-shot1.png"/></a></td>
+	 		<td><a href="icing/screenshots.html"><img src="icing/vsml-shot6.png"/></a></td>
+	 		<td><a href="icing/screenshots.html"><img src="icing/vsml-shot9.png"/></a></td>
+	 	</tr>
+	 </table>
+	 <par>
+	 	More information on the options for specifying channel densities is in the
+	 	<a href="icing/reference.html">reference section</a>. Some
+	 	<a href="icing/screenshots.html">screenshots</a> show ICING in use and
+	 	the <a href="icing/basics.html">getting started</a> guide covers the rest.
+	 </par>
+
+
+	<h2>Features</h2>
+
+	<ul>
+		<li>Stochastic simulation of ion channels on extended cells</li>
+		<li>Spatial discretization (compartmentalization) of cell structures that preserves volume,
+		point positions and surface area</li>
+		<li>Kinetic scheme channel models in ensemble and stochastic regimes</li>
+		<li>Hodgkin-Huxley style models implemented by automatic conversion to kinetic schemes</li>
+		<li>Efficient approximate stochastic simulation methods where the dominant computational cost in many models
+			is the generation of random numbers</li>
+		<li>Declarative model specifications in XML</li>
+		<li>No manual units matching is required - inputs are specified with their units and converted internally</li>
+		<li>Support for standard morphology formats (MorphML, swc, output from Neuron)</li>
+		<li>Stand-alone computational core as a native executable for multi-processor applications</li>
+		<li>Built-in example models for testing installations and as starting points for new models</li>
+	</ul>
+
+
+
+
+
+
+
+
+
+</page>

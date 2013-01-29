@@ -1,0 +1,34 @@
+
+<Activity id="activity">
+
+
+	<AfferentEvents population="sypop1">	
+        <UniformGenerator frequency="0.001Hz"/>
+        <!-- 
+		<EventSequence file="stim1"/>
+         -->		
+	</AfferentEvents>
+	
+	
+	
+	
+	<AfferentEvents population="sypop2">
+		<PoissonGenerator frequency="2Hz" seed="101"/>
+		<!-- 
+		<UniformGenerator frequency="20Hz"/>
+		<GammaGenerator theta="5ms" k="4"/>
+   		-->
+	</AfferentEvents>
+
+
+    <AfferentEvents population="sypop1">    
+        <ThresholdSensor threshold="-50mV"/>
+        <!-- 
+            This delivers an event to every synapse in population "sypop1" when the potential
+            in the first compartment (fixed for now - could allow sensors to be moved in future)
+            passes -50 mV from below.
+         -->        
+    </AfferentEvents>
+    
+
+</Activity>

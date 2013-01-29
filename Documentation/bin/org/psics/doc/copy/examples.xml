@@ -1,0 +1,41 @@
+<page label="Examples" prev="icing/reference" next="faq">
+
+
+
+    <h2>Examples</h2>
+
+    <par>
+      	PSICS comes with a range of built-in models. They can be run with the command-line argument "-e"
+      	followed by the name of the model to run. Some of the examples are also part of standard test cases
+      	that are run with specific options such as "-v" to run the rallpack validation examples.
+     </par>
+
+     <par>
+      	For each model there is a single page summary that is generated automatically
+        when the model is run.
+     </par>
+
+	<exincludeindex/>
+
+	<bigskip/>
+
+
+	<h2>Model specification samples</h2>
+
+    <par>
+    	The files included below come from the rallpack3 example folder and
+    	 illustrate how the various components of a model are specified. The full structure allowed for
+    	 each type of model component is in the <a href="formats/">formats reference</a>.
+    </par>
+
+	    <exfile path="rallpack3/cell.xml"/>
+        <exfile path="rallpack3/environment.xml"/>
+        <exfile path="rallpack3/membrane.xml"/>
+        <exfile path="rallpack3/HH_K.xml"/>
+        <exfile path="rallpack3/HH_Na.xml"/>
+        <exfile path="rallpack3/recording.xml"/>
+        <exfile path="rallpack3/run.xml"/>
+
+
+
+</page>

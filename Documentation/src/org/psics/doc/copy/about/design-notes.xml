@@ -1,0 +1,237 @@
+
+<page label="Design notes" title="PSICS design notes" prev="index" next="rallpack">
+	<h1>Design notes</h1>
+
+	<par>
+		Other developers are occasionally interested in why particular design decisions were taken with PSICS. 
+		The following notes address some of the more common questions.		 
+	</par>
+
+
+	<h2>Units and XML</h2>
+	<par>
+	 	In PSICS, dimensional quantities are expressed as single strings, as in:
+	 	<xcode><KSChannel id="HH_Na" permeantIon="Na" gSingle="4pS">...</KSChannel></xcode>
+		or, eqivalently,
+		<xcode><KSChannel id="HH_Na">
+	<permeantIon>Na</permeantIon>
+	<gSingle>4pS</gSingle>
+</KSChannel></xcode>
+	
+	They are not expressed as:
+	<xcode><gSingle unit="pS">4</gSingle></xcode>
+	or
+	<xcode><gSingle>
+	<unit>pS</unit>
+	<value>4</value>
+</gSingle></xcode>
+	or any other variant that splits the <b>4</b> from the <b>pS</b>. Furthermore, compound units, such 
+	as <b>uF per cm^2</b> are written that
+	way rather than separating the <b>uF</b> from the <b>cm^2</b>.
+	</par>
+	 
+	 <par>
+	 	This could be seen as breaking the principle of atomicity, (also called the principle of structured data) 
+	 	for XML content which states that structure 
+	 	data should be split out into XML elements rather than enclosed in strings. The problem with the two forms 
+	 	immediately above is that the result is not really atomic. There is a degeneracy in the split between 
+	 	the value and the unit, with the result that these cannot be considered the canonical representations 
+	 	of the quantity.
+	 </par>
+      <par>
+        But, also, the atomicity principle is  
+		 actually more subtle than the statement above would suggest. XML formats make extensive 
+		use of structured data within strings. Examples include scientific notation for numbers as in the XML schema datatypes 
+		recommendation, the ISO 8601 date format, xpath in and variable references in XSLT, and comma-separated lists in 
+		Ant. The common thread in these applications is that the processor using the data has no choice but to understand
+		the concept being encoded. An xpath expression is of no use except to an xpath-aware processor, so there is no
+		point in splitting it up further. The same is true for and ISO 8601 date and the other examples. In the rest
+		of this section, we demonstrate that this is also the case for dimensional quantities in PSICS.
+	</par>	
+	<par>
+		Consider the quantity <b>4pS</b>. It can also be written as <b>0.004nS</b> or <b>4E-12S</b> or  <b>0.004 per Gohm</b>
+		or <b>4E-5s^3 A^2 per g per cm^2</b> or  <b>4E-12s^2 A^2 Kg^-1 m^-2</b> or any of  
+		an indefinite number of other variants, all of which specify <i>exactly</i> the same quantity. 
+		Expressing these as 
+		<xcode><gSingle>
+	<value>0.004</value>
+	<unit>per GOhm</unit>
+</gSingle></xcode>
+or <xcode><gSingle>
+	<value>4E-6</value>
+	<unit>uS</unit>
+</gSingle></xcode>
+		Doesn't help much and could even be misleading because it would suggest that the two parts 
+		could stand alone somehow.
+		A parallel can be drawn here with the expression of large and small
+		real numbers as in <b>6.02 * 10<sup>23</sup></b> which is normally encoded as <b>6.02E23</b>. 
+		It could be split as any of the following: 
+		<xcode><real decimal="6.02" exponent="23"/>
+<real exponent="23">6.02</real>
+<real exponent="24">0.602</real>
+<real>
+	<decimal>602.</decimal>
+	<exponent>21</exponent>
+</real></xcode>
+and many others. Of course, such values
+are rarely split in XML, presumably because most programming languages provide native support for 
+scientific notation. There is also definitions of float and double datatypes in XML Schema part 2 
+which was at Candidate Reccommendation stage in April 2009.
+</par>
+<par>
+		Returning to dimensional quantities and the <b>4pS</b> example, the natural  
+		canonical representation is 
+		<xcode><gSingle>
+	<value>4E-12</value>
+	<M>-1</M>
+	<L>-2</L>
+	<T>3</T>
+	<A>2</A>
+</gSingle></xcode> where M, L, T, and A indicate the standard SI base dimensions mass, length, time and Amperes. 
+	This might reasonably be contracted to
+	<xcode><gSingle>
+	<value>4E-12</value>
+	<unit>S</unit>
+</gSingle></xcode> since this preserves the SI value and simply aggregates 
+the <b>M<sup>-1</sup> L<sup>-2</sup> T<sup>3</sup> A<sup>2</sup></b> dimension as a compound canonical form, Siemens.
+However, this still leaves multiple ways to express the same quantity because it could also be written as 
+<xcode>
+<gSingle>
+	<value>4E-12</value>
+	<unit>Ohm^-1</unit>
+</gSingle></xcode> using another of the 22 standard SI units. In this case one could also consider using some 
+MathML to express the power of -1.
+</par>
+<par>
+So the XML designer 
+has the choice whether to use the full canonical representation, an SI value and SI units, a plain undivided string,
+ or a somewhat arbitrary split where neither component is unique. The last route is often taken 
+ through simplistic application of the 
+atomicity principle without recognizing the degeneracy which takes away most of the benefits of such a split.
+The difficulty of the full canonical form is that it is hard to recognize that the dimension being expressed 
+is the Siemen. The latter could be included as an attribute for reader convenience, but that reintroduces 
+the fragility problem because it could then be inconsistent with the dimension that is actually expressed. 
+</par>
+
+<par>
+	The main lesson to be taken from all this is that working with dimensional quantities is hard. 
+	Either specifications have to use the canonical representation or anything processing specifications of 
+	such quantities has to be aware of the subtleties of units and dimensions. Splitting a 
+	string into value and units components masquerades as XML atomicity but without the usual benefits. 
+	Since PSICS is intended to be read and written by users, the canonical option is not viable as it would force the 
+	user to do manual conversions to SI throughout. So PSICS takes the other option and implements
+	a full dimensions model within the software itself, leaving dimensional quantities as undissociated strings. 
+	They suffer the same lack of uniqueness as with splits, but at least they do not look atomic, and they
+	are certainly closer to the way such quantities are normally written.	 
+</par>
+
+	<h3>Compound units and equations</h3>
+	<par>
+		The above discussion of intermediate expressions for dimensional quantities between plain strings and 
+		the canonical representation only scratches the surface of the problem. For example, a quantity such as 
+		<b>0.95 microFarad per square centimetre</b> would properly demand some MathML to encode the expression
+		<b>0.95 * microFarad / power(cm, 2)</b>. But given that such things are not atomic in any case and are likely 
+		to rapidly get more complicated than the true canonical representation, that does not seem like a good idea.
+	</par>
+	<par>
+		There is also a tendency in scientific applications of XML to use dimensionless variables in equations, presumably
+		because computers languages only deal natively with dimensionless quantities. For example, if 
+		<m>P</m> is a membrane potential with dimensions Volt, then one can write <m>p = P/Volt</m> to get a 
+		dimensionless quantity <m>p</m>.
+		Doing similar manipulations for other quantities, one can write whole physical equations in dimensionless 
+		form, such as <m>c dp/dt = g(e - p)</m> for the potential into a capacitive compartment with 
+		an ohmic conductance <m>g</m> 
+		to a driving potenital <m>e</m>. This is the dimensionless form of 
+		<m>C dP/dT = G(E - P)</m> where <m>C</m> has dimensions capacitance, <m>G</m> conductance
+		<m>T</m> time, and <m>E</m> and <m>P</m> have dimensions Volt.  
+	</par>
+	<par>
+		The key difference between these forms is that the dimensional form says nothing about units. It is a statement about physical 
+		quantities, in the same sense that I can lay a meter rule end to end with a six inch rule and get something 
+		one metre and six inches long. But if I add 1 plus 6 it is nonsense. Likewise, 
+		the dimensional form is universal, but the dimesionless form as a high
+		capacity for nonsense. If I choose to work in mV and microFarad, so <m>p = P / mV</m> and <m>c = C / uF</m>, then 
+		I have to work out the right units for <m>g</m> or the equation is wrong, even though it looks just like the 
+		dimensional one. It is worth noting that publications in physics and biology normally 
+		express dimensional equations. They may include statements such as "if V is in mV and g in pS then c is in...", but
+		these are just metadata presenting one dimensionless form from the whole family of such forms encompased in the 
+		equation. Where model specification tools choose to represent only relationships between dimensionless quantities,
+		they are, often unwittingly, picking an impoverished and fragile version of the original.
+	</par>
+	<par>
+		The point here is the same as above: working with dimensional quantities takes work that has to be done 
+		somewhere. It can be forced on the user by providing an XML specification that 
+		requires equations to have been correctly reduced to a dimensionless form in advance. Or it can be implemented
+		in the code that works with the data and leave the user to express equations with dimensional quantities.	
+		Given that PSICS has a single code base, but hopefully many users making many models, the latter is 
+		the preferred solution here.		
+	</par>
+
+
+	<h2>Elements and Attributes</h2>
+	<par>	
+		Following the terminology used by Uche Ogbuji in his 
+		<a href="http://www.ibm.com/developerworks/xml/library/x-eleatt.html">Principles of XML design</a> most 
+		PSICS design decisions can be seen as application of a slightly modified version of 
+		his principle of core content: 
+		<quote>
+			If you consider the information in question to be part of the essential material that is being 
+			expressed or communicated in the XML, put it in an element. 
+			If you consider the information to be peripheral or incidental to the main communication, or 
+			purely intended to help applications process the main communication, use attributes.
+		</quote>
+	</par>
+	<par>
+		In a sense, of course, none of the information in a model specification in incidental or peripheral. It is all
+		part of the model, so in that sense, it should all go in elements. But there are still two categories of content
+		in a model, and it makes sense to use the element/attribute distinctions provided by XML to style them differently.
+	</par>
+	<par>
+		Because the models are intended to parallel physical entities, there is a natural distinction in the model
+		between things and properties of those things. A cell or an ion channel are things; the radius of a cell or the conductance
+		of an ion channel are properties. This leads to XML looking like:
+		<xcode><Cell radius="5um">...</Cell>
+<KSChannel conductance="3pS">...</KSChannel></xcode> where each thing may contain other things such a 
+population of ion channels. And enclosed things may have their own properties, such as the number of ion channels in the population.
+	</par>	
+		
+	
+		
+	<par>
+		There are two rules of thumb that help decide what should be an element and what should be an attribute in this
+		picture (in addition to the unambiguous cases noted by Ogbiji):
+		<ul>
+			<li>If it feels most natural to say "the X has a Y" then Y should be a sub-element of X</li>
+			<li>If it feels more natural to say "the X's Y is..." or "the Y of the X is..." then Y should be an attribute of X</li> 
+		</ul>
+		So, for example, for an integrate-and-fire model, "the cell's threshold is -40mV" beats "the cell has a threshold; the value of the threshold is -40mV",
+		so "threshold" should be an attribute of the cell element. But if the model had some more subtle 
+		spike generating mechanism one might prefer to say "the cell has a threshold-based spike generator" 
+		and make it an element.
+	</par>	
+	<par>
+		The second rule of thumb, and in fact, the only rule that really matters since it is what defines the XML,
+		relates to representing objects as classes and instances in an object-oriented language:
+		<ul>
+			<li>If the object being described is an instance of a class of the same name, then it should be an element</li>
+			<li>If the object being described has a local name that is different from the class name, then it should be an attribute if possible</li>
+		</ul>
+		Thus, for example, an integrate and fire cell with a threshold could be defined as:
+<code>class IaFCell {
+	Voltage threshold;
+}
+</code>
+		Here "threshold" is local field of which the value is an object of type Voltage. The same Voltage class is 
+		used everywhere a quantity with dimensions Volt is required. Since the names are different, "threshold" should
+		be an attribute. If instead we found it necessary to define a Threshold object as in:
+<code>class IaFCell {
+	Threshold threshold;
+}
+</code> then that would suggest there is more to the threshold than just a voltage, and that it should be its own 
+element. Of course, to some extent this distinction reduces to whether items have internal structure (so they should be 
+elements) or not (making them attributes). But, as discussed at length above, even a Voltage is an object with internal
+structure. The first use of voltage above indicates that it is used to add a property to core content, not as core content itself 
+so we should try to store it in the XML as an attribute value rather than a new element tree. 
+	</par>
+		
+</page>

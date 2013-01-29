@@ -1,0 +1,138 @@
+<page label="Numerical methods">
+
+
+<h1>Passive propagation</h1>
+
+<par>
+	Source code of the subroutine that updates the membrane potential. The
+	local inputs are the current membrane potential, any current or voltage clamps on the cell, and the
+	effective conductance and reversal potential that the ion channels provide for each compartment.
+</par>
+<par>
+	The other input quantities define the electrical structure of the discretized cell and are fixed throughout
+	the calculation.
+</par>
+
+
+
+<h3>Fixed quantities</h3>
+<par>
+    Declarations of structural quantities: these are fixed throughout the calculation
+</par>
+<code>
+        integer, intent(in) :: ncompartments, nconnections, ncc, nvc
+        integer, dimension(nconnections), intent(in) :: con_from, con_to
+        real, dimension(nconnections), intent(in) :: con_conductance, con_capacitance
+        real, dimension(ncompartments) :: cpt_capacitance
+        real, intent(in) :: dt, ftimediff
+        integer, dimension(ncc), intent(in) :: pos_ccs
+        integer, dimension(nvc), intent(in) :: pos_vcs
+
+</code>
+
+
+<h3>Local inputs</h3>
+<par>
+    The effective conductance and reversal potential arising from combining all the channels on each compartment,
+    and the values ov current clamps and voltage clamps.
+</par>
+<code>
+        real, dimension(ncompartments), intent(in)  :: gchan, echan
+        real, dimension(ncc), intent(in) :: ccvals
+        real, dimension(nvc), intent(in) :: vcvals
+
+</code>
+
+
+<h3>Work arrays and output</h3>
+<par>The diag, rhs, and offdiag are internal work arrays. v is the membrane potential: both input and output</par>
+<code>
+        real, dimension(ncompartments), intent(inout) :: v
+        real, dimension(ncompartments) :: diag, rhs
+        real, dimension(nconnections) :: offdiag
+        real :: fcn, a, b
+        integer :: i, i_from, i_to, icpt
+        real :: f
+
+</code>
+
+
+<h3>Set up</h3>
+<par>Populate the matrices and rhs vector. The matrix elements are stored in the diag and offdiag arrays. The
+off-diagonal elements are stored by connection rather than by compartment.</par>
+<code>
+        v(pos_vcs) = vcvals;
+        do i = 1, ncompartments
+            a = dt * gchan(i)
+           rhs(i) = a * (echan(i) - v(i))
+           diag(i) = cpt_capacitance(i) + fcn * a
+        end do
+
+       do i = 1, ncompartments
+            a = dt * gchan(i)
+           rhs(i) = a * (echan(i) - v(i))
+           diag(i) = cpt_capacitance(i) + fcn * a
+        end do
+
+        do i = 1, nconnections
+           a = dt * con_conductance(i)
+           offdiag(i) = -fcn * (con_capacitance(i) + a)
+        end do
+
+        rhs(pos_ccs) = rhs(pos_ccs) + dt * ccvals;
+
+        do i = 1, nconnections
+           b = dt * con_conductance(i) * (v(con_from(i)) - v(con_to(i)))
+           rhs(con_to(i)) = rhs(con_to(i)) + b
+           rhs(con_from(i)) = rhs(con_from(i)) - b
+           diag(con_to(i)) = diag(con_to(i)) - offdiag(i)
+           diag(con_from(i)) = diag(con_from(i)) - offdiag(i)
+        end do
+
+        diag(pos_vcs) = 1.
+        rhs(pos_vcs) = 0;
+
+</code>
+
+<h3>Forward sweep</h3>
+<par>Eliminates points to the right of the leading diagonal, working from the bottom up so that
+no new elemnts are introduced</par>
+<code>
+        do i = nconnections, 1, -1
+            i_from = con_from(i)
+            i_to = con_to(i)
+            f = offdiag(i) / diag(i_to)
+            rhs(i_from) = rhs(i_from) - f * rhs(i_to)
+            diag(i_from) = diag(i_from) - f * offdiag(i)
+        end do
+
+        diag(pos_vcs) = 1.
+        rhs(pos_vcs) = 0;
+
+</code>
+
+<h3>Backsubstitute</h3>
+<par>
+The only complication here is that because the loop is over connections, not compartments, it is
+necessary to check for when a complete row has been finished in order to normalize by the diagonal.
+</par>
+<code>
+        icpt = 1
+        do i = 1, nconnections
+            if (con_to(i) .ne. icpt) then
+                rhs(icpt) = rhs(icpt) / diag(icpt)
+                icpt = con_to(icpt)
+            end if
+            rhs(con_to(i)) = rhs(con_to(i)) - offdiag(i) * rhs(con_from(i))
+        end do
+        rhs(ncompartments) = rhs(ncompartments) / diag(ncompartments)
+
+        v = v + rhs
+
+</code>
+
+<par>
+	The last step above is to increment v by the deltaV values that are in the rhs array.
+</par>
+
+</page>

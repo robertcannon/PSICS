@@ -1,0 +1,291 @@
+<page label="Model specification" prev="methods" next="fortran">
+
+	<h1>Specifying Models</h1>
+
+	<par>
+		Models are normally spread across several files containing specifications for the various components.
+		Every model requires a master file that specifies what calculation is to be run and that links to other
+		components needed by the model. The full structure and contents of these files are described in the
+		<a href="../formats/index.html">input format reference</a>. This section explains the most important
+		elements and shows how they are used to define a model.
+	</par>
+
+	<par>
+		The reason for using multiple files to define single model is that it cuts down on duplication of model
+		components and therby on the associated risks of incompatible versions or accidental changes. For example
+		modeling project that involves testing a series of channel distributions will generally use the same morphology
+		and channel definitions for all models. By separating the model components in different files it is
+		possible to have only one, definitive, morphology specification, and one version of each channel type. The only
+		thing that needs to be changed from run to run is the choice of channel distribution file. A new master
+		files is needed for each run that links to the appropriate distribution file but it can refer to the
+		same versions of the morphology and other components as before.
+	</par>
+
+	<par>
+
+	</par>
+
+
+	<h2>Components of a model</h2>
+ 	<par>
+		PSICS models are expressed as object trees using a predefined set of object types, each of which has
+		assocaiated optional or required parameters. Examples of objects include a population of channels, a singie state
+		within a channel or the master object that defines a simulation run. Some objects, such as ion channels,
+		can contain lists or single instances of other objects or particular types (states and transitions, for an ion
+		channel). Others, such as a channel transition, just have parameters and no sub-objects. Most ojbects can
+		only be used as sub-objects since they only make sense in the context of an enclosing structure. The execptions
+		to this rule are the so-called "standalone" or "top-level" components. These are the ones that can be
+		defined in their own files.
+		The various top-level component types understood by PSICS are:
+ 		</par>
+ 		<ul>
+ 			<li><a href="../formats/control.html">PSICSMaster</a>: overall specification of the
+		simulation to be performed</li>
+		<li><a href="../formats/morphology.html">CellMorphology</a>: the physical structure of the cell</li>
+		<li><a href="../formats/environment.html">CellEnvironment</a>: the environment around the cell, including
+		the temperature and concentrations of ions</li>
+		<li><a href="../formats/channels.html">KSChannel</a>: ion channels</li>
+		<li><a href="../formats/properties.html">CellProperties</a>: cytoplasmic and membrane properties,
+		including the distribution of ion channels across the membrane
+		</li>
+		<li><a href="../formats/stim.html">Access</a>: external stimulation via current or voltage clamps and recording
+		via voltage recorders</li>
+ 		</ul>
+
+	<par>
+	The master file links to one file each of types: CellMorphology, CellEnvorinment, CellProperties and  Access.
+	The CellProperties file links to whichever KSChannel files are needed for the mode.  The KSChannel object type
+	encompases all the possible ion channel models and allows multi-complex channels. It includes standard
+	Hodgkin-Huxley style models as a subset of multi-complex kinetic schemes.
+	</par>
+
+
+
+
+
+	<h2>XML file structure</h2>
+	<par>
+		The object trees defining a model are expressed as XML files. As used by PSICS, XML is just a
+		way of writing down a nested collection of elements where each element
+		is of a particular type that specifies what properties, or attributes, it can have what types of child
+		elements are allowed. An element begins with with an angle bracket and opening type name
+		such as <x>&lt;CellMorphology</x>. This is then followed by any attributes in the form <x>name="value"</x>
+		with spaces between them. If there are no child elements, it is then closed with <x>/&gt;</x>. If there
+		are child elements, the opening tag is terminated just with a <x>&gt;</x> and the child elements follow.
+		Then the element is closed with a tag that matches the opening one with an extra <x>/</x> as in
+		<x>&lt;/CellMorphology&gt;</x>.  Each file can only contain one root element. Text that is not part of
+		the model can be  included within comment tags:
+		 <x>&lt;!-- this is an xml comment --&gt;</x>. It is generally a good idea to indent model specification
+		 files so as to make the nested structure clear, but this is not required. Whitespace does not matter except
+		 within quited values or in tags (where it is not allowed).
+	</par>
+	<par>
+	  	The above conditions provide what is termed <i>well-formed</i> XML. There is another level of standardization to
+	  	provide so-called <i>valid</i> XML where each file must also specify the schema it conforms to and may
+	  	also contain details of the character encoding being used, the XML version, and various
+	  	other things. The concept of XML validity is only really important wher XML is written by software
+	  	to communicate with other software. It is not relevant to the relatively clean and simple hand-written xml
+	  	files used for PSICS.
+	 </par>
+	<par>
+	  	With a suitable text editor it is fairly easy to write well-formed XML by hand. Some of the many possible tools
+	  	are listed in the <a href="utilities.html">utilities section</a>. The editor should handle the matching of
+	  	opening and closing tags, document indentation, and should highlight any inconsistencies in the file structure
+	  	as they are edited, so that such faults can be corrected in advance rather than having to be tracked down from
+	  	error messages generated by PSICS when it tries to read the files.
+	</par>
+
+
+
+	<h2>Object parameters</h2>
+		<par>
+			The <a href="../formats/index.html">formats reference</a> shows that the interenal model uses an extensive
+			set of data types for the parameters of an object. They can be integers, booleans (true/false), plain
+			floating point numbers, one of a wide range of dimensional quantitites (time, distance, voltage etc), choices
+			from a set of options, text labels or identifiers, or references to other objects by identifier.
+		</par>
+		<par>
+			In the XML file, however, they are all just plain text as in <x>id="HH_K" gSingle="1pS"</x>. Here the first
+			entry in quotes is the identifier for a channel definition, and the second is a conductance. The weakness
+			here is that you have firstly to know the names of the parameters that are allowed in an object, and second
+			what type they are before you can write a suitable XML file. Although this information is all built into
+			PSICS, there is no very convenient way of using it at the time of creating files (XML provides both schemas
+			and document type definitions to solve this problem, and there are XML authoring tools that use them, but
+			for the scale of models needed for PSICS, it is probably easiest at present just to write the XML by hand).
+		</par>
+
+
+	<h3>Identifiers and references</h3>
+	<par>
+		Most of the parameter types are relatively straightforward. The only two that need special mention are
+		the identifiers and references that provide the glue to make links between objects. These links are made by
+		setting an <x>id</x>attribute on one object and then refereing to that id with a parameter of another.
+		 For example a channel definition can have an id attribute:
+		 <xcode><KSChannel id="HH_K" permeantIon="K" gSingle="1pS">
+    <KSComplex id="n" instances="4">
+	    <ClosedState id="c" />
+        <OpenState id="o" />
+	    <ExpLinearTransition from="c" to="o" rate="0.1per_ms" midpoint="-55.mV" scale="-10mV" />
+	    <ExpTransition from="o" to="c" rate="0.125per_ms" midpoint="-65.mV" scale="-80mV" />
+    </KSComplex>
+</KSChannel></xcode>
+		 This defines a HH potassium channel and gives it the id "HH_K". The channel could be referred to from a
+		 population definition in a cell properties file with:
+<xcode><ChannelPopulation channel="HH_Na" density="1200per_um2"/></xcode>
+	PSICS knows that the <x>channel</x> attribute of a population is a reference to a KSChannel definition, and looks
+	around to find the channel with that id.  The same thing occurs inside the channel definitin itself:
+	the <x>permeantIon</x> attribute holds a reference to an ion definition, so here PSICS will look for an ion
+	with the id "K" to get access to the appropriate ion object, which in turn can be used to find the reversal
+	potential, for example [in fact, as a convenience, PSICS includes the reversal potential as a parameter of an
+	ion object, although it would be more realistic to look at the concentrations in the intracellular and
+	extracellular solutions and compute it].
+	</par>
+
+	<par>
+	   There is a possible confusion between the names of files and the names (identifiers) of the objects they
+	   contain. PSICS normally only cares about the identifiers,  not the actual file names. But in general it is
+	   a very good idea to <b>make the file name the same as the object's id</b>.  Just
+		as it is not possible to have two files with the same name in one folder, a model should never have two
+		components with the same id, even if they are of different types.
+	</par>
+
+
+
+
+	<h3>Units</h3>
+	<par>The choice of units is a common cause of problems in model specifications because of the risk of
+	mistakes in converting from preferred units to those required by the software. PSICS avoids this problem
+	by requiring unit specifications on (almost) all dimensional quantities but by allowing the user to specify
+	quantities in their own preferred units.  Internally the units are converted to self consistent set of units
+	used for the calculation itself.
+	</par>
+	<par>
+	 The units follow normal conventions except that, because MXL files are written in plain text, greek
+	 letters have to be written in a roman equivalent ("u" for "&#956;") and you cant write powers as superscripts.
+	 The <a href="../formats/units.html">full list
+	of units</a> shows the full list of conventions and explains how compound units can be written.</par>
+	<par>
+		The main exceptions to the units rule are for positions and radii of points within
+		a cell morphology where microns are assumed if nothing else is specified. This allows morphology
+		specifications, where a lot of quantities with the same units are often used, to be more
+		concise than if units were required.  For other element types warnings will be generated
+		if any dimensional quantities are specified without giving the units.
+	</par>
+
+
+
+	<h2>Building a model</h2>
+
+	<par>
+		As indicated above, a model requires five XML files plus one file for each channel type. It is often
+		most convenient to start with an existing model but, for completeness, here we describe what is involved in
+		setting up a model from scratch. More details on each of the file types can be found in the
+		<a href="../formats/index.html">formats reference</a>.
+	</par>
+
+	<par>
+		The <b>master file</b> sets the timestep, runtime, start potential and the numerical method. It then links to the
+		other files needed for the model. The example below also includes a StructureDiscretization block to specify
+		how the morphology should be discretized into compartments for the calculation.
+		<xcode><PSICSRun   lib="." timeStep="0.1ms" runTime="250ms" startPotential="-65mV"
+    method="weighted_crank_nicolson"
+    morphology="cell"
+    environment="environment"
+    properties="properties"
+    access="recording">
+    <StructureDiscretization baseElementSize="1um"/>
+</PSICSRun></xcode>
+	The master file allows a range of other sub-elements, including the specification of parameter sweeps,
+	myultiple runs, and default visualization of the results. This is all detailed in the
+	<a href="../formats/control.html">reference manual</a>.
+	</par>
+
+	<par>The <b>cell morphology</b> can be short and simple, as below for a single long cylinder, or much
+	longer for realistic morphologies. In either case, the structure is the same: it contains a list of points, each
+	of which has an <x>id</x> and a reference to the parent point (unless it is the root of the tree). Points can also
+	have optional labels to define regins of the structure and there is an optional <x>minor</x> flag for minor branches.
+	This id udrf to indicate that the section to the point is a straight cylinder with the radius of the destination point rather than
+	the default interpretation which is to assume that each section tapers smoothly between its two end points. The minor
+	flag should be set for points that begin smaller branches of large dendrites or for processes that emerge from a
+	spherical soma. In either case, the surface area is computed to correctly take account of the intersection
+	point between the parent volume and the branch. That is, the length of the minor branch is the distance between it and
+	its parent point minus the parent radius.
+<xcode><CellMorphology id="cell">
+    <Point id="p0" x="0" y="0" z="0" r="0.5"/>
+    <Point parent="p0" id="p1" x="1000" y="0" z = "0" r="0.5"/>
+</CellMorphology></xcode>
+	</par>
+
+
+	<par>The <b>cell environment</b> is probably the simplest object and the least likely to need changing. It lists
+	the ions that are used in the model and sets their reversal potentials.
+<xcode><CellEnvironment id="environment">
+    <Ion id="K" name="Potassium" reversalPotential="-65mV"/>
+    <Ion id="Na" name="Sodium" reversalPotential="50mV"/>
+</CellEnvironment></xcode>
+	</par>
+
+	<par>The <b>cell properties</b> file sets both the bulk properties of the cytoplasm and the membrane properties.
+	The latter is done via a set of embedded channel population objects, which can, in turn, refer to distribution
+	specifications. It is typically the most complicated part of a model, although the example below from Rallpack1
+	where there is just a constant potassium leak, shows that it can also be very simple.
+
+<xcode><CellProperties id="membrane"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+    <ChannelPopulation channel="leak" density="25per_um2"/>
+</CellProperties></xcode>
+</par>
+
+<par>The <b>access configuration</b> shows the locations of clamps and recorders. Each device has an <x>at</x> attribute
+that must match an identified point on the structure defining where the clamp or recorder is applied. If more complicated
+stimulation profiles are used, these are also embedded in the access file.
+</par>
+
+<par>
+There are serveral options for matching the the recording locations in the access file against the cell morphology.
+<ul>
+	<li>If you know the ID of the point you wish to record from, just set this as the <x>at</x> attribute.
+		ID's can be found with <a href="gui.html">Icing</a> by clicking a point on the structure.
+	</li>
+	<li>
+		A label can be added to the structure and connected to the point you wish to record from. The
+		<x>at</x> attribute is then set to the label. This is useful where you want to change the recording
+		location. With <a href="gui.html">Icing</a> labels can easily be moved around on the cell, so the
+		recording location can be changed without changing the access file. In this sense, labels act rather
+		like probes that can be attached to points on the cell.
+	</li>
+	<li>
+		If you wish to process several morphologies without manually matching the recording configuration to each
+		one, the <x>location</x> attribute can be set to refer
+		to <a href="stimrec.html#CellLocation">CellLocation</a> block. This gives a parameterized way of
+		uniquely specifying one or more points on the structure in terms of path lenghth, radius etc. It allows
+		the same set of experiments to be run across a range of morphologies with minimal intervention.
+	</li>
+</ul>
+
+<xcode><Access id="recording">
+    <CurrentClamp at="p0" hold="0.1nA"/>
+    <VoltageRecorder at="p1"/>
+</Access></xcode>
+</par>
+
+<par>Finally, one <b>channel definition</b> is required for each channel typ referenced from the properties file.
+This example just needs a leak current which, in PSICS, is represented as a knetic scheme with a single, open, state.
+<xcode><KSChannel id="leak" gSingle="0.01pS" permeantIon="K">
+    <OpenState id="o1"/>
+</KSChannel></xcode>
+</par>
+
+
+<par>
+	This completes the specification of the model. In general, some of these elements will be much larger,
+	particularly the morphology specification and the channel distributions within the CellProperties object, as
+	described on the corresponding pages if the <a href="../formats/index.html">formats reference</a>. In addition,
+	there is a graphical tool, ICING, that can be used to create the channel distribution file and match populations up
+	against specific regions of a particular morphology. The use if ICING is presented in
+	the <a href="gui.html">next section</a>.
+</par>
+
+
+</page>

@@ -1,0 +1,22 @@
+
+<KSChannel id="Kadist" permeantIon="K" gSingle="30pS">
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+    <VHalfTransition from="c" to="o" z="4.47e" vHalf="-13.43mV" gamma="0.673" tau="0.825ms"
+         tauMinFwd="0.819ms" tauMinRev="0.153ms"/>
+ </KSComplex>
+
+
+<KSComplex instances="1">
+      <OpenState id="o"/>
+      <ClosedState id="c"/>
+    <VHalfTransition from="o" to="c" z="5.64e" vHalf="-63.64mV" gamma="0.443" tau="3.17ms"
+    		tauMinFwd="3.17ms" tauMinRev="1.8ms"/>
+ </KSComplex>
+
+
+
+ </KSChannel>
+

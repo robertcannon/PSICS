@@ -1,0 +1,24 @@
+<PSICSRun   timeStep="0.01ms" runTime="1ms" startPotential="-60mV"
+	environment="environment"
+	properties="membrane_distrib"
+	access="record_p18"
+	stochThreshold="0"
+	quickChannels="false"
+	morphology="p18p"
+	repeats="1">
+	
+	<StructureDiscretization baseElementSize="5um"/>
+	<info>Channel noise in dendrites</info>
+
+	<ViewConfig morphologyData="true">
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="100" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+		<Line file="psics-out.txt" show="1" color="#ffffff"/>
+
+		<View id="zoom100ms" xmin="200." xmax="300." ymin="-70." ymax="-20."/>
+		<View id="whole" xmin="-10." xmax="1010" ymin="-70." ymax="-20."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

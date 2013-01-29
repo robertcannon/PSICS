@@ -1,0 +1,34 @@
+<KSChannel id="kdr" permeantIon="k" gSingle="9.99999993922529pS">
+<KSComplex instances="1">
+<ClosedState id="n0"/>
+<OpenState id="n"/>
+<TauInfCodedTransition from="n0" to="n" tauvar="ntau" infvar="ninf"><![CDATA[
+    
+    double rate = 0;
+    double scale = 0;
+    double midpoint = 0;
+    
+    double temp_adj_n = 1;
+                    
+    
+    
+    double alpha = 0;
+                            alpha = (Math.exp ( (1e-3 * -3 * (v - 13) * 9.648e4) / (8.315*(273.16 + (temperature) )) ));
+        
+    double beta = 0;
+                            beta = (Math.exp ( (1e-3 * -3 * 0.7 * (v - 13) * 9.648e4) / (8.315*(273.16 + (temperature) ))) );
+        
+    
+
+    if (beta/(0.02 * (1 + alpha)) < 2 ) {
+        ntau =  2 ;
+    } else {
+        ntau =  beta/(0.02 * (1 + alpha)) ;
+    }
+        ntau = ntau/temp_adj_n;
+            
+    ninf = 1/(1 + alpha);
+        
+    ]]></TauInfCodedTransition>
+</KSComplex>
+</KSChannel>

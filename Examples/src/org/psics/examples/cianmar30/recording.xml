@@ -1,0 +1,6 @@
+
+<Access id="recording" saveInterval="0.01ms">
+
+	<VoltageRecorder at="100"/>
+
+</Access>

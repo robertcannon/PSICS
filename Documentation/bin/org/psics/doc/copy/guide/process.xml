@@ -1,0 +1,278 @@
+<page label="Process" prev="start" next="methods">
+
+
+	<h1>Model processing</h1>
+
+	<par>
+		In order to understand some of the model specification options it is necessary to
+		know a little about how PSICS operates on a model to perform stochastic calculations.
+		This section summarizes the key stages in the process. The <a href="methods.html">numerical methods</a>
+		section provides more details on the calculation stage.
+	</par>
+
+	<par>
+		The input model specification is processed sequentially through the following stages, beginning with
+		reading the XML files, and ending with writing the desired output to text and binary files for
+		independent visualization and analysis.
+	</par>
+
+	 <h2>Specification reading and dereferencing</h2>
+
+	<par>
+		The first step is to read the input model and find all the components it needs. In this context, the term
+		"dereferencing" refers to the process of finding an actual component (such as an ion channel model) given its
+		name. This is really only of interest to the user if it doesn't work  - either by not finding a component at
+		all or by finding the wrong one.
+	</par>
+
+	<par>
+		Each component that is referred to from elsewhere must have an "id" attribute (as in '&lt;KSChannel id="Kdr" ...').
+		In general, the id should be the same as the file name for the component. When a component is referred to from
+		elsewhere the id (not the file name) is used to identify it. By default, PSICS always looks in the current folder
+		for components, and by adding "ModelFolder" elements to the main run file you can tell it to look in other
+		folders too.
+	</par>
+
+	<par>
+		Model components that are referred to by their id do not have to be "top level" components defined in separate
+		files: subcomponents of models can also have their own ids and be referred to from elsewhere. This is used,
+		for example, in setting up channel distributions where you can define a few standard distribution rules, and then,
+		 for each channel population, say which rule applies. It is also used for parameter sweeps where a series of runs
+		 are performed for different values of a selected parameter. The quantity to be varied is specified by he
+		 id if the component it belongs to followed by the name of the parameter.
+	</par>
+
+
+
+
+	 <h2>Structure discretization</h2>
+	 <par>
+	 	Also sometimes known as "remeshing" this is the process of creating a set of discrete elements
+	 	("compartments") to represent the continuous structure of the cell. In the calculation, each
+	    compartment will be treated as being isopotential. In general, discretization and compartmentalization are
+	    not the same thing. Discretization implies picking a finite set of points at which to represent a continuous
+	    function, but the behavior of a system can be computed in wide variety of ways using these points. For example,
+	    quantities can be assumed to vary linearly in the space between points, or according to higher order polynomials.
+	    For neurons, it is conventional to take the lowest order approximation and treat the potential as flat around each
+	    point making a sudden transition to a new value half way to each neighbor. The main reason for this is convenience:
+	    channel gating equations are often complicated and it is a lot easier to assume a fixed potential than to compute the
+	    effective gate transition rates by integrating over the vicinity of a point. Also, if the equations are sufficiently
+	    complicated that the integrals would have to be evaluated numerically in any case,
+	     then there is unlikely to be any efficiency gain by using a coarser discretization and a more complicated
+	     interpolation rule. However, for neurons this is probably not the case: efficiency gains might well be made
+	     by using fewer points and computing channel updates by using expressions incorporating
+	     not just the potential of the nearest point but also those of its neighbors. Indeed, for continuous channels,
+	     higher orders may well be worth considering too.
+	 </par>
+
+	 <par>
+	 	For stochastic channels the situation is rather different because the population approximation assumes that
+	 	channels within the same group (on the same compartment) are interchangeable. This means they must experience
+	 	exactly the same membrane potential and so enforces the isopotential compartment picture for the channel
+	 	equations. This still does not require the potential to be piecewise flat but it does reduce the benefits of
+	 	more complex differencing schemes. At present PSICS sticks with the conventional use of the zeroth order
+	 	approximation for the membrane potential on the discretized structure.
+	 </par>
+
+	<par>
+	 	In this context, the discretization process involves selecting points at
+	 	which to cut the dendrites or axon such that the sections between points can be treated as being
+	 	isopotential in the voltage propagation and channel transition equations. Typically, these points are
+	 	unrelated to the points used to specify the structure: there may be several cuts between a pair
+	 	of points in the original structure, or there may be several original points, including branch points,
+	 	within one element of the final discretization. In general, therefore, the elements used in the calculation
+	 	are not cylindrical and may have rather complicated boundaries. The discretization process also calculates
+	 	the volume, surface area and axial resistance to neighbors for each element.  It does this by traversing
+	 	the structure calculating the integral of <m>1 / sqrt(r) dx</m> where x is measured along the structure
+	 	and cutting the dendrite into sections such that
+	 	they all have approximately the same value for the integral. The actual value is set in the input file in the
+	 	"StructureDiscretization" block by the "baseElementSize" attribute. This size is specified in microns and the
+	 	end result is that the structure is split into sections where  (for simple cylinders)
+	 	<m>l<pow>2/3</pow>d<pow>1/3</pow> = baseElementSize</m>, where <m>l</m> is the length and <m>d</m> the
+	 	diameter.
+	 </par>
+	 <par>
+	 	The reason for this choice of spacing is that it balances the charging rates of adjacent compartments. The
+	 	charging rate depends on the capacitance (proportional to the area), the cross section
+	 	which increases the conductance and the length which reduces it. Altogether, taking uniform intervals in
+	 	the integral <m>1 / sqrt(r) dx</m> gives uniform set of voltage differences between compartments under standard
+	 	charging conditions for wide range of geometries. The more common discretization for neurons is to use the
+	 	electrotonic length which matches charging against loss through membrane conductance under steady state conditions.
+	 	But such conditions are not necessarily relevant for most neurons firstly because the membrane conductance is not
+	 	a fixed quantity but is strongly voltage dependent and secondly because neurons are rarely in a steady state. Most
+	 	charge flow goes into membrane capacitors, not out of the membrane leak, so a discretization based on
+	 	charging rates depending on capacitance and conductance might be expected to be more suitable
+	 	(in the sense of producing smaller errors) than one based on a notion of membrane resistance. In practice there
+	 	 is unlikely to be a lot of difference, but since PSICS does not have a concept of membrane resistance the
+	 	 charging rate based discretization is used.
+	 </par>
+
+	 <par>
+	 	A possible confusion arises between the discretized structure and the original structure specification. In
+	 	the original specification, it is assumed that the section between adjacent points is always a uniform
+	 	or truncated cone (in fact a frustum, or, in the code, a carrotoid). In the discretized
+	 	specification, a center of gravity and typical radius can be associated
+	 	with each element, but it is not necessarily the case that the surface area, volume or axial resistance
+	 	can be computed by assuming a tapering cylinder between neighbors.
+	 </par>
+	 <par>
+	    This can present a problem for visualizing the results since joining adjacent points in the solution mesh
+	    can be a poor approximation to the original structure. For this purpose a file is written to the results folder
+	    with name ending "-vgrid.txt" that contains element boundaries as viewed from the z-axis. For sub-slices of
+	    original segments, there are just four points to each boundary, but there may be many more when the element
+	    covers multiple points from the original structure.
+	 </par>
+
+	 <h2>Channel conversion</h2>
+	<par>
+		This only takes place for channels that are specified with multiple independent gating complexes. Such
+		channels are converted to an equivalent single kinetic scheme. For example, for a HH style sodium channel
+		with a conductance given by <m>p<sup>3</sup>q</m> for gating particles p and q, the multi-complex interpretation
+		is that there are three p-type complexes and one q-type complex, each having two possible states, open and
+		closed. The p-type complexes contribute four states to the final scheme: the channel can have
+		0, 1, 2, or 3 of the complexes in the open state. For each of these four states, the q-complex can be either open
+		or closed. This then doubles the number of states to eight. The transition rates between the final states
+		are simple multiples of the transitions for the original two-state complexes.
+	</par>
+	<par>
+		This step is provided mainly for the convenience of validating against legacy channel models. Given that the
+		destination format is a kinetic scheme it is generally preferable (for computational efficiency as well as
+		physiological relevance) to  start new models with a single-scheme specification rather than the HH subset.
+	</par>
+
+
+	 <h2>Transition rate tabulation</h2>
+	  <par>
+	     The model specification allows a variety of formats for expressing the rates of transitions between the
+	     states of a channel. The core calculation does not, however, use these expressions, but rather interpolates
+	     for the current membrane potential in a table of transition matrices. The range and voltage increment of the
+	     table can be specified in the main model file. Using a very small increment leads to a larger table and
+	     more memory use although this is rarely an issue. A large increment would reduce the accuracy of the
+	     interpolation. The default interval is 1.5mV.
+	  </par>
+
+		<par>
+			For channels that are expressed as serial independent gating complexes, including those with
+			multiple HH-style two-state complexes, two sets of transition rate tables are written: one for the
+			single scheme model, and one for the original multi-scheme model. This is done for computational
+			efficiency. The single scheme table is suitable for both stochastic and continuous calculations whereas the
+			multi-scheme table is only suitable for continuous calculations (see the <a href="methods.html">methods
+			section</a> for details). However, for continuous calculations it is generally more efficient to use
+			the multi-scheme model (for example, four 2x2 matrix by vector product cost 16 multiplications whereas
+			one 8x8 matrix by vector product costs 64 multiplications). Since this matrix operation is often the dominant
+			cost the saving achieved by using the independent schemes where possible can be considerable. Note that this
+			is not an argument against kinetic scheme models per se, but only against computing continuous multi-complex
+			channel models using their single scheme equivalent. Since such schemes are functionally equivalent to the
+			original multi-complex model they suffer all the same problems as such models in addition to being
+			unnecessarily large. A better comparison might be between a model with four independent two state complexes
+			and an independently fitted single four state scheme. Depending on the geometry they could both have four
+			independently parameterized transitions and would each take 16 multiplications for a single continuous update
+			step.
+		</par>
+
+
+	<h2>Channel allocation</h2>
+
+	<par>
+		Channel number densities can be expressed in a variety of ways including expressions that depend on
+		local properties of the cell such as path length to the soma or the dendritic radius. These expressions
+		are evaluated across the structure and multiplied by element surface areas to get a real (as
+		opposed to integer) value for the number of channels.
+		For both stochastic and continuous calculations, however, there must be a whole number of channels of each type
+		on each isopotential element. Rounding down the real channel numbers leaves a few extra channels that are
+		randomly allocated according to the residual densities such that the total number of channels on the
+		cell is within one of the expected number given the densities.
+	</par>
+	<par>
+		Note that this introduces a small random elements even into deterministic calculations. For such calculations,
+		it can, however, be made arbitrarily small by scaling down the single channel conductance and scaling up the
+		the density by the same factor.
+	</par>
+		<par>
+			It is worth noting that this variation only arises from allocating
+			<i>uniformly distributed</i> point channels to discrete elements. It does not correspond to the distribution
+			that would arise from randomly allocating channels across the structure according to a channel density
+			distribution. This can be achieved by setting other attributes of the
+			<a href="../formats/properties.html">density distribution</a> in the model specification.
+		</par>
+
+
+
+	<h2>Membrane potential balancing</h2>
+
+	<par>
+		If the channel density specification includes a DensityAdjustment block, then this applied
+		next and may modify the channel densities. It provides the behavior that might physiologically
+		be implemented by a homeostatic mechanism, increasing or decreasing certain channel densities
+		in order to achieve a desired resting potential. Typically, the density adjustment block should
+		specify two leak channels (one sodium and one potassium) and a target resting potential. The
+		densities of these two channels are modified across the cell to achieve as nearly as possible
+		densities that give no local net current across the membrane.
+	</par>
+	<par>
+		This is implemented as a non-local process since it is not always the case that the
+		densities can be well balanced on a compartment by compartment basis. In particular,
+		for large leak conductances, several compartments may have to share the same small number
+		of channels, and in some cases the computed densities are negative wiche are then balanced
+		against the nearest positive populatins of that channel. The details of the process are
+		presented in the <a href="../formats/properties.html">cell properties</a> section.
+	</par>
+
+
+	 <h2>Writing and reading the calculation-ready specification</h2>
+
+		<par>
+			At this stage the model has been converted into a set of discrete elements with coupling constants
+			and channel numbers, and transition rate tables fore each channel type.
+			This information is written to a plain text file with name ending ".ppp". For the fortran
+			implementation, no further use is made of the XML model specification: it reads only the .ppp file
+			which contains everything necessary to define the calculation.
+		</par>
+		<par>
+			In a parallel computing environment, where different realizations of the stochastic system are run on
+			different nodes, each node requires only the .ppp file and the core executable. The format
+			of this file is documented within the file itself using end-of-line comments. It would be possible
+			to generate such a file from another system and to use only the native core of PSICS but it is generally
+			inadvisable to edit it by hand because of the risk of producing a specification that is not self-consistent.
+		</par>
+
+
+	 <h2>Numerical calculation</h2>
+	<par>
+		The next step sees the main java program handing over to computational core to actually perform the calculation.
+		On most platforms this is done by spawning a separate system process to run the native executable of the core
+		calculation. Platform specific executables are included within the standard jar file and are unpacked to a local
+		folder before being executed. PSICS also supports loading the native code as a shared library, but route via a
+		spawned process running a separate executable is generally more robust. The numerical algorithms implemented in
+		the core calculation are described in the <a href="methods.html">numerical methods section</a>. The output of this
+		calculation is a single calculation summary file (in xml) and a set of result files. Each run
+		generates one block of results that is saved in both
+		binary (.dat) and text (.txt) formats. Where a model defines multiple runs, as in a parameter sweep defined by
+		the "RunSet" element, the file names are composed of the model name and the value of the parameter being changed.
+	</par>
+
+
+
+	 <h2>Output consolidation and documentation</h2>
+	<par>
+		The final stage returns control to java. The calculation summary is converted to an html page containing
+		links to the input files for the model and the output data files. If the model specification contains any plot
+		definitions then the corresponding plots are generated and included in the html page.
+	</par>
+	<par>
+		As well as summarizing the model, the summary file also contains information on how long the calculation took.
+		This timing is reported by the computational core and is for the numerical calculation itself. It excludes
+		time spent on generating plots or formatting the output. In particular, for small models generating large volumes
+		of output, the time taken to format the output into the text files can actually be as long or even longer
+		than the calculation itself.  If many such models are to be run it may be more efficient to suppress the generation
+		of plain text files and instead extend analysis programs to work with the binary files written by the core.
+		The time to write the binary file <i>is</i> included in the timing for the calculation, but is generally small
+		compared with the calculation time itself.
+	</par>
+	<par>
+		A final step of the output consolidation process is to update the index file in the parent folder of the
+		output to link to the new file, and to update the index blocks in sibling files in order to provide convenient
+		navigation between models.
+	</par>
+
+</page>

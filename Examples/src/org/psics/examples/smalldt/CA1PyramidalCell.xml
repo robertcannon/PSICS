@@ -1,0 +1,13 @@
+<PSICSRun timeStep="1.0E-2ms" runTime="50.0ms" startPotential="-65.0mV" environment="environment" morphology="SomaOnly_allCml" properties="membrane_SomaOnly_allCml" access="recording" stochThreshold="0" squareCaps="true" >
+<info>PSICS project generated from: CA1PyramidalCell.ncx</info>
+<StructureDiscretization baseElementSize="3.0"/>
+<ViewConfig>
+    <LineGraph width="500" height="400">
+        <XAxis min="0" max="100.0" label="time / ms"/>
+    <YAxis min="-90.0" max="50.0"/>
+    <View id="CG_CML_v" xmin="0" xmax="100.0" ymin="-90.0" ymax="50.0"/>
+<Line file="psics-out.txt" color="#000000" show="2"/>
+    </LineGraph>
+
+</ViewConfig>
+</PSICSRun>

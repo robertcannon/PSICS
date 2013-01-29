@@ -1,0 +1,51 @@
+<page label="User guide" next="start" prev="../about/log">
+
+
+	<h1>PSICS User Guide</h1>
+
+	<par>
+		PSICS computes the behavior of neuron models in which the ion channels behave deterministically or
+		stochastically.
+	</par>
+	<par>
+		The simplest way to run it is from the command line from a Unix shell or a Windows MSDOS prompt.
+		It reads an input model, runs the calculation and writes the output to one or more files in a
+		new folder with a name based on the name of the model file.
+		All its behavior is controlled by the input model specification which is provided as as a
+		collection of XML files for the various components of the model (morphology, channels, overall control etc).
+
+	</par>
+
+	<par>
+		This guide first explains how to install and run PSICS, then provides background information
+		on the processing steps that occur when a model is run and the numerical methods
+		used to implement the calculations. The following section explains how to set up a model
+		and should be read in conjunction with the
+		<a href="../formats/index.html">formats reference</a> which explains all the available structures
+		and options. The remaining sections cover the use of the standalone computational core for
+		multiprocessor systems and custers and summarise some external software applications that can be useful
+		for setting up or analysing models. Finally, the bibliography points to papers and other resources
+		concerned with numerical methods related to those used in PSICS.
+	</par>
+	<par>
+		As well as the formats reference, there are a range of <a href="../examples.html">example models</a>
+		which can be used to learn about psics by running it or as a starting point for defining new models.
+	</par>
+
+
+	<h2>Contents</h2>
+	<ul>
+		<li><a href="start.html">Installation and getting started</a> - how to install and run PSICS on Linux, Windows and MacOSX</li>
+		<li><a href="process.html">Model processing</a> - the processing stages a model goes through and
+		some of the main parameters that control them</li>
+		<li><a href="methods.html">Numerical methods</a> - the methods used for continuous and stochastic
+		calculations including the most useful parameters for controlling their operation</li>
+		<li><a href="specification.html">Model specification</a> - how to define and modify models</li>
+		<li><a href="fortran.html">Native executable</a> - running the computational core on its own</li>
+		<li><a href="utilities.html">Utilities</a> - external resources that may be useful in conjunction with PSICS</li>
+		<li><a href="biblio.html">Bibliography</a> - mainly numerical methods for stochastic systems</li>
+	</ul>
+
+
+
+</page>

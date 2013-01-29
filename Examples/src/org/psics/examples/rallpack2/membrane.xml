@@ -1,0 +1,7 @@
+<CellProperties id="membrane"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+
+	<ChannelPopulation channel="leak" density="25per_um2" allocation="regular"/>
+
+</CellProperties>

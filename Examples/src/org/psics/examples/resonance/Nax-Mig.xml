@@ -1,0 +1,67 @@
+<KSChannel id="Nax-Mig" permeantIon="Na" gSingle="20pS">
+
+	<CodedTransitionFunction name="trap0" returnVariable="rate" type="double">
+		<Argument name="v" type="double"/>
+		<Argument name="th" type="double"/>
+		<Argument name="a" type="double"/>
+		<Argument name="q" type="double"/>
+		<![CDATA[
+			if (Math.abs(v - th) > 1.e-6) {
+				rate =  a * (v - th) / (1 - Math.exp(-(v - th)/q));
+			} else {
+				rate = a * q;
+			}
+		]]>
+	</CodedTransitionFunction>
+
+  <KSComplex instances="3">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+ 	<TauInfCodedTransition from="c" to="o" tauvar="mtau" infvar="minf">
+ 		<Constant name="q10" value="2"/>
+ 		<Constant name="tha" value="-30" info="vhalf, mV"/>
+ 		<Constant name="Ra" value="0.4" info="opening rate, per ms"/>
+ 		<Constant name="qa" value="7.2" info="activation slope, mV"/>
+ 		<Constant name="Rb" value="0.124" info="closing rate, per ms"/>
+ 		<Constant name="mmin" value="0.02" info="minimum time constant"/>
+ 		<![CDATA[
+ 		double qt = Math.pow(q10, ((temperature-24)/10));
+        double a = trap0(v ,tha,Ra,qa);
+        double b = trap0(-v ,-tha,Rb,qa);
+        mtau = 1 / (a + b) / qt;
+        if (mtau < mmin) mtau=mmin;
+        minf =  a / (a + b);
+ 		]]>
+ 	</TauInfCodedTransition>
+
+
+ </KSComplex>
+
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+        <TauInfCodedTransition from="c" to="o" tauvar="htau" infvar="hinf">
+ 		<Constant name="q10" value="2"/>
+ 		<Constant name="thi1" value="-45" info="vhalf, mV"/>
+ 		<Constant name="thi2" value="-45" info="vhalf, mV"/>
+ 		<Constant name="Rd" value="0.03" info="opening rate, per ms"/>
+ 		<Constant name="Rg" value="0.01" info="closing rate, per ms"/>
+ 		<Constant name="qd" value="1.5" info="activation slope, mV"/>
+		<Constant name="qg" value="1.5" info="activation slope, mV"/>
+ 		<Constant name="hmin" value="0.5" info="minimum time constant"/>
+ 		<Constant name="thinf" value="-50" info="inact inf slope, mV"/>
+ 		<Constant name="qinf" value="4"/>
+ 		<![CDATA[
+ 		double qt = Math.pow(q10, ((temperature-24)/10));
+        double a = trap0(v, thi1,Rd,qd);
+        double b = trap0(-v, -thi2,Rg,qg);
+        htau = 1 / (a + b) / qt;
+        if (htau < hmin) htau=hmin;
+        hinf = 1/(1+Math.exp((v-thinf)/qinf));
+
+ 		]]>
+ 	</TauInfCodedTransition>
+ </KSComplex>
+
+ </KSChannel>

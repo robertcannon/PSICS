@@ -1,0 +1,43 @@
+
+<page title="PSICS Downloads" label="Download" prev="index" next="about/index">
+
+	<h1>Download</h1>
+
+	 <par>
+	       Thank you for you interest in PSICS. We are very interested to know who is using it,
+	       so please take a moment to enter your email address below you will receive a link to download the software by return.
+	 </par>
+	 <par>
+	       Any comments you have at this stage would also be very welcome.
+	 </par>
+	 <par>
+	 	<nbsp/>
+	 </par>
+	 
+	 
+	  <form method="POST" action="downloadRequest.php5" style="padding : 0px; margin : 0px">
+            <table border="0" cellspacing="2" cellpadding="2" align="center" style="width : 70%;">
+                <tr>
+	                 <td align="right" style="font-size : 9pt">Email</td>
+   	                 <td><input  name="email" type="text" style=" border : 1px solid #e0e0e0;" size="32"/></td>
+                </tr>
+                                      
+     			<tr>
+     				<td colspan="2" style="color: #707070;  font-size : 8pt">Please briefly explain what you would like to do with PSICS</td>
+     			</tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea name="message" style="width:100%; padding : 4px;" rows="5"></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" align="right">
+                          <input name="Action" value="Submit" type="submit"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+	 
+	 
+</page>

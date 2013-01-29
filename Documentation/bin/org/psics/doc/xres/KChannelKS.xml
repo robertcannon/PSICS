@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channelml xmlns="http://morphml.org/channelml/schema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:meta="http://morphml.org/metadata/schema"
+    xsi:schemaLocation="http://morphml.org/channelml/schema  ../../Schemata/v1.3/Level2/ChannelML_v1.3.xsd"
+    units="Physiological Units">
+
+    <meta:notes>Example of 5 state kinetic scheme K conductance specified in ChannelML.
+    Based on Michael Hines's initial proposal.</meta:notes>
+    
+    <ion name="k"  default_erev="-77.0" charge="1"/>  <!-- phys units: mV -->
+
+    <channel_type name="KChannel" density="yes">
+
+        <meta:notes>K conductance with 5 kinetic states. NOTE: this only maps successfully on to the NEURON Channel Builder format!</meta:notes>
+
+        <current_voltage_relation>
+            <ohmic ion="k">
+                <conductance default_gmax="36">  <!-- phys units: mS/cm2-->
+                    <gate power="4">
+                        <state name="n4" fraction="1"/>
+                    </gate>
+                </conductance>
+            </ohmic>
+        </current_voltage_relation>
+        
+        
+        <ks_gate>
+            <state name="n0"/>
+            <state name="n1"/>
+            <state name="n2"/>
+            <state name="n3"/>
+            <state name="n4"/>
+            <transition src="n0" target="n1">
+                <voltage_gate>
+                    <alpha>
+                        <parameterised_hh type="linoid" expr="A*x/(1 - exp(-x)) where x = k*v-d)">
+                            <parameter name="A" value="0.4"/>
+                            <parameter name="k" value="0.1"/>
+                            <parameter name="d" value="-55"/>
+                        </parameterised_hh>
+                    </alpha>
+                    <beta>
+                        <parameterised_hh type="exponential" expr="A*exp(k*(v-d))">
+                            <parameter name="A" value="0.125"/>
+                            <parameter name="k" value="-0.0125"/>
+                            <parameter name="d" value="-65"/>
+                        </parameterised_hh>
+                    </beta>
+                </voltage_gate>
+            </transition>
+            <transition src="n1" target="n2">
+                <voltage_gate>
+                    <alpha>
+                        <parameterised_hh type="linoid" expr="A*x/(1 - exp(-x)) where x = k*v-d)">
+                            <parameter name="A" value="0.3"/>
+                            <parameter name="k" value="0.1"/>
+                            <parameter name="d" value="-55"/>
+                        </parameterised_hh>
+                    </alpha>
+                    <beta>
+                        <parameterised_hh type="exponential" expr="A*exp(k*(v-d))">
+                            <parameter name="A" value="0.25"/>
+                            <parameter name="k" value="-0.0125"/>
+                            <parameter name="d" value="-65"/>
+                        </parameterised_hh>
+                    </beta>
+                </voltage_gate>
+            </transition>
+            <transition src="n2" target="n3">
+                <voltage_gate>
+                    <alpha>
+                        <parameterised_hh type="linoid" expr="A*x/(1 - exp(-x)) where x = k*v-d)">
+                            <parameter name="A" value="0.2"/>
+                            <parameter name="k" value="0.1"/>
+                            <parameter name="d" value="-55"/>
+                        </parameterised_hh>
+                    </alpha>
+                    <beta>
+                        <parameterised_hh type="exponential" expr="A*exp(k*(v-d))">
+                            <parameter name="A" value="0.375"/>
+                            <parameter name="k" value="-0.0125"/>
+                            <parameter name="d" value="-65"/>
+                        </parameterised_hh>
+                    </beta>
+                </voltage_gate>
+            </transition>
+            <transition src="n3" target="n4">
+                <voltage_gate>
+                    <alpha>
+                        <parameterised_hh type="linoid" expr="A*x/(1 - exp(-x)) where x = k*v-d)">
+                            <parameter name="A" value="0.1"/>
+                            <parameter name="k" value="0.1"/>
+                            <parameter name="d" value="-55"/>
+                        </parameterised_hh>
+                    </alpha>
+                    <beta>
+                        <parameterised_hh type="exponential" expr="A*exp(k*(v-d))">
+                            <parameter name="A" value="0.5"/>
+                            <parameter name="k" value="-0.0125"/>
+                            <parameter name="d" value="-65"/>
+                        </parameterised_hh>
+                    </beta>
+                </voltage_gate>
+            </transition>
+        </ks_gate>
+               
+        
+    </channel_type>
+        
+    
+</channelml>

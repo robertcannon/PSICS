@@ -1,0 +1,27 @@
+<KSChannel id="Generic_KA" permeantIon="K">
+   <KSComplex id="m" instances="3">
+      <ClosedState id="mc"/>
+      <OpenState gRel="1.0" id="mo"/>
+      <TauInfCodedTransition tauvar="tau" infvar="inf" fwdFactor="1.0"
+          revFactor="1.0"
+          codeFragment="tau = 0.410 * ((exp (( ((v) + 43.5) / (-42.8))))) + 0.167;
+inf = A/(1 + exp(k*(v-d)));" from="mc" to="mo" baseTemperature="17.350264793Celsius" q10="1.0">
+         <constants/>
+      </TauInfCodedTransition>
+
+   </KSComplex>
+
+   <KSComplex id="h" instances="1">
+      <ClosedState id="hc"/>
+      <OpenState gRel="1.0" id="ho"/>
+      <TauInfCodedTransition tauvar="tau" infvar="inf" fwdFactor="1.0"
+          revFactor="1.0"
+          codeFragment="tau = 10.8 + (0.03 * v)  + (1 / (57.9 * (exp (v *0.127)) + (134e-6 * (exp (v * -0.059)))));
+inf = A/(1 + exp(k*(v-d)));" from="hc" to="ho" baseTemperature="17.350264793Celsius" q10="1.0">
+         <constants/>
+      </TauInfCodedTransition>
+
+   </KSComplex>
+
+</KSChannel>
+

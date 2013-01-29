@@ -1,0 +1,47 @@
+<page label="Ion Channels" prev="environment" next="properties">
+
+	<h1>Ion Channels</h1>
+
+	<par>
+		The KSChannel object encompasses all the allowed formats for ion channel definitions. The "KS" prefix
+		indicates that it is focused on kinetic schemes, but it also allows multi-complex channels which enables
+		Hodgkin-Huxley style models to be included within the same formalism. A single complex scheme is one where
+		any state is connected to all other states directly or indirectly by channel transitions. A multi-complex scheme
+		is one where the states fall into disjoint groups, or gating complexes. Each gating complex behaves independently
+		and the relative conductance of the whole channel is the product of the relative conductances of each complex.
+		A typical Hodgkin-Huxley model has three or four independent two-state complexes.
+	</par>
+	<par>
+		For stochastic calculations, multi-complex schemes are internally converted to the equivalent
+		single-complex scheme. For deterministic calculations either form may be used, depending which is more efficient.
+		Further details on the stochastic channel algorithm can be found in the <a href="../guide/methods.html">numerical
+		methods</a> section of the user guide.
+	</par>
+
+	<par>
+		A channel is specified as a collection of states and transitions.
+		There are two types of state, <x>OpenState</x> or <x>ClosedState</x>, and rather more types of transition.
+		Each state should have an id that is unique within the channel definition. The transitions then refer to states
+		by this id in their <x>from</x> and <x>to</x> attributes specifying the start and end states.
+		There are a number of different parameterizations provided for the transitions themselves, but in general models
+		should use the <x>VHalfTransition</x> for all voltage-dependent transitions. The other transition types are
+		provided so that PSICS can exactly express certain legacy channel models for validation purposes but do not
+		necessarily have much biophysical justification.
+	</par>
+
+	<par>
+		For multi-complex channels, the states and transitions for each complex should be embedded within KSComplex
+		objects. This is not strictly required (PSICS can work out what the sub-complexes are just from the
+		transition start and end points) but is good practice. It <i>is</i> required if there are multiple instances of
+		a certain complex and you do not want to list all the states and transitions explicitly. In that case you can define
+		them once and set the <x>instances</x> attribute to say how many instances of the complex there are in the
+		channel. This is primarily useful for representing Hodgkin-Huxley style models where the powers on the gating
+		variables can be interpreted as the number of instances of a two-state gate.
+
+	</par>
+
+
+
+	<TypeSetRef title="Ion Channels" ref="ChannelComponents"/>
+
+</page>

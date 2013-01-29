@@ -1,0 +1,331 @@
+
+Padraig: 1) correct discretization with squareCaps, onSurface
+         2) variable discretization - depends on channel densities?
+         3) correct discretization for ball and stick 
+        
+
+
+
+
+
+
+Over the past while I've come across a few small bugs that might need looking at too.
+
+- the 'towards' function for specifying morphology locations doesn't work with points
+pre-specified in the morphology file, only for user labelled points.
+
+- Do the conductances initialise to zero or to their equilibrium values at starting membrane
+ potential? I often get some activity at the start of a simulation, even when initialised
+ to the eventual rest potential. Waiting this out adds to the simulation time.
+
+- Initially the smartRecorder function worked perfectly. In newer versions however it is
+giving an error message: "unrecognised type 3/4", even though the output file is fine.
+
+- The voltage clamp doesn't seem to record its holding current. It does clamp the voltage though.
+
+- I can't get recordClamps to work. Am I right in placing it in the main run file, along
+with stochThreshold, etc? I have tried it for both conductance clamps and current clamps.
+ Switching between recordClamps="true" and recordClamps="false" appears to have no effect.
+ This is a problem for these simulations where I am distributing synapses and looking at
+  the variability in the output spike trains. The data files become pretty big fairly quickly
+  when it records the voltage at each synapse.
+
+- Occasionly I get a error message:
+COREINFO -  ERROR - overran random number work array:   30534 /  30000 at org.psics.pnative.
+ProcessReaderThread.doRead(FileFPSICS.java:214)
+COREINFO -  recompile with a larger declaration for ranwk in memchan.f90
+
+Seems to happen when I increase the stochThreshold too far. I often set this to a very
+large number to avoid any calculation errors.
+
+
+
+
+
+
+NeuroML meeting and paper
+
+
+Main messages in order of importance -
+
+ - as the use of models grows, it is increasingly important to have ways to validate, store,
+   archive and reuse them. Models just implemented as code are not much use to anyone.
+   Models in standardized declarative formats stand a chance of being useful and referencable
+   in the longer term.
+
+ - This needs a declarative model description language combined with simulators (or mappings onto
+   simulators) that implement it.
+
+ - It doesn't much matter that there should just be one "standard". Different languages are likely
+   to be good in different contexts. They just have to clean and sufficiently well thought out to be
+   adopted by a significant number of developers and users.
+
+ - The structure of a language affects what you can say in it. This matters for NeuroML because it
+   is an interdisciplinary field where those on the IT learn what is biologically meaningful from
+   the structures the language gives them. Therefore, it is essential to have a language that makes it
+   easy to represent biologically meaningful entities, and hard to represent irrelevant ones. Just
+   writing code gives the developer the freedom to create all sort if crazy things and in the past
+   developers (and people who write hoc code) have availed themselves of this freedom rather liberally,
+   with the result that there is an awful lot of rubbish out there. So NeuroML is an opportunity for
+   biologists to tell computer scientists about the structures that are available when building
+   biologically plausible models.
+
+
+History - SBML had lots of active simulator projects so there was a market for the language.
+In neuroscience, simulator development moves at a glacial pace, so there was no pressure from
+developers for NeuroML. The market for NeuroML was created by NeuroConstruct, essentially filling
+in the mapping from simulator-independent description onto simulator-specific code itself. Gradually
+a few other projects are getting enough resources to feel the benefit of standardized model descriptions.
+
+
+For the meeting there seem to be three main components for a successful NeuroML:
+
+1) the infrastructure - website, validation, transforms, database etc
+2) the structures provided by the language for representing models
+3) mappings from these structures to particular simulators, or other forms of direct support within simulators
+
+Hopefully, everyone will be happy with 1 and 3 which in many ways are the main achievements to date.
+The key question seems to be in part 2: what are the optimal structures for future models? Here I
+think it is critical to have a lot of freedom to aim for what is optimal, rather than just something
+that works. If developers have a choice of supporting something or not, then you have to win them
+over with the elegance and clarity of the solution.
+
+In particular, some things I'd like to see for the next generation are:
+
+-	replacement of <GenericType type="specific_type"/>  elements with <SpecificType.../>
+-	a function definition and referencing scheme
+-	deprecation of biologically implausible expressions (Sigmoid or ExpLinear transitions)
+-	new preferred names in some places, eg "cable" for labeling a section of a morphology is
+	not great since it is an electrical term, and anyway, is a single contiguous path a relevant
+	entity to be used as the primary grouping mechanism?
+	likewise in channels - "channel_type" or just "channel"?, "current_voltage_relation" sounds like
+	it should be "Ohmic" or GHK" not the gating scheme itself.
+-   separation of integrate-and-fire from anything to do with channels
+-   single channel conductances and binding reactions for channels
+-   deprecation of the terms "mechanism" and "biophysics"
+-   Expansion of what Neuron calls "biophysics" and "mechanisms" into a whole set of new structures
+    for representing channels, synapses, pumps, etc.
+
+
+
+
+
+
+
+
+
+xsl for new format channelml, incuding passive channels
+
+code review of NeuroConstruct
+
+
+
+
+proposals for meeting:
+   channelML,
+      current_voltage_relation - wrong name for what it is
+
+      Tau and inf - (time_course, steady_state) why names too?
+      why expr_form? - elements, proper XML maths
+
+      single channel conductance
+      guideDensity ??
+      get rid of integrate and fire channels - they're not channels
+
+      generic expressions for tau etc - MathML or something else?
+
+    agent dependent rates - drug binding etc
+    magnesium block
+
+  SBML - use subset or reinvent?  Avoid mistakes they made.
+
+
+channel and synapse distribution
+
+as PSICS
+
+
+slow regulation and homeostasis
+
+
+
+
+
+
+
+
+Syanptic channels - user defined ligand concentration
+
+? branch prox to point(s) labelled + wildcard
+
+read code
+
+Analytic power spectrum for plots?
+
+
+Not for now:
+
+text style model specification and graph reduction parser
+
+sync could be smarter and know exact visible range
+
+RunSet with 'vary="profileid:valueUnit"' to change the amplitude of a TimeSeries
+
+use custom search engine config file for google search/cse_psics.xml
+
+
+neuroconstruct compatibility - import a full biophysics channelml model?
+See PSICS/About/TODO
+
+replace coded stuff with MathML like code (model.math)
+
+Grid engine on matts mac - wait for new version
+
+Mail potential users
+
+icing starter to respawn with more memory?
+
+reproduce the faisal paper with spliting of APs etc.
+
+
+
+
+
+
+Calcium activated channels:
+
+Each transition has a type that specifies what table to
+expect for it:  constant, v-dep, ca-dep, ca+v dep
+in ppp file: ntrans, and then blocks with
+ - int trans data (from, to, type)
+ - rate trans data (single val, range for v, ca etc)
+ - int trans data for next transition
+ -...
+
+
+Receptor channels:
+
+could define different schemes for bound and unbound states and have anothe
+stochastic process switching channels from one population to another
+
+
+
+Point processes
+
+Point processes new type of object in xml and ppp contain a number of
+channels, and an id. then stims can reference pps for setting external
+concentrations of agents as a function of time.
+
+
+
+bugs:
+
+sync 3D view and std view  - sync button on each that makes view same as other
+
+normals not quite right for channels on tapering segments
+
+
+
+
+
+later:
+
+documentation of ways to convert neuron files to psics - yorick + examples
+
+yorick routines on utils page to plot output
+
+reproduce the faisal paper with spliting of APs etc.
+
+icing starter to respawn with more memory?
+
+export scene graph to svg? vrml? - J3D can save in native format, but not export
+
+
+"Update channel positions" button on population.xml goes green/orange when something has changed,
+gray wyen synced.
+
+
+Mail potential users, list
+
+
+Calcium, phosphorylation, second messengers
+  several cases:
+    1) binds on a single state
+           If no v-dep, just a small table of concentrations and rates
+           If v-dep, need such a column of rates at each potential
+           	(maybe 20 conc vals?)
+           OR - just keep kd and apply each time?
+
+    2) binds elsewhere and modulates whole scheme
+           define two separate schemes one bound, one not bound
+           and agent-dependent transition matrix between the schemes
+           at each step, advance each population but also allows
+           migration between pairs of populations - eg phosphorylated,
+           non-phosphorylated.
+            - hierarchical schemes implemented as separate populations at
+            lowest level.
+
+
+    3) binds on one state and changes all the other rates. The worst
+       case - need full 2d table in v and Ca. How common is this?
+
+    4) Binds successively (eg 8 Ca2+ ions) changing vhalf or some such
+       - normal case?  Some, but not all elements of the table have a
+       ca dependence.
+
+
+Conclusion: Each transition has a type that specifies what table to
+expect for it:  constant, v-dep, ca-dep, ca+v dep
+in ppp file: ntrans, and then blocks with
+ - int trans data (from, to, type)
+ - rate trans data (single val, range for v, ca etc)
+ - int trans data for next transition
+ -...
+
+
+Point processes new type of beasty in xml and ppp contain a number of
+channels, and an id. then stims can reference pps for seting external
+concs of agents as a function of time.
+
+
+
+
+OCNC 2008 possible directions
+
+
+1 Core Algorithm - different discretization for V and channels, average v to get
+	exposure of channels, regroup channels seeing same v.
+
+2 extensions - Ca as above, permeability laws for channels, synapses, networks
+
+
+3 Model specification
+	XML <-> text, multi-para text, compact text (read, write) for inclusion in
+	a publication, equations included where necessary but not parsed.
+	def.psics.org/version1  with definitive meanings of terms
+
+4 GUI - channels, main model, list of errors, inline help/tooltips, table view
+	component locking HTML via embedded server??
+
+5 display and analysis - same or different app? Paly through V on structure
+
+6 testing, validation, automated, release
+
+7 usability - minimal updates for small changes (eg don't rediscretize)
+
+8 sales and marketing - features/roadmap/wishlist/sponsors color coded to
+	indicate what will be done, what yet to be funded
+
+9 misc - PSICS in cloud, EC2 via web interface or rich client?
+
+
+	distribute stimulation same way as channels
+
+
+
+
+
+
+
+
+

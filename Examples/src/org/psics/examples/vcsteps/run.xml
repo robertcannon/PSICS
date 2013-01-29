@@ -1,0 +1,37 @@
+<PSICSRun  timeStep="0.01ms" runTime="300ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording"
+	stochThreshold="0"
+	quickChannels="true">
+	<StructureDiscretization baseElementSize="1um"/>
+
+
+	<!--
+	<RunSet vary="napop:density" values="[2, 8]per_um2"
+                filepattern="out-$.txt">
+	      <CommandSet vary="vstep:to" values="[-60, -40, -20, 0, 20]mV"/>
+	</RunSet>
+ 	-->
+
+	<RunSet vary="timeStep" values="[0.02, 0.04, 0.09]ms" filepattern="out-$"/>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+
+		<LineSet file="out-0.04.txt" color="blue"/>
+
+		<LineSet file="out-0.02.txt" color="red"/>
+		<LineSet file="out-0.09.txt" color="green"/>
+
+
+		 <View id="whole" xmin="-10." xmax="3005." ymin="-60." ymax="20."/>
+		 <View id="step1" xmin="4." xmax="7." ymin="-90." ymax="90."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+</PSICSRun>

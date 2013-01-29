@@ -1,0 +1,44 @@
+<DecManifest package="org.catacomb.druid.manifest">
+   <files>
+      <DecFile directory="org/psics/icing/samples"
+          name="membrane"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing/samples"
+          name="leak"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing/samples"
+          name="cell3d"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing/samples"
+          name="cell"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="Population"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="NewNameDialog"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="Morphology"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="MonitorPanel"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="Membrane"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="MainModel"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="ICING"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="ColorsDialog"
+          extension="xml"/>
+      <DecFile directory="org/psics/icing"
+          name="View3D"
+          extension="xml"/>
+   </files>
+   <roles/>
+</DecManifest>

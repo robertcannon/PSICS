@@ -1,0 +1,19 @@
+<CellProperties id="membrane"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+
+
+    <ChannelPopulation channel="leak-Na" density="1per_um2"/>
+	<ChannelPopulation channel="leak-K" density="1per_um2"/>
+
+	<ChannelPopulation channel="naz_nature" density="30per_um2"/>
+    <ChannelPopulation channel="kvz_nature" density="18per_um2"/>
+
+
+	<ChannelPopulation channel="km" density="0.1per_um2"/>
+
+
+
+    <DensityAdjustment maintain="-65mV" vary="leak-Na, leak-K"/>
+
+</CellProperties>

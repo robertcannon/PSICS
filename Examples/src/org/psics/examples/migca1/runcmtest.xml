@@ -1,0 +1,21 @@
+<PSICSRun   lib="." timeStep="0.1ms" runTime="25ms" startPotential="-65mV"
+	morphology="cmmorph"
+	environment="environment"
+	properties="cmmembrane"
+	access="cmrec"
+	stochThreshold="5000">
+	<StructureDiscretization baseElementSize="10um"/>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+
+	    <LineSet file="psics-out-f.txt" color="green"/>
+
+		<View id="whole" xmin="-10." xmax="120." ymin="-90." ymax="40."/>
+
+		<View id="first" xmin="0" xmax="30." ymin="-90." ymax="40."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

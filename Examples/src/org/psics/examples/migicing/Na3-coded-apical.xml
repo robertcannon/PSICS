@@ -1,0 +1,7 @@
+
+<DerivedKSChannel id="Na3-coded-apical" from="Na3-coded-soma">
+
+	<ParameterChange to="Na3-a2-semiconstant" attribute="value" newText="0.5"/>
+
+ </DerivedKSChannel>
+

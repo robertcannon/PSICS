@@ -1,0 +1,139 @@
+
+<page label="Reference" prev="export" next="../examples">
+
+
+	<h1>Specifying channel distributions</h1>
+
+	<par>
+		The ICING user interface provides an alternative method for specifying channel distributions
+		instead of writing the xml by hand. The two methods allow the same set of models to be expressed
+		but ICING does not directly match the layout of the <a href="../formats/properties.html">ChannelPopulation</a>
+		block and its children. Instead, it intended to be accessible with minimal reference to the
+		formats documentation. Specifications created with ICING are, however, stored in exactly the same format
+		as those created by hand. Hand-edited models can be opened in ICING and vice versa without any
+		difficulty.
+	</par>
+
+	<par>
+		<img src="channelctrls.png"/>
+	</par>
+
+	<par>
+		The  image shows the channel distribution panel. The left column is for selecting the population
+		to edit. The checkboxes to the left set whether it should be shown in the morphology display. The center
+		specifies how the local density is calculated and the right column sets the region on the cell over
+		which the density applies.
+	</par>
+
+	<h2>Density specification</h2>
+	<par>
+		The simplest way to set the density is with a constant value in the <x>Chanel density</x> field
+		(in channels per square micron) and all the checkboxes unselected. For variable densities,
+		this field can contain an expression in terms of the path length, <m>p</m>, local radius <m>r</m>,
+		diameter, <m>d</m> and branch order <m>b</m>. The expression uses standard programming style rather
+		than mathematical notation in that "*" signs are required for multiplication (whereas they are
+		normally implicit in mathematical notation) and functions are written out as abbreviated words:
+		exp, log, abs, sin, cos, tan, log10.
+	</par>
+	<par>
+		Possible density expessinos include <br/> <m>10</m> <br/> <m>10 * exp (-0.01 * p)</m> <br/>
+		<m>5. / (p + 10)  + 2</m> <br/> <m>4 * r * r</m>
+	</par>
+
+	<par>
+		After specifying the density per unit area, there is still some freedom in how this is interpreted
+		when positioning channels. There are two supported options provided by the <x>Distribution</x> drop-down.
+		If set to <x>Regular</x> then channels are placed at uniform intervals along each process. If set to
+		<x>Poisson</x> then the density is interpreted as a probability of finding a channel in the next small increment
+		along the dendrite. In either case, the angle around the process is sampled from a uniform distribution.
+		The seed for random channel allocations is stored as part of the specification so that the positions
+		used in the calculation are exactly those shown in ICING. The <x>Reseed</x> button resets the seed allowing
+		a new set of positions to be generated.
+	</par>
+
+	<par>
+		The density set by the expression can be modified in two ways. The <x>Cap density</x> field sets an upper
+		limit, and the <x>Fix total</x> option rescales the applied density to give the desired total number of
+		channels on the cell. Capping the density can be useful to avoid unwanted behavior of expressions outside
+		the region they are intended for - at the origin for a 1/p rule, for example, or in remote parts of the
+		structure with a rule such as "increase linearly away from the soma  up to 50 channels per um2".
+	</par>
+
+	<h3>Relative densities</h3>
+
+	<par>
+		A central aim of the PSICS xml formats is to minimize redundancy or duplication in the specifications.
+		To this end, if several channel populations have the same distribution profile up to a scaling factor, then
+		the distribution rule can be specified once and then each population can make reference to the
+		single instance of the rule. For exploratory modelling this is normally what is required instead of
+		having multiple instances of the parameters that all need changing together. For example, where certain
+		groups of channels act together (like sodium and potassium channels in the HH model) the
+		the behavior is typically much more sensitive to changes in just one of the populations than to
+		scaling then both up or down together.
+	</par>
+
+	<par>
+		ICING gives the same effect via relative densities. This uses a canonical channel population to set the
+		density expression and then lets other populations set their densities a a fixed factor times the
+		density of the first population. It is achieved by selecting the <x>Relative</x> checkbox for the channel density
+		and then setting the scaling factor and target channel population.
+	</par>
+
+
+	<h2>Region constraints</h2>
+
+	<par>
+		The region over which a distribution is applied is taken, by default, to be the whole cell. This can be
+		changed by adding one or more region constraints. These take the form of stylized sentences specifying an
+		operation (<x>include</x>, <x>exclude</x>, or <x>restrict to</x>) and a region. The region is either relative to
+		labelled points on the structure or, in the case of the <x>where</x> option, it is set by a boolean expression
+		evaluated over the cell.
+	</par>
+
+
+	<par>
+		The applicable region is computed by applying the constraints in order. The <x>include</x> operation causes
+		any points matching the current condition to be added to those already selected. The <x>exclude</x> operation
+		removes any matching points from the active set, and the <x>restrict to</x> operation leaves only those points
+		that are both in the active set and match the current condition.
+	</par>
+
+	<par>
+		For label-dependent regions, the labels should be positioned on the appropriate structure. The labels
+		available in the user interface are taken from the active morphology. To target specific sections of
+		dendrite two conditions can be used. For example a first condition "include points proximal to label2" with
+		a second one "restrict to points distal to label1" gives just the section between label1 and label2
+		on the structure.
+	</par>
+
+	<par>
+		The quantities available for expressions to use with the "where" condition are the same as for the
+		density expression, except that here the expression must be boolean (true/false) valued rather than
+		real-valued for the density. Examples of such expressions include:
+	</par>
+	<par>
+		<table align="center" cellspacing="0" cellpadding="2">
+			<tr>
+			<td><m>p &lt; 1000</m></td>
+			<td style="width : 20px;"> </td>
+			<td>   points less than 100 um from the soma</td>
+		</tr>
+		<tr>
+		<td><m>(r > 2) &amp;&amp; (p &lt; 20)</m></td><td></td><td>wide dendrites more
+		than 20um from the soma</td>
+	</tr>
+	<tr>
+		<td><m> (p % 100) &lt; 1</m></td><td></td><td>1um long sections every 100 microns.</td>
+	</tr>
+	</table>
+	</par>
+
+
+	<par>
+		This combination of density expressions, region constraints, capping, labels and fixed totals
+		 should enable most distributions of interest to be expressed relatively concisely. If necessary,
+		 several population definitions can refer to the same channel type in order to build up a complex density
+		 profile as a number of separate pieces.
+	</par>
+
+</page>

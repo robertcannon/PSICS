@@ -1,0 +1,25 @@
+<CellProperties id="codetestprops"
+      cytoplasmResistivity="100ohm_cm"
+      membraneCapacitance="1uF_per_cm2">
+
+
+	<PassiveProperties region="apical" membraneCapacitance="2uF_per_cm2" cytoplasmResistivity="200ohm_cm"/>
+
+	<ChannelPopulation channel="leak-Na" density="1per_um2"/>
+	<ChannelPopulation channel="leak-K" density="1per_um2"/>
+
+
+	<ChannelPopulation channel="Nax-coded" density="12per_um2"/>
+    <ChannelPopulation channel="Kaprox-coded" density="25per_um2"/>
+	<ChannelPopulation channel="Na3-coded-soma" density="1per_um2"/>
+	<ChannelPopulation channel="Na3-coded-apical" density="1per_um2"/>
+	<ChannelPopulation channel="Na3-coded-basal" density="1per_um2"/>
+
+    <ChannelPopulation channel="Naxfit-coded" density="1per_um2"/>
+    <ChannelPopulation channel="Naxfit" density="1per_um2"/>
+
+
+    <DensityAdjustment maintain="-65mV" vary="leak-Na, leak-K"/>
+
+
+</CellProperties>

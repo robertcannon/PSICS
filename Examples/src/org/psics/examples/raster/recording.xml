@@ -1,0 +1,18 @@
+
+<Access id="recording">
+
+	<CurrentClamp at="p0" lineColor="red" hold="0.01nA">
+
+	</CurrentClamp>
+
+    <VoltageRecorder distance="100um"/>
+    <VoltageRecorder distance="200um"/>
+    <VoltageRecorder distance="300um"/>
+    <VoltageRecorder distance="400um"/>
+    <VoltageRecorder distance="500um"/>
+    <VoltageRecorder distance="600um"/>
+    <VoltageRecorder distance="700um"/>
+    <VoltageRecorder distance="800um"/>
+    <VoltageRecorder distance="900um"/>
+    <VoltageRecorder at="p1"/>
+</Access>

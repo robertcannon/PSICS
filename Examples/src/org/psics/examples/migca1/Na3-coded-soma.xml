@@ -1,0 +1,110 @@
+
+<KSChannel id="Na3-coded-soma" permeantIon="Na" gSingle="30pS">
+
+<CodedTransitionFunction name="trap0" returnVariable="rate" type="double">
+		<Argument name="v" type="double"/>
+		<Argument name="th" type="double"/>
+		<Argument name="a" type="double"/>
+		<Argument name="q" type="double"/>
+		<![CDATA[
+			if (Math.abs(v - th) > 1.e-6) {
+				rate =  a * (v - th) / (1 - Math.exp(-(v - th)/q));
+			} else {
+				rate = a * q;
+			}
+		]]>
+	</CodedTransitionFunction>
+
+
+
+
+
+
+
+
+
+<KSComplex instances="3">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+
+ 	<TauInfCodedTransition from="c" to="o" tauvar="mtau" infvar="minf">
+ 		<Constant name="q10" value="2"/>
+ 		<Constant name="tha" value="-30"/>
+ 		<Constant name ="Ra" value="0.4"/>
+ 		<Constant name="Rb" value="0.124"/>
+ 		<Constant name="qa" value="7.2"/>
+ 		<Constant name="mmin" value="0.02"/>
+ 	<![CDATA[
+ 		double qt = Math.pow(q10, ((temperature-24)/10));
+        double a = trap0(v, tha,Ra,qa);
+        double b = trap0(-v, -tha,Rb,qa);
+        mtau = 1/(a+b)/qt;
+        if (mtau<mmin) mtau=mmin;
+        minf = a/(a+b);
+	]]>
+ 	</TauInfCodedTransition>
+
+ </KSComplex>
+
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+
+    <TauInfCodedTransition from="c" to="o" tauvar="htau" infvar="hinf">
+ 		<Constant name="q10" value="2"/>
+ 		<Constant name="thi1" value="-45"/>
+ 		<Constant name="thi2" value="-45"/>
+ 		<Constant name="thinf" value="-50"/>
+ 		<Constant name ="Rd" value="0.03"/>
+ 		<Constant name="Rg" value="0.01"/>
+ 		<Constant name="qd" value="1.5"/>
+ 		<Constant name="qg" value="1.5"/>
+ 		<Constant name="hmin" value="0.5"/>
+ 		<Constant name="qinf" value="4"/>
+ 	<![CDATA[
+ 		double qt = Math.pow(q10, ((temperature-24)/10));
+ 		double a = trap0(v,thi1,Rd,qd);
+        double b = trap0(-v,-thi2,Rg,qg);
+        htau =  1/(a+b)/qt;
+        if (htau<hmin) htau=hmin;
+        hinf = 1/(1+Math.exp((v-thinf)/qinf));
+	]]>
+ 	</TauInfCodedTransition>
+
+
+ </KSComplex>
+
+
+<KSComplex instances="1">
+      <ClosedState id="c"/>
+      <OpenState id="o"/>
+   <TauInfCodedTransition from="c" to="o" tauvar="stau" infvar="sinf">
+ 		<Constant name="q10" value="2"/>
+ 		<Constant name="vvh" value="-58"/>
+ 		<Constant name="vvs" value="2"/>
+ 		<Constant name ="a2" value="0.8" id="Na3-a2-semiconstant"/>  <!--  a2 is the only change between soma, apical basal. -->
+ 		<Constant name="zetas" value="12"/>
+ 		<Constant name="gms" value="0.2"/>
+ 		<Constant name="vhalfs" value="-60"/>
+ 		<Constant name="a0s" value="0.0003"/>
+ 		<Constant name="smax" value="10"/>
+ 	<![CDATA[
+ 		double qt = Math.pow(q10, ((temperature-24)/10));
+ 	    double c = 1 / (1+Math.exp((v-vvh)/vvs));
+        sinf = c+a2*(1-c);
+
+        double bets = Math.exp(1.e-3*zetas*gms*(v-vhalfs)*9.648e4/(8.315*(273.16+temperature)));
+        double alps = Math.exp(1.e-3*zetas*(v-vhalfs)*9.648e4/(8.315*(273.16+temperature)));
+
+        stau = bets / (a0s * (1 + alps));
+        if (stau<smax) stau=smax;
+	]]>
+ 	</TauInfCodedTransition>
+
+ </KSComplex>
+
+
+
+ </KSChannel>
+

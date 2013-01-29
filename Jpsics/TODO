@@ -1,0 +1,23 @@
+
+two probs:
+
+1) discretization dependence in the CA1-pyramidal model from Padraig
+2um, 1.5um give different spikes by a frew ms.
+
+2) not same as neuron
+
+
+could be neuron discretization with channels on initial segment being joined
+ to soma instead. - is initial seg conical??
+
+Need to discretize like neuron: cuts at branch points and where minor branch 
+joins major. Carry through labels accordingly.
+ 
+segment discretizer is same as before. Difference is in compartmentizer - 
+does almost nothing :)  Each pair of points gives a cpt
+worry about labels, channels, adding point where minor branch 
+emerges from parent. What else?
+
+ - 1 day???
+
+

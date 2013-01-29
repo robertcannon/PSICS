@@ -1,0 +1,136 @@
+package org.psics.num.tmp;
+
+ 
+
+
+
+public abstract class KSRate {
+
+   static double ebykt = 0.042;
+
+   static final double[] ratesOfZVGTT (double z, double vh, double gamma,
+				      double tau, double taudrag) {
+      double rf = Math.exp (-ebykt * gamma * z * vh) / tau;
+      double rr = Math.exp (ebykt * (1-gamma) * z * vh) / tau;
+      double rm =  (taudrag <= 0.0 ? 1.e6 : 1./taudrag);
+      double[] dd = {rf, rr, rm, z, gamma};
+      return dd;
+   }
+
+   
+   static final double[] vhEtcOfRRRZG (double rf, double rr, double rm,
+                 double z, double gamma) {
+      
+      double tf = 1./ rf;
+      double tr = 1./ rr;
+      /* vh is such that 
+    exp (ebykt * z * g * vh)/tf = exp (ebykt * z * (1-g) * -vh) / tr;
+    exp(ebykt * z * vh) = tf / tr;
+    vh = (log (tf) - log (tr) ) / (ebykt * z);
+   */
+      double vh = 0.0;
+      if (z != 0.0) vh = (Math.log(tf) - Math.log (tr)) / (ebykt * z);
+      double tx = tf / Math.exp (ebykt * z * gamma * vh);
+      double tm = 1./rm;
+      double[] dd = {z, vh, gamma, tx, tm}; 
+      return dd;
+   }
+
+
+
+  
+   static final double alpha (double v, double rf, double rr, double rm,
+                               double z, double gamma) {
+      double a = rf * Math.exp (ebykt * (gamma) * z * v);
+      a = 1. / (1. / a + 1./rm);
+      return a;
+   }
+   
+   static final double beta  (double v, double rf, double rr, double rm,
+                               double z, double gamma) {
+
+      double b = rr * Math.exp (-ebykt * (1. - gamma) * z * v);
+      b = 1. / (1. / b + 1./rm);
+      return b;
+   }
+   
+
+   static final double XinfOfV (double v, double rf, double rr, double rm, 
+				double z, double gamma) {
+
+      double a = alpha(v, rf, rr, z, gamma, rm);
+      double b = beta (v, rf, rr, z, gamma, rm);
+      return a / (a + b);
+   }
+
+
+
+   static final double TauOfV (double v, double rf, double rr, double rm,
+			       double z, double gamma) {
+
+      double a = alpha (v, rf, rr, z, gamma, rm);
+      double b = beta (v, rf, rr, z, gamma, rm);
+      return 1. / (a + b);
+   }
+
+
+}
+
+
+
+
+/*
+
+
+func vhtor (p) {
+   // if p contains z,v_half, gamma, t_max, t_min, map it to 
+   // a transition expressed as r_f, r_r, z, gamma, r_max
+   ebykt = 0.04;
+
+   p2 = 0. * p;
+   z = p(1,..);
+   v = p(2,..);
+   g = p(3,..);
+   t = p(4,..);
+   p2(1,..) = exp (-ebykt * z * g * v) / t;
+   p2(2,..) = exp (ebykt * z * (1-g) * v) / t;
+   p2(3,..) = z;
+   p2(4,..) = g;
+   p2(5,..) = 1./p(5,..);
+   return p2;
+}
+
+
+
+func rtovh (p) {
+  // inverse of vhtor
+   ebykt = 0.04;
+
+   p2 = 0. * p;
+   tf = 1./p(1,..);
+   tr = 1./p(2,..);
+   z = p(3,..);
+   g = p(4,..);
+    vh is such that 
+    exp (ebykt * z * g * vh)/tf = exp (ebykt * z * (1-g) * -vh) / tr;
+    exp(ebykt * z * vh) = tf / tr;
+    vh = (log (tf) - log (tr) ) / (ebykt * z);
+   
+
+   v = (log(tf) - log (tr)) / (ebykt * z);
+   t = tf / exp (ebykt * z * g * v);
+
+   
+   p2(1,..) = z;
+   p2(2,..) = v;
+   p2(3,..) = g;
+   p2(4,..) = t; 
+   p2(5,..) = 1./p(5,..);
+   return p2;
+}
+*/
+
+
+
+
+

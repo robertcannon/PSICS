@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<project name="Icing utilities" default="backupjar" basedir=".">
+	<description>
+	utilities for compiling PSICS
+
+    </description>
+
+	<property name="project.dir" location="${user.home}/PSICS"/>
+	<property name="tmp.dir"  location="${project.dir}/tmp"/>
+	<property name="backup.dir" location="${tmp.dir}/eclipse-backups"/>
+	<property name="jarexport.dir" location="${project.dir}/builtjars"/>
+	<property name="eclipse.dir" location="${project.dir}/eclipse" />
+	<property name="ecd" location="${project.dir}/eclipse"/>
+
+	<property name="druid.bin" location="${ecd}/Druid/bin"/>
+	<property name="druid.src" location="${ecd}/Druid/src"/>
+
+	<property name="icing.bin" location="${ecd}/Icing/bin"/>
+	<property name="icing.src" location="${ecd}/Icing/src"/>
+
+	<property name="interlish.bin" location="${ecd}/Interlish/bin"/>
+	<property name="serial.bin" location="${ecd}/Serial/bin"/>
+	<property name="report.bin" location="${ecd}/CatacombReport/bin"/>
+	<property name="util.bin" location="${ecd}/CatacombUtil/bin" />
+	<property name="be.bin" location="${ecd}/CatacombBe/bin" />
+
+
+	<property file="${ecd}/About/VERSION"/>
+
+
+	<target name="xmlmanifest">
+		<java classname="org.catacomb.druid.manifest.MultiManifester"
+			      classpath="${druid.bin}:${interlish.bin}:${report.bin}:${util.bin}:${serial.bin}:${be.bin}">
+			<arg value="${eclipse.dir}/*/bin"/>
+			<arg value="org/catacomb"/>
+			<arg value="${druid.bin}/org/catacomb"/>
+		</java>
+		<copy file="${druid.bin}/org/catacomb/DecManifest.xml"
+						     todir="${druid.src}/org/catacomb/"/>
+
+		<java classname="org.catacomb.druid.manifest.MultiManifester"
+					      classpath="${druid.bin}:${interlish.bin}:${report.bin}:${util.bin}:${serial.bin}:${be.bin}">
+					<arg value="${eclipse.dir}/*/bin"/>
+					<arg value="org/psics/icing"/>
+					<arg value="${icing.bin}/org/psics"/>
+				</java>
+				<copy file="${icing.bin}/org/psics/DecManifest.xml"
+								     todir="${icing.src}/org/psics/"/>
+
+	</target>
+
+
+	<target name="icingjar">
+		<echo message="making icing har "/>
+		<delete>
+			<fileset dir="${jarexport.dir}" includes="icing*.jar"/>
+		</delete>
+
+		<jar jarfile="${jarexport.dir}/${icingversion.name}.jar">
+
+			 <fileset dir="${ecd}/Icing/bin"/>
+			 <fileset dir="${ecd}/Icing3D/bin"/>
+			<fileset dir="${ecd}/CatacombReport/bin"/>
+        	<fileset dir="${ecd}/CatacombBe/bin"/>
+        	<fileset dir="${ecd}/CatacombUtil/bin"/>
+        	<fileset dir="${ecd}/CatacombAbout/bin"/>
+        	<fileset dir="${ecd}/Datalish/bin"/>
+        	<fileset dir="${ecd}/Druid/bin"/>
+        	<fileset dir="${ecd}/Env/bin"/>
+        	<fileset dir="${ecd}/Be/bin"/>
+        	<fileset dir="${ecd}/BeGUI/bin"/>
+        	<fileset dir="${ecd}/Codgen/bin"/>
+			<fileset dir="${ecd}/LibRead/bin"/>
+        	<fileset dir="${ecd}/Geom/bin"/>
+       		<fileset dir="${ecd}/Graph/bin"/>
+       		<fileset dir="${ecd}/Icon/bin"/>
+       		<fileset dir="${ecd}/Quantity/bin"/>
+       		<fileset dir="${ecd}/Interlish/bin"/>
+       		<fileset dir="${ecd}/Model/bin"/>
+       		<fileset dir="${ecd}/Distrib/bin"/>
+       		<fileset dir="${ecd}/Morph/bin"/>
+       		<fileset dir="${ecd}/Num/bin"/>
+       		<fileset dir="${ecd}/PSICS/bin"/>
+       		<fileset dir="${ecd}/Report/bin"/>
+       		<fileset dir="${ecd}/Serial/bin"/>
+       		<fileset dir="${ecd}/Util/bin"/>
+ 			<fileset dir="${ecd}/XMLio/bin"/>
+ 			<fileset dir="${ecd}/Xdoc/bin"/>
+			<fileset dir="${ecd}/About/libraw"/>
+ 			<fileset dir="${ecd}/About" includes="VERSION"/>
+
+       		 <manifest>
+		          <attribute name="Created-By" value="Robert Cannon"/>
+		          <attribute name="Main-Class" value="org.psics.icing.Icing"/>
+		    </manifest>
+       </jar>
+	</target>
+
+
+
+
+
+    <target name="srcjar">
+	    <mkdir dir="${tmp.dir}"/>
+    	<delete dir="${tmp.dir}/jar-wk"/>
+    	<mkdir dir="${tmp.dir}/jar-wk"/>
+    	<mkdir dir="${tmp.dir}/jar-wk/${version.name}"/>
+
+    	<copy todir="${tmp.dir}/jar-wk/${version.name}">
+    		<fileset dir="${ecd}/Be/src"/>
+
+           </copy>
+
+            <replaceregexp flags="s">
+                <regexp pattern="^"/>
+               <substitution expression="// Copyright 2004-2006  ${line.separator}"/>
+	           <fileset dir="${tmp.dir}/jar-wk">
+                      <include name="**/*.java"/>
+               </fileset>
+           </replaceregexp>
+
+		  <jar jarfile="${jarexport.dir}/${version.srcname}.jar" basedir="${tmp.dir}/jar-wk"/>
+	</target>
+
+
+
+
+
+	<target name="backupjar">
+		<mkdir dir="/home/rcc/tmp"/>
+		<delete dir="${backup.dir}"/>
+		<mkdir dir="${backup.dir}"/>
+
+		<tstamp>
+			<format property="datestamp" pattern="dd-MM-yyyy" />
+		</tstamp>
+		<tstamp>
+			<format property="timestamp" pattern="HH-mm-ss" />
+		</tstamp>
+
+		<echo message="Backup datestamp: ${datestamp}   timestamp: ${timestamp}" />
+
+		<jar jarfile="${backup.dir}/psics-backup-on-${datestamp}-at-${timestamp}.jar"
+	     basedir="${eclipse.dir}"
+	     includes="**/*.java **/*.xml **/*.xsl **/*.png **/*.gif **/*.f90 **/NOTES **/TODO"/>
+	</target>
+
+
+	<target name="backup" depends="backupjar">
+		<ftp server="cantanout.com"
+             remotedir="backup"
+             userid="u34804056enorg"
+             password="fr456gb2"
+             action="send"
+             passive="yes"
+             depends="yes"
+             binary="yes"
+             verbose="yes">
+			<fileset dir="${backup.dir}">
+				<include name="**/*.jar"/>
+			</fileset>
+		</ftp>
+	</target>
+
+
+	 <path id="doccp">
+	        <pathelement location="${doc.dir}/bin"/>
+	 		<pathelement location="${projects.dir}/Be/bin"/>
+	        <pathelement location="${projects.dir}/Env/bin"/>
+	        <pathelement location="${projects.dir}/Util/bin"/>
+	        <pathelement location="${projects.dir}/XMLio/bin"/>
+	        <pathelement location="${projects.dir}/Quantity/bin"/>
+	 		<pathelement location="${projects.dir}/Model/bin"/>
+	 		<pathelement location="${projects.dir}/Examples/bin"/>
+	 		<pathelement location="${projects.dir}/Geom/bin"/>
+	 		<pathelement location="${projects.dir}/LibRead/bin"/>
+	 		<pathelement location="${projects.dir}/Morph/bin"/>
+	 		<pathelement location="${projects.dir}/Native/bin"/>
+	 		<pathelement location="${projects.dir}/Num/bin"/>
+	 		<pathelement location="${projects.dir}/Out/bin"/>
+	 		<pathelement location="${projects.dir}/Psics/bin"/>
+	 		<pathelement location="${projects.dir}/Report/bin"/>
+     </path>
+
+
+
+	<target name="runexamples">
+		 <java fork="true" classname="org.psics.SelfTest">
+            <arg value="-all"/>
+            <classpath refid="doccp"/>
+		</java>
+	</target>
+
+
+
+
+
+</project>

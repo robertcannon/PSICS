@@ -1,0 +1,50 @@
+<PSICSRun timeStep="0.02ms" runTime="16ms" startPotential="-65mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording-short-avg"
+	stochThreshold="0"
+	repeats="20">
+	<StructureDiscretization baseElementSize="3um"/>
+
+<RunSet vary="stochThreshold" values="[0, 1000]"
+                filepattern="out-$.txt">
+	</RunSet>
+
+
+
+<About>
+Voltage clamp step onset behavior for continuous and stochastic channels. The step begins
+at 1.985ms and the timestep is 0.02ms. This uses the average evaluation method for the step,
+(stepStyle="average" in the voltage clamp)
+so the effect is as if the onset occurred in two steps: one step beginning at 1.98 to the
+average of the hold and step values over the step (about 0mv in this case - three quarters of the way from -80mV to 30mV)
+and the next step beginning at 2.0ms with potential fixed at the step value (30mV).
+In this case, the use of the average produces an artifact in the results: the step to 0mV
+opens fewer channels but gives a larger current (larger driving force at 0mV than at 30mV) than
+a step to 30mV would. The following step takes it to the normal current at that stage of the step, but
+because the previous current was so big, the transition between steps appears flatter, giving the
+appearance of a kink in the current.
+This fugure should be compared with
+the file run-onset, which does the same calculation but with stepStyle="midpoint" for the clamp.
+ </About>
+
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+
+		<LineSet file="out-1000-f.txt" color="red" maxshow="6"/>
+		<LineSet file="out-0-f.txt" color="green" maxshow="2"/>
+
+		 <View id="whole" xmin="0." xmax="20." ymin="-360." ymax="30."/>
+		 <View id="start" xmin="1.93" xmax="2.15" ymin="-260." ymax="30."/>
+		</LineGraph>
+
+
+	</ViewConfig>
+
+
+</PSICSRun>

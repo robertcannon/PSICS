@@ -1,0 +1,38 @@
+<PSICSRun   lib="." timeStep="50us" runTime="250ms" startPotential="-65mV"
+	method="weighted_crank_nicolson"
+	morphology="cell"
+	environment="environment"
+	properties="stoch-membrane"
+	access="recording"
+	repeats="4"
+	stochThreshold="1000">
+	<StructureDiscretization baseElementSize="10um" merge="false" squareCaps="true"/>
+
+	<RunSet vary="stoch-leak:gSingle" values="[1, 5, 10, 20]pS"
+		covary="leakpop:density" covalues="[0.357143, 0.0714286, 0.0357143, 0.0178571]per_um2"
+		filepattern="g-$.txt"/>
+
+     <info>Regular branched cable with 9 levels of branching (512 terminals)</info>
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="potential / mV"/>
+		<Line file="ref_branch_0.txt" color="white" width="2" rescale="[1000, 1000.]"/>
+		<Line file="ref_branch_x.txt" color="white" width="2" rescale="[1000, 1000.]"/>
+
+
+		<LineSet file="g-1-f.txt" color="red" label="1"/>
+		<LineSet file="g-5-f.txt" color="yellow" label="5"/>
+		<LineSet file="g-10-f.txt" color="green" label="10"/>
+		<LineSet file="g-20-f.txt" color="blue" label="20"/>
+
+		<View id="whole" xmin="-10." xmax="260." ymin="-70." ymax="-35."/>
+		 <View id="midrange" xmin="66" xmax="73" ymin="-45.2" ymax="-44.2"/>
+		 <View id="end" xmin="230." xmax="255." ymin="-40.25" ymax="-40.12"/>
+
+
+		</LineGraph>
+	</ViewConfig>
+
+</PSICSRun>

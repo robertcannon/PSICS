@@ -1,0 +1,47 @@
+<page label="Standards" prev="units" next="../icing/index">
+
+
+	<h1>Input specifications and emerging standards</h1>
+
+	<par>
+		Emerging standards for cell morphology, MorphML,  and ion channels, ChannelML,
+		are partially supported for the specification of models for PSICS. In general,
+		most MorphML morphologies can be used as they are, and the majority of ChannelML files for
+		voltage gated channels are compatible subject to the assumption of a default single-channel
+		conductance.
+	</par>
+
+
+
+	<par>
+		More details of the current status of NeorML imports in PSICS and
+		suggestions for ways to improve compatibility can be found in
+		 a spearate section: <a href="../neuroml/index.html">Importing NeuroML</a>.
+	</par>
+
+
+	<par>
+		ChannelML files that specify models with concentration dependent gating, as in calcium activated
+		potassium channels, cannot be used since PSICS cannot currently compute such models.
+	</par>
+	<par>
+		Some ChannelML files can express models that can be computed by PSICS but that cannot be imported
+		automatically. These are mainly HH-style models with extended or ad-hoc specifications of rate equations
+		beyond the standard alpha/beta (forward rate, reverse rate) or tau/inf (time constant and eqilibrium
+		open fraction) forms. Such models generally <i>can</i> be computed by PSICS, since it supports
+		arbitrary coded transitions, but the conversion is not
+		automatic. It is likely to be more effective to convert the relatively small number of such models
+		by hand, rather than developing a general solution for importing them.
+	</par>
+
+	<par>
+		The kinetic scheme structures in ChannelML are relatively close to those used in PSICS, and
+		the standard fitted transition types (sigmoid, exponential, etc) can be imported. The default
+		biophysical transition parameterization used in PSICS is not specifically supported although
+		it can be expressed as a generic equation.
+		Since any voltage-gated channel models can be expressed as compound kinetic schemes, the kinetic
+		scheme elements (ks_gate) of ChannelML provide the cleanest export route for PSICS models, although
+		they are note widely supported by other systems yet.
+	</par>
+
+</page>

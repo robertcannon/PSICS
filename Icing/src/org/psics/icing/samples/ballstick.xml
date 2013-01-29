@@ -1,0 +1,9 @@
+
+<CellMorphology id="ballstick">
+	<Point id="p0" x="0" y="0" z="0" r="8"/>
+	<Point parent="p0" id="p1" x="1" y="0" z = "0" minor="true" r="0.8"/>
+	<Point parent="p1" id="p2" x="30" y="0" z = "0" minor="false" r="0.5"/>
+
+	<Point parent="p0" id="p3" x="-6" y="0.0" z = "0" minor="true" r="1.8"/>
+	<Point parent="p3" id="p4" x="-20" y="3" z = "0" minor="false" r="1.5"/>
+</CellMorphology>

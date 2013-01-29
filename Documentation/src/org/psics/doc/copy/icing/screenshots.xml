@@ -1,0 +1,96 @@
+<page label="Screenshots" title="ICING Screenshots" prev="index" next="basics" jsfile="../screenshots.js">
+
+	<h1>Screenshots</h1>
+
+
+    <p>
+                Click on an image for a larger version; click again to close.
+        </p>
+
+
+        <screenshot no="1" zi="20">
+        <h3>Cells and channels</h3>
+        <p>
+	         The main display shows the contents of the model folder on the far left. The
+	         selected morphology is shown in the middle with details of the selected cell properties
+	         specification (one or more channel populations) at the bottom.
+        </p>
+        </screenshot>
+
+
+   <screenshot no="2" zi="19">
+        <h3>Discretization</h3>
+        <p>
+	           As well as the channels, the effect of a given discretization parameter can also
+	           be shown on the morphology. This is independent of any channel allocation: the channels
+	           are positioned on the cell according to the supplied distribution rules and only allocated
+	           to compartments when the calculation is run with a particular spatial resolution.
+        </p>
+        </screenshot>
+
+   <screenshot no="3" zi="18">
+        <h3>Channel display</h3>
+        <p>
+             In the standard view, channels are shown as dots or circles depending on the scale. The structure
+             can be moved, resized and rotated with the mouse.
+        </p>
+        <p>
+        	Depending on the zoom factor, not all the channels are shown. The display keeps
+        	the same color intensity independent of the scale, so if the corresponding channel
+        	size is less than one pixel, then only a subset of channels is shown.
+        </p>
+        </screenshot>
+   <screenshot no="4" zi="17">
+        <h3>Region labelling</h3>
+        <p>
+              All the normal PSICS channel distribution options are available through the user interface.
+              In particular, labels attached to the morphology can be used as part of the specification
+              for region constraints. Here channels are applied uniformly to all parts of the cell distal
+              to label1. The labels can be pulled off and re-attached with the mouse.
+        </p>
+        </screenshot>
+
+           <screenshot no="5" zi="16">
+        <h3>Distribution specification</h3>
+        <p>
+             Both the density and region specifications can contain expressions. Here channels are applied
+             to five micron segments of dendrite every 20 micron with the "(p % 20) &lt; 5" condition.
+        </p>
+        </screenshot>
+
+           <screenshot no="6" zi="15">
+        <h3>3D Visualization</h3>
+        <p>
+	           As well as the projection view, a shaded 3D view can be opened in a separate window.
+	           The pan, zoom and roll controls are the same.
+        </p>
+        </screenshot>
+
+           <screenshot no="7" zi="14">
+        <h3>3D Channels</h3>
+        <p>
+          Each channel has an exact position on the cell.
+        </p>
+        </screenshot>
+
+
+           <screenshot no="8" zi="13">
+        <h3>Display styles</h3>
+        <p>
+              Three levels of display resolution are available depending on the available memory and
+              graphics hardware.
+        </p>
+        </screenshot>
+
+           <screenshot no="9" zi="12">
+        <h3>High resolution channels</h3>
+        <p>
+             The most detailed display can require many millions of triangles to show all the
+             channels on the cell. This may give poor interactive performance for the
+             whole cell, though smaller sections of the cell can typically be manipulated without
+             trouble.
+        </p>
+        </screenshot>
+
+
+</page>

@@ -1,0 +1,208 @@
+<Access id="record_p18" saveInterval="0.1ms" recordClamps="no">
+
+<VoltageRecorder at="Seg3_iseg" lineColor="blue"/>
+
+	<CellLocation id="syn1" path="100" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="syn2" path="200" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="syn3" path="300" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="syn4" path="400" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="syn5" path="500" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="syn6" path="700" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="syn7" path="200" rankBy="radius" sequenceIndex="11"/>
+	<CellLocation id="syn8" path="200" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="syn9" path="250" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="syn10" path="800" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="syn11" path="100" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="syn12" path="200" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="syn13" path="300" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="syn14" path="800" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="syn15" path="200" rankBy="radius" sequenceIndex="9"/>
+	<CellLocation id="syn16" path="200" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="syn17" path="200" rankBy="radius" sequenceIndex="7"/>
+	<CellLocation id="syn18" path="200" rankBy="radius" sequenceIndex="6"/>
+	<CellLocation id="syn19" path="250" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="syn20" path="350" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="syn21" path="100" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="syn22" path="200" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="syn23" path="300" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="syn24" path="300" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="syn25" path="800" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="syn26" path="200" rankBy="radius" sequenceIndex="5"/>
+	<CellLocation id="syn27" path="200" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="syn28" path="150" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="syn29" path="250" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="syn30" path="250" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="syn31" path="100" rankBy="radius" sequenceIndex="7"/>
+	<CellLocation id="syn32" path="100" rankBy="radius" sequenceIndex="9"/>
+	<CellLocation id="syn33" path="100" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="syn34" path="100" rankBy="radius" sequenceIndex="8"/>
+	<CellLocation id="syn35" path="150" rankBy="radius" sequenceIndex="14"/>
+	<CellLocation id="syn36" path="150" rankBy="radius" sequenceIndex="13"/>
+	<CellLocation id="syn37" path="150" rankBy="radius" sequenceIndex="12"/>
+	<CellLocation id="syn38" path="150" rankBy="radius" sequenceIndex="11"/>
+	<CellLocation id="syn39" path="150" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="syn40" path="125" rankBy="radius" sequenceIndex="15"/>
+	<CellLocation id="syn41" path="100" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="syn42" path="200" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="syn43" path="300" rankBy="radius" sequenceIndex="4"/>
+	<CellLocation id="syn44" path="800" rankBy="radius" sequenceIndex="1"/>
+	<CellLocation id="syn45" path="700" rankBy="radius" sequenceIndex="2"/>
+	<CellLocation id="syn46" path="210" rankBy="radius" sequenceIndex="13"/>
+	<CellLocation id="syn47" path="200" rankBy="radius" sequenceIndex="10"/>
+	<CellLocation id="syn48" path="230" rankBy="radius" sequenceIndex="6"/>
+	<CellLocation id="syn49" path="700" rankBy="radius" sequenceIndex="3"/>
+	<CellLocation id="syn50" path="150" rankBy="radius" sequenceIndex="7"/>
+	
+	
+	<ConductanceClamp location="syn1">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="1"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn2">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="2"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn3">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="3"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn4">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="4"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn5">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="5"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn6">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="6"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn7">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="7"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn8">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="8"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn9">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="9"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn10">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="10"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn11">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="1"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn12">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="2"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn13">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="3"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn14">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="4"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn15">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="5"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn16">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="6"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn17">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="7"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn18">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="8"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn19">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="9"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn20">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="10"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn21">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="1"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn22">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="2"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn23">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="3"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn24">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="4"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn25">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="5"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn26">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="6"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn27">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="7"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn28">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="8"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn29">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="9"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn30">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="10"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn31">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="1"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn32">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="2"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn33">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="3"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn34">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="4"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn35">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="5"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn36">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="6"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn37">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="7"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn38">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="8"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn39">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="9"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn40">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="10"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn41">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="1"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn42">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="2"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn43">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="3"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn44">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="4"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn45">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="5"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn46">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="6"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn47">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="7"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn48">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="8"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn49">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="9"/>
+	</ConductanceClamp>
+	<ConductanceClamp location="syn50">
+		<TimeSeries id="epsp" file="epsp.txt" timeUnit="1ms" valueUnit="1nS" scaleFactor="1.2" column="10"/>
+	</ConductanceClamp>
+
+</Access>

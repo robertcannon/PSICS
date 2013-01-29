@@ -1,0 +1,71 @@
+<PSICSRun timeStep="0.01ms" runTime="40ms" startPotential="-80mV"
+	morphology="cell"
+	environment="environment"
+	properties="membrane"
+	access="recording-iv"
+	stochThreshold="0">
+
+	<StructureDiscretization baseElementSize="3um"/>
+
+<RunSet vary="napop:density" values="[0.4, 2, 4, 8, 16]per_um2"
+                filepattern="out-$">
+ 		<CommandSet vary="vstep:to" values="[-60, -40, -30, -20, -10, 0, 10, 20, 30, 40]mV"/>
+	</RunSet>
+
+
+
+<About>
+  	I-V curves for the same model as is used for mean variance analysis.
+ </About>
+
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+		<LineSet file="out-0.4.txt" color="pink"/>
+		 <View id="0.4" xmin="0." xmax="40." ymin="-25." ymax="5."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+		<LineSet file="out-2.txt" color="red"/>
+		 <View id="2" xmin="0." xmax="40." ymin="-100." ymax="10."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+		<LineSet file="out-4.txt" color="orange"/>
+		 <View id="4" xmin="0." xmax="40." ymin="-180." ymax="10."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+		<LineSet file="out-8.txt" color="blue"/>
+		 <View id="8" xmin="0." xmax="40." ymin="-300." ymax="10."/>
+		</LineGraph>
+	</ViewConfig>
+
+
+	<ViewConfig>
+		<LineGraph width="500" height="400">
+		<XAxis min="0" max="250" label="time / ms"/>
+		<YAxis min="-80" max="60" label="current / nA"/>
+		<LineSet file="out-16.txt" color="green"/>
+		 <View id="16" xmin="0." xmax="40." ymin="-600." ymax="20."/>
+		</LineGraph>
+	</ViewConfig>
+</PSICSRun>

@@ -1,0 +1,2 @@
+run-sr.xml 21:51:42  Thu 21 Jan 2010
+ ppp: psics-out   53.1699995435774

@@ -1,0 +1,60 @@
+<KSChannel id="naz_nature" permeantIon="Na" gSingle="20pS">
+
+	<About>
+		Converted from naz_nature.mod (Zack Mainen, 1994)
+	</About>
+
+	<KSComplex id="m" instances="3">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+		<ExpLinearTransition from="c" to="o" rate="1.64per_ms" midpoint ="-35.mV" scale="9mV"
+			baseTemperature="23Celsius" q10="2.3"/>
+		<ExpLinearTransition from="o" to="c" rate="1.12per_ms" midpoint="-35.mV" scale="-9mV"
+		  baseTemperature="23Celsius" q10="2.3"/>
+	</KSComplex>
+
+
+	<CodedTransitionFunction name="trap0" returnVariable="rate" type="double">
+		<Argument name="v" type="double"/>
+		<Argument name="th" type="double"/>
+		<Argument name="a" type="double"/>
+		<Argument name="q" type="double"/>
+		<![CDATA[
+			if (Math.abs(v - th) > 1.e-6) {
+				rate =  a * (v - th) / (1 - Math.exp(-(v - th)/q));
+			} else {
+				rate = a * q;
+			}
+		]]>
+	</CodedTransitionFunction>
+
+
+
+	<KSComplex id="h">
+		<ClosedState id="c"/>
+		<OpenState id="o"/>
+
+
+ 	<TauInfCodedTransition from="c" to="o" tauvar="htau" infvar="hinf"
+        	baseTemperature="23Celsius" q10="2.3">
+ 		<Constant name="thi1" value="-50"/>
+ 		<Constant name="thi2" value="-75"/>
+ 		<Constant name ="rd" value="0.024"/>
+ 		<Constant name="rg" value="0.0091"/>
+ 		<Constant name="qi" value="5"/>
+
+ 		<Constant name="thinf" value="-65"/>
+ 		<Constant name="qinf" value="6.2"/>
+ 	<![CDATA[
+
+        double a = trap0(v, thi1, rd, qi);
+        double b = trap0(-v, -thi2, rg, qi);
+        htau = 1/(a+b);
+        hinf = 1. / (1 + Math.exp((v - thinf)/qinf));
+	]]>
+ 	</TauInfCodedTransition>
+
+
+	</KSComplex>
+
+</KSChannel>

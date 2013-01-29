@@ -1,0 +1,4 @@
+<CalcSummary mode="0" weightFactor="     0.000" nrun="1" runtime="      1000"
+    dt="   0.02000" cputime="     0.000" ncompartments="1506" nchannels="0" nchannels_stoch="0"
+    nchannels_cont="2869018" nchannels_ng="0" ncompartments_stoch="0" ncompartments_cont="1506"
+    ncompartments_ng="0" filePattern="psics-out" variableValue="     0.000"/>
