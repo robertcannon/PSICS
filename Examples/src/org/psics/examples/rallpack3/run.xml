@@ -4,11 +4,11 @@
 	properties="membrane"
 	access="recording"
 	stochThreshold="0">
-	<StructureDiscretization baseElementSize="1um"/>
+	<StructureDiscretization baseElementSize="0.2um"/>
 
 	<info>Cable with HH sodium and potassium channels, different timesteps</info>
 
-	<RunSet vary="timeStep" values="[50, 100]us"  filepattern="ts-$"/>
+	<RunSet vary="timeStep" values="[5, 10, 50, 100]us"  filepattern="ts-$"/>
 
 
 	<ViewConfig>
@@ -20,15 +20,15 @@
 		<Line file="ref_axon_x_neuron.txt" color="white" width="1" rescale="[1000, 1000.]"/>
 
 
+		<LineSet file="ts-5.txt" color="blue"/>
 		<LineSet file="ts-10.txt" color="red"/>
-		<LineSet file="ts-20.txt" color="blue"/>
 		<LineSet file="ts-50.txt" color="cyan"/>
 	    <LineSet file="ts-100.txt" color="green"/>
 
 		<View id="whole"/>
 		<View id="start"   xmin="0." xmax="30." ymin="-100." ymax="80."/>
 		 <View id="end"   xmin="210." xmax="255." ymin="-100." ymax="80."/>
-
+         <View id="endzoom"   xmin="233." xmax="237." ymin="-100." ymax="80."/>
 		</LineGraph>
 	</ViewConfig>
 

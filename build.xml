@@ -4,8 +4,7 @@
 		utilities for compiling PSICS
     </description>
 
- 
- 	 
+  	 
 	<property name="winip" value="192.168.0.11"/>
 	<property name="macip" value="x.x.x.x"/>
 	<property name="macminiip" value="192.168.0.7"/>
@@ -181,7 +180,8 @@
 		</delete>
 
 		<jar jarfile="out/${version.name}.jar">
-        	<fileset dir="bin" includes="org/psics/*"/>
+        	<fileset dir="bin" includes="org/psics/**"/>
+			<fileset dir="bin" includes="org/catacomb/**"/>
 			<fileset dir="." includes="VERSION"/>
 			
 			<zipfileset prefix="org/psics/exe" dir="fPSICS/exe" includes="l*/*, m*/*, w*/*"/>
