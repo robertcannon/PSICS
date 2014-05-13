@@ -12,15 +12,20 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.imageio.ImageIO;
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.GraphicsConfigTemplate3D;
+import javax.media.j3d.ImageComponent;
+import javax.media.j3d.ImageComponent2D;
 import javax.media.j3d.Light;
 import javax.media.j3d.Locale;
 import javax.media.j3d.PhysicalBody;
@@ -30,14 +35,17 @@ import javax.media.j3d.PickCylinderRay;
 import javax.media.j3d.PickInfo;
 import javax.media.j3d.PickRay;
 import javax.media.j3d.PickShape;
+import javax.media.j3d.Screen3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.View;
 import javax.media.j3d.ViewPlatform;
 import javax.media.j3d.VirtualUniverse;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Color3f;
 import javax.vecmath.Matrix4d;
@@ -45,6 +53,7 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
+import org.catacomb.druid.dialog.Dialoguer;
 import org.psics.be.E;
 
 import com.sun.j3d.utils.geometry.Sphere;
@@ -55,6 +64,8 @@ public class SceneGraphViewer implements ActionListener, MouseListener, MouseMot
 
 	JPanel panel;
 
+	JTextField exportWidth;
+	
 	Canvas3D canvas;
 
 	VirtualUniverse universe;
@@ -149,6 +160,14 @@ public class SceneGraphViewer implements ActionListener, MouseListener, MouseMot
 		jp.add(bzoom);
 		jp.add(broll);
 
+		exportWidth = new JTextField("1000", 6);
+		jp.add(exportWidth);
+		
+		JButton bexp = new JButton("Save Image");
+		bexp.setActionCommand("saveimage");
+		bexp.addActionListener(this);
+		jp.add(bexp);
+		
 
 		panel.add(jp, BorderLayout.NORTH);
 
@@ -197,8 +216,37 @@ public class SceneGraphViewer implements ActionListener, MouseListener, MouseMot
 		canvas.addMouseListener(this);
 		canvas.addMouseMotionListener(this);
 	}
+	
+	
+	
+	public BufferedImage renderOffScreen(int width, int height) {
+	  BufferedImage bImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+      ImageComponent2D buffer = new ImageComponent2D(ImageComponent.FORMAT_RGBA, bImage);
+      
+      GraphicsConfiguration config = getPreferredConfiguration();
+	  Canvas3D oscanvas = new Canvas3D(config, true);
 
-
+	  Screen3D sOn = canvas.getScreen3D();
+	  Screen3D sOff = oscanvas.getScreen3D();
+	    sOff.setSize(sOn.getSize());
+	    sOff.setPhysicalScreenWidth(sOn.getPhysicalScreenWidth());
+	    sOff.setPhysicalScreenHeight(sOn.getPhysicalScreenHeight());
+	  
+	  view.addCanvas3D(oscanvas);
+	  
+	  oscanvas.setOffScreenBuffer(buffer);
+	  
+	  
+	  
+      oscanvas.renderOffScreenBuffer();
+      oscanvas.waitForOffScreenRendering();
+      bImage = oscanvas.getOffScreenBuffer().getImage(); 
+      oscanvas.setOffScreenBuffer(null);
+      return bImage;
+	}
+	
+	
+	
 
 	public void deltaLights(double d) {
 		double br = brightness;
@@ -338,11 +386,32 @@ public class SceneGraphViewer implements ActionListener, MouseListener, MouseMot
 		} else if (s.equals("roll")) {
 			mode = ROLL;
 
+		} else if (s.equals("saveimage")) {
+			File f = Dialoguer.getFileToWrite("Save");
+			
+			int w = Integer.parseInt(exportWidth.getText());
+			int h = (int)Math.round(canvas.getHeight() * w / (1. * canvas.getWidth()));
+			
+			BufferedImage bimg = renderOffScreen(w, h);
+			
+			writeImage(bimg, f);
+			
 		} else {
 			E.error("unhandled " + s);
 		}
 	}
 
+	private void writeImage(BufferedImage bim, File fout) {
+	  	  
+		try {
+  	         ImageIO.write(bim, "png", fout);
+  	         // System.out.println("written " + fout);
+  	     } catch(Exception ex) {
+  	    	 System.out.println("ERROR - can't write file " + fout.getAbsolutePath());
+  	    	 ex.printStackTrace();
+  	     }
+
+    }
 
 
 	public void mouseClicked(MouseEvent e) {
